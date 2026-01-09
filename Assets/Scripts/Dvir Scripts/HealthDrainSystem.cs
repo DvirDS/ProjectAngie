@@ -75,15 +75,15 @@ public class HealthDrainSystem : MonoBehaviour
         Debug.Log("Bar Restored! Current value: " + currentHealth);
     }
 
-    // פונקציה חדשה לקבלת נזק ממוקשים או אויבים
+    
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
 
-        // מוודא שהחיים לא יורדים מתחת ל-0
+        
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        // עדכון ה-UI
+        
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth;

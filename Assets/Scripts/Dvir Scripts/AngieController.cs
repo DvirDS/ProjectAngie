@@ -15,8 +15,6 @@ public class AngieController : MonoBehaviour
 
         foreach (MineDisplay mine in hiddenMines)
         {
-            // --- התיקון הקריטי כאן ---
-            // אנחנו בודקים שהמוקש עדיין קיים לפני שנוגעים בו
             if (mine != null)
             {
                 mine.SetSmellVisible(isSniffing);
