@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - CameraBounds
   - Background
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Light
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -46,6 +47,9 @@ TagManager:
     locked: 0
   - name: Unlit
     uniqueID: 1457696547
+    locked: 0
+  - name: Characters
+    uniqueID: 280251431
     locked: 0
   m_RenderingLayers:
   - Default

@@ -3719,7 +3719,7 @@ GameObject:
   - component: {fileID: 3390916272443071751}
   - component: {fileID: 1151577735782146659}
   - component: {fileID: 7168445264437129429}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OwnerScent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3771,6 +3771,10 @@ PrefabInstance:
     - target: {fileID: 2086653229117858821, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086653229117858821, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3817495192223140743, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
       propertyPath: m_Size.x
@@ -3857,8 +3861,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2646930393529890578, guid: 66e13c41beb236a489bee5b10af83b19, type: 3}
     - target: {fileID: 8850866974202041869, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850866974202041869, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8850866974202041869, guid: 82f1bec8dd9ec5f46bf186b31dfdfdc1, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 280251431
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
