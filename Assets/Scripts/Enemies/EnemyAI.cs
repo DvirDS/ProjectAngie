@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     public float chaseSpeed = 5f;
     public float sightRange = 8f;
     public float stopChaseRange = 12f;
-    public LayerMask detectionLayers; // שכבות שהראייה נחסמת בהן (חובה לבחור את שכבת השחקן ב-Inspector)
+    public LayerMask detectionLayers; 
 
     [Header("Patrol Points (Optional)")]
     public Transform[] waypoints;
@@ -21,11 +21,10 @@ public class EnemyAI : MonoBehaviour
     [Header("References")]
     public SpriteRenderer alertBubble;
 
-    // משתנים נסתרים שמנוהלים אוטומטית
     private Transform player;
     private Rigidbody2D rb;
     private bool isFacingRight = true;
-    private Vector2 startPosition; // שומר את מיקום ההתחלה למקרה שאין Waypoints
+    private Vector2 startPosition; 
 
     void Start()
     {
@@ -41,12 +40,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        // --- פתרון חסין לטעינת סצנות (Multi-Scene Failsafe) ---
-        // אם המשחק התחיל ועדיין לא מצאנו את הכלבה (כי הסצנה שלה נטענה שנייה אחרי), נמשיך לחפש
         if (player == null)
         {
             FindPlayerReference();
-            if (player == null) return; // אל תעשה כלום עד שהכלבה תופיע במשחק
+            if (player == null) return; 
         }
 
         switch (currentState)
@@ -61,7 +58,6 @@ public class EnemyAI : MonoBehaviour
 
     private void FindPlayerReference()
     {
-        // מחפש אובייקט עם התג Player בעולם
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -69,23 +65,19 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // --- מערכת הראייה עם צבעים לדיבאג ---
     private bool CanSeePlayer()
     {
-        // סיבה 1: האם הכלבה חסרה?
         if (player == null)
         {
             return false;
         }
 
-        // סיבה 2: האם המרחק גדול מדי?
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         if (distanceToPlayer > sightRange)
         {
             return false;
         }
 
-        // --- כאן אנחנו בודקים מה חוסם את הקרן ---
         Vector2 direction = (player.position - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, sightRange, detectionLayers);
 
@@ -99,7 +91,6 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                // פה נגלה מי מסתיר לאויב את הראייה!
                 Debug.Log("הקרן נחסמה! היא פגעה באובייקט בשם: " + hit.collider.gameObject.name);
                 Debug.DrawRay(transform.position, direction * hit.distance, Color.white);
             }
@@ -121,21 +112,18 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdatePatrol()
     {
-        // 1. קודם כל ולפני הכל - בודקים אם רואים את הכלבה!
         if (CanSeePlayer())
         {
             ChangeState(EnemyState.Alert);
             return;
         }
 
-        // 2. אם אין נקודות ציון (Waypoints), פשוט עומדים במקום. הראייה עדיין תעבוד כי היא בשלב 1.
         if (waypoints == null || waypoints.Length == 0)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             return;
         }
 
-        // 3. תנועת סיור ימינה/שמאלה
         Transform targetWaypoint = waypoints[currentWaypointIndex];
         float directionX = Mathf.Sign(targetWaypoint.position.x - transform.position.x);
 
@@ -151,8 +139,7 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateAlert()
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // עוצר במקום כדי לחשד
-        // כרגע עובר מיד למרדף. בהמשך אפשר לשים פה טיימר.
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
         ChangeState(EnemyState.Chase);
     }
 
@@ -160,7 +147,6 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return;
 
-        // קודם כל, בודקים אם היא ברחה לנו מחוץ לטווח המרדף
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         if (distanceToPlayer > stopChaseRange)
         {
@@ -168,19 +154,14 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // --- הפתרון לרטט: עוצרים אם אנחנו ממש קרובים! ---
-        // אנחנו בודקים רק את ציר ה-X כדי שלא ירעד
         float distanceX = Mathf.Abs(player.position.x - transform.position.x);
 
-        if (distanceX < 0.5f) // ברגע שהוא במרחק של חצי יחידה מהכלבה - הוא עוצר
+        if (distanceX < 0.5f) 
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // עצור במקום
-
-            // --- כאן בדיוק נכניס בהמשך את הקוד של ה-Game Over / פגיעה בשחקן! ---
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
         }
         else
         {
-            // אם אנחנו עדיין רחוקים, ממשיכים לרדוף
             float directionX = Mathf.Sign(player.position.x - transform.position.x);
             rb.linearVelocity = new Vector2(directionX * chaseSpeed, rb.linearVelocity.y);
             FlipSprite(directionX);
@@ -189,7 +170,6 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateReturn()
     {
-        // חוזר לנקודת ההתחלה, או לנקודת ה-Waypoint הראשונה אם יש כזו
         Vector2 targetPos = (waypoints != null && waypoints.Length > 0) ? (Vector2)waypoints[0].position : startPosition;
 
         float directionX = Mathf.Sign(targetPos.x - transform.position.x);

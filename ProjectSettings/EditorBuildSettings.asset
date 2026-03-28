@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PersistentGameplay.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c645a97deb14bb743a839228616dc989
+  - enabled: 1
     path: Assets/Scenes/Room_1.unity
     guid: 6439756f0f27f254fb35e14a9c08eb30
   - enabled: 1

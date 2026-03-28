@@ -4,14 +4,15 @@ using TMPro;
 
 public class SkillButton : MonoBehaviour
 {
-    public Skill skillData; // גרור לכאן את הקובץ שיצרת בשלב 1
+    public Skill skillData; 
     public Image skillIcon;
     public Button myButton;
-    public Image lockOverlay; // תמונה כהה/מנעול שמופיעה כשהסקיל נעול
+    public Image lockOverlay;
+
+    [SerializeField] private SkillTreeManager skillTreeManager;
 
     void Start()
     {
-        // תוודא שזה לא בהערה
         if (skillIcon != null && skillData != null)
             skillIcon.sprite = skillData.icon;
 
@@ -26,7 +27,6 @@ public class SkillButton : MonoBehaviour
             lockOverlay.gameObject.SetActive(false);
             myButton.interactable = false;
 
-            // תוודא שזה לא בהערה
             if (skillIcon != null) skillIcon.color = Color.white;
         }
         else if (CanBePurchased())
@@ -34,7 +34,12 @@ public class SkillButton : MonoBehaviour
             lockOverlay.gameObject.SetActive(false);
             myButton.interactable = true;
 
-            // תוודא שזה לא בהערה
+            if (skillIcon != null) skillIcon.color = Color.gray;
+        }
+        else
+        {
+            lockOverlay.gameObject.SetActive(true);
+            myButton.interactable = false;
             if (skillIcon != null) skillIcon.color = Color.gray;
         }
     }

@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprinting;
     private bool canDoubleJump;
 
-    // Dash state
     private bool isDashing;
     private float dashCooldownTimer;
     private float originalGravity;
@@ -59,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
 
         inputActions.Player.Jump.performed += ctx => OnJumpPerformed();
         inputActions.Player.Dash.performed += ctx => OnDashPerformed();
+
+        if(GameManager.I != null)
+            GameManager.I.OnStateChanged += OnGameStateChanged;
+
     }
 
     private void OnDisable()
@@ -73,6 +76,17 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Player.Dash.performed -= ctx => OnDashPerformed();
 
         inputActions.Disable();
+       
+        if (GameManager.I != null)
+            GameManager.I.OnStateChanged -= OnGameStateChanged;
+    }
+
+    private void OnGameStateChanged(GameManager.GameState newState)
+    {
+        if (newState == GameManager.GameState.Play)
+            inputActions.Player.Enable();
+        else
+            inputActions.Player.Disable();
     }
 
     private void Update()
@@ -156,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovementAnimations()
     {
+        if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
         bool isMoving = Mathf.Abs(rb.linearVelocity.x) > 0.01f;
         animator.SetBool("IsMoving", isMoving);
 

@@ -4,7 +4,20 @@ public class MineController : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float damageAmount = 30f;
-    [SerializeField] private GameObject redAuraObject; 
+    [SerializeField] private GameObject redAuraObject;
+
+    [Header("Runtime Set")]
+    [SerializeField] private MineRuntimeSet mineSet;
+
+    private void OnEnable()
+    {
+        mineSet.AddToList(this);
+    }
+
+    private void OnDisable()
+    {
+        mineSet.RemoveFromList(this);
+    }
 
     void Start()
     {

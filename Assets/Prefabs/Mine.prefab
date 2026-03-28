@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MineController
   damageAmount: 10
   redAuraObject: {fileID: 8414701787009252863}
+  mineSet: {fileID: 11400000, guid: 22daf71ac8367fc45ae8afb1957210b8, type: 2}
 --- !u!1 &8414701787009252863
 GameObject:
   m_ObjectHideFlags: 0

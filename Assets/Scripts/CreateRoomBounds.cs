@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -12,27 +11,38 @@ public class CreateRoomBounds : MonoBehaviour
     void Awake()
     {
         roomBoundCollider = GetComponent<Collider2D>();
-        confiner = FindFirstObjectByType<CinemachineConfiner2D>();
         roomBoundCollider.enabled = false;
-        wall.enabled = false;
+        if (wall != null)
+        {
+            wall.enabled = false;
+        }
+    }
+
+    void Start()
+    {
+        confiner = FindFirstObjectByType<CinemachineConfiner2D>();
+        if (confiner == null)
+            Debug.LogWarning("No CinemachineConfiner2D found in scene.");
     }
 
     void OnEnable()
     {
-        Events.onUnloadCreateBounds += turnColliderOn;
-    }
-
-    private void turnColliderOn(string sceneName)
-    {
-        if (sceneName != gameObject.scene.name)
-            return;
-        confiner.BoundingShape2D = roomBoundCollider;
-        confiner.InvalidateBoundingShapeCache();
-        wall.enabled = true;
+        Events.onUnloadCreateBounds += turnRoomColliderOn;
     }
 
     private void OnDisable()
     {
-        Events.onUnloadCreateBounds -= turnColliderOn;
+        Events.onUnloadCreateBounds -= turnRoomColliderOn;
+    }
+
+    private void turnRoomColliderOn(string sceneName)
+    {
+        if (sceneName != gameObject.scene.name) return;
+        confiner.BoundingShape2D = roomBoundCollider;
+        confiner.InvalidateBoundingShapeCache();
+        if (wall != null)
+        {
+            wall.enabled = true;
+        }
     }
 }
