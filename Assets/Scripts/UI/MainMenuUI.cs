@@ -14,7 +14,9 @@ public class MainMenuUI : MonoBehaviour
 
     private IEnumerator LoadGame()
     {
-        yield return SceneManager.LoadSceneAsync(persistentSceneName, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName(persistentSceneName).isLoaded)
+            yield return SceneManager.LoadSceneAsync(persistentSceneName, LoadSceneMode.Additive);
+
         yield return SceneManager.LoadSceneAsync(firstRoomSceneName, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(gameObject.scene.name);
     }
