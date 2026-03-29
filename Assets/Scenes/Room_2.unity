@@ -293,8 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d434769b48dc813418bc3bacef11dd2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  grid: {fileID: 0}
-  tilemaps: []
 --- !u!156049354 &339956265
 Grid:
   m_ObjectHideFlags: 0
@@ -466,8 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d434769b48dc813418bc3bacef11dd2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  grid: {fileID: 0}
-  tilemaps: []
 --- !u!1 &1131203414
 GameObject:
   m_ObjectHideFlags: 0
@@ -2636,7 +2632,7 @@ GameObject:
   - component: {fileID: 1286362089}
   - component: {fileID: 1286362091}
   - component: {fileID: 1286362090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tilemap
   m_TagString: Ground
   m_Icon: {fileID: 0}

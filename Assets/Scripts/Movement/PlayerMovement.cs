@@ -1,180 +1,118 @@
 using UnityEngine;
-using System.Collections;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Speeds")]
+    [Header("References")]
+    [SerializeField] private PlayerInputReader input;
+    [SerializeField] private HealthDrainSystem healthDrain;
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer sprite;
+
+    [Header("Speeds & Physics")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 8f;
-
-    [Header("Dash Settings")]
-    [SerializeField] private float dashForce = 20f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown = 1f;
-
-    [Header("Skills")]
-    [SerializeField] private Skill doubleJumpSkill;
-    [SerializeField] private Skill dashSkill;
-
-    [Header("Health")]
-    [SerializeField] private HealthDrainSystem healthDrain;
-
-    [Header("Ground Check")]
-    [SerializeField] private string groundTag = "Ground";
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundRadius = 0.2f;
+    [SerializeField] private LayerMask groundMask;
 
     private Rigidbody2D rb;
-    private Animator animator;
-    private SpriteRenderer sprite;
-    private InputSystem inputActions;
-
-    private float moveDirectionX;
-    private bool isGrounded = true;
-    private bool isSprinting;
-    private bool canDoubleJump;
-
-    private bool isDashing;
-    private float dashCooldownTimer;
-    private float originalGravity;
+    private bool isGrounded;
+    private bool isFacingRight = false; // הגדרנו false כי אנג'י מצוירת שמאלה
+    private float horizontalInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
-        inputActions = new InputSystem();
-        originalGravity = rb.gravityScale;
+        if (!animator) animator = GetComponent<Animator>();
+        if (!sprite) sprite = GetComponent<SpriteRenderer>();
+
+        rb.freezeRotation = true;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();
+        if (GameManager.I != null)
+            GameManager.I.OnStateChanged += HandleStateChanged;
 
-        inputActions.Player.Move.performed += ctx => moveDirectionX = ctx.ReadValue<Vector2>().x;
-        inputActions.Player.Move.canceled += ctx => moveDirectionX = 0f;
-
-        inputActions.Player.Sprint.performed += ctx => isSprinting = true;
-        inputActions.Player.Sprint.canceled += ctx => isSprinting = false;
-
-        inputActions.Player.Jump.performed += ctx => OnJumpPerformed();
-        inputActions.Player.Dash.performed += ctx => OnDashPerformed();
-
-        if(GameManager.I != null)
-            GameManager.I.OnStateChanged += OnGameStateChanged;
-
+        // רישום לאירוע הקפיצה החדש - פותר את השגיאה!
+        if (input != null)
+            input.OnJumpPressed += PerformJump;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Move.performed -= ctx => moveDirectionX = ctx.ReadValue<Vector2>().x;
-        inputActions.Player.Move.canceled -= ctx => moveDirectionX = 0f;
-
-        inputActions.Player.Sprint.performed -= ctx => isSprinting = true;
-        inputActions.Player.Sprint.canceled -= ctx => isSprinting = false;
-
-        inputActions.Player.Jump.performed -= ctx => OnJumpPerformed();
-        inputActions.Player.Dash.performed -= ctx => OnDashPerformed();
-
-        inputActions.Disable();
-       
         if (GameManager.I != null)
-            GameManager.I.OnStateChanged -= OnGameStateChanged;
-    }
+            GameManager.I.OnStateChanged -= HandleStateChanged;
 
-    private void OnGameStateChanged(GameManager.GameState newState)
-    {
-        if (newState == GameManager.GameState.Play)
-            inputActions.Player.Enable();
-        else
-            inputActions.Player.Disable();
+        // ביטול רישום תקין (דרישת המרצה)
+        if (input != null)
+            input.OnJumpPressed -= PerformJump;
     }
 
     private void Update()
     {
-        if (isDashing) return;
+        if (IsGamePaused()) return;
 
-        if (dashCooldownTimer > 0)
-            dashCooldownTimer -= Time.deltaTime;
+        horizontalInput = input.Move.x;
+        CheckGround();
+        HandleFlip();
 
-        HandleMovementAnimations();
-
-        if (healthDrain != null)
-        {
-            bool isMoving = Mathf.Abs(moveDirectionX) > 0.01f;
-            healthDrain.SetMovementState(isMoving, isSprinting);
-        }
+        // מחקנו מכאן את הבדיקה של JumpPressed כי הפונקציה נקראת מה-Event
+        UpdateVisualsAndHealth();
     }
 
     private void FixedUpdate()
     {
-        if (isDashing) return;
-
-        float speed = isSprinting ? sprintSpeed : walkSpeed;
-        rb.linearVelocity = new Vector2(moveDirectionX * speed, rb.linearVelocity.y);
+        if (IsGamePaused()) return;
+        ApplyMovement();
     }
 
-    private void OnJumpPerformed()
+    private void ApplyMovement()
     {
-        if (isDashing) return;
+        float targetSpeed = input.SprintHeld ? sprintSpeed : walkSpeed;
+        rb.linearVelocity = new Vector2(horizontalInput * targetSpeed, rb.linearVelocity.y);
+    }
 
-        if (isGrounded)
+    private void PerformJump()
+    {
+        // קופצים רק אם אנחנו על הקרקע והמשחק לא בהפסקה
+        if (isGrounded && !IsGamePaused())
         {
-            Jump();
-        }
-        else if (doubleJumpSkill != null && doubleJumpSkill.isPurchased && canDoubleJump)
-        {
-            Jump();
-            canDoubleJump = false;
-        }
-    }
-
-    private void OnDashPerformed()
-    {
-        if (dashSkill != null && dashSkill.isPurchased && dashCooldownTimer <= 0 && !isDashing)
-            StartCoroutine(PerformDash());
-    }
-
-    private void Jump()
-    {
-        isGrounded = false;
-        canDoubleJump = true;
-        animator.SetTrigger("isJumping");
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-    }
-
-    private IEnumerator PerformDash()
-    {
-        isDashing = true;
-        dashCooldownTimer = dashCooldown;
-
-        rb.gravityScale = 0f;
-        float dashDirection = sprite.flipX ? 1f : -1f;
-        rb.linearVelocity = new Vector2(dashDirection * dashForce, 0f);
-
-        yield return new WaitForSeconds(dashDuration);
-
-        rb.gravityScale = originalGravity;
-        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-        isDashing = false;
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag(groundTag))
-        {
-            isGrounded = true;
-            canDoubleJump = true;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            if (animator != null) animator.SetTrigger("isJumping");
         }
     }
 
-    private void HandleMovementAnimations()
+    private void HandleFlip()
     {
-        if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
-        bool isMoving = Mathf.Abs(rb.linearVelocity.x) > 0.01f;
-        animator.SetBool("IsMoving", isMoving);
-
-        if (moveDirectionX != 0)
-            sprite.flipX = moveDirectionX > 0;
+        if (horizontalInput > 0.01f && !isFacingRight) Flip();
+        else if (horizontalInput < -0.01f && isFacingRight) Flip();
     }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
+    }
+
+    private void CheckGround() => isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundMask);
+
+    private void UpdateVisualsAndHealth()
+    {
+        if (animator != null) animator.SetBool("IsMoving", Mathf.Abs(horizontalInput) > 0.01f);
+        if (healthDrain != null) healthDrain.SetMovementState(Mathf.Abs(horizontalInput) > 0.01f, input.SprintHeld);
+    }
+
+    private void HandleStateChanged(GameManager.GameState newState)
+    {
+        if (newState != GameManager.GameState.Play) rb.linearVelocity = Vector2.zero;
+    }
+
+    private bool IsGamePaused() => GameManager.I != null && GameManager.I.State != GameManager.GameState.Play;
 }

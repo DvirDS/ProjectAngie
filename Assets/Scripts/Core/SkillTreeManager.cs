@@ -12,22 +12,36 @@ public class SkillTreeManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private HealthDrainSystem playerHealth;
+    [SerializeField] private PlayerInputReader inputReader;
 
     [Header("Data")]
     public int playerSkillPoints = 10;
 
-    private InputSystem inputActions;
     private bool isOpen;
 
     private void Awake()
     {
         if (instance == null) instance = this;
-        inputActions = new InputSystem();
         ResetSkills();
     }
 
-    private void OnEnable() => inputActions.Enable();
-    private void OnDisable() => inputActions.Disable();
+    private void OnEnable()
+    {
+        // הרשמה לאירוע הלחיצה ב-InputReader (ללא למבדה - דרישת המרצה)
+        if (inputReader != null)
+        {
+            inputReader.OnSkillMenuPressed += ToggleWindow;
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe תקין למניעת זליגות זיכרון
+        if (inputReader != null)
+        {
+            inputReader.OnSkillMenuPressed -= ToggleWindow;
+        }
+    }
 
     private void Start()
     {
@@ -39,31 +53,17 @@ public class SkillTreeManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.I == null) 
-            return;
-        if (GameManager.I.State != GameManager.GameState.Play &&
-            GameManager.I.State != GameManager.GameState.Pause) 
-            return;
-        if (inputActions.Player.SkillMenu.triggered)
-            ToggleWindow();
-    }
-
-    private void ResetSkills()
-    {
-        if (allSkillButtons == null) return;
-
-        foreach (SkillButton btn in allSkillButtons)
-        {
-            if (btn != null && btn.skillData != null)
-            {
-                btn.skillData.isPurchased = false;
-                btn.skillData.isUnlocked = (btn.skillData.previousSkills.Length == 0);
-            }
-        }
+        // ה-Update נשאר ריק מבדיקות קלט כי אנחנו משתמשים ב-Events!
+        // זה חוסך משאבי מערכת ומונע באגים של תזמון.
     }
 
     private void ToggleWindow()
     {
+        // בדיקת מצב המשחק לפני פתיחת התפריט
+        if (GameManager.I == null) return;
+        if (GameManager.I.State != GameManager.GameState.Play &&
+            GameManager.I.State != GameManager.GameState.Pause) return;
+
         if (skillTreeWindow == null) return;
 
         isOpen = !isOpen;
@@ -77,6 +77,20 @@ public class SkillTreeManager : MonoBehaviour
         else
         {
             GameManager.I.ResumeGame();
+        }
+    }
+
+    private void ResetSkills()
+    {
+        if (allSkillButtons == null) return;
+
+        foreach (SkillButton btn in allSkillButtons)
+        {
+            if (btn != null && btn.skillData != null)
+            {
+                btn.skillData.isPurchased = false;
+                btn.skillData.isUnlocked = (btn.skillData.previousSkills.Length == 0);
+            }
         }
     }
 
@@ -96,9 +110,8 @@ public class SkillTreeManager : MonoBehaviour
 
         if (skill.skillName == "HP Upgrade")
         {
-            HealthDrainSystem health = FindFirstObjectByType<HealthDrainSystem>();
-            if (health != null)
-                health.ApplyHpUpgrade();
+            if (playerHealth != null)
+                playerHealth.ApplyHpUpgrade();
         }
 
         UpdateUI();

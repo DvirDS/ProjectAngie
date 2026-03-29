@@ -344,9 +344,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 897250373}
     m_Modifications:
+    - target: {fileID: 2118492639261662656, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118492639261662656, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2118492639261662656, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2904997712983297670, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
       propertyPath: m_Name
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904997712983297670, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3021599606590037835, guid: 0ba2599a63e4e5f488d1754bff850953, type: 3}
       propertyPath: m_Size.y
