@@ -1,16 +1,22 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class TileDigging : MonoBehaviour
 {
+    [Header("Setup")]
     [SerializeField] public Grid grid;
     [SerializeField] public List<Tilemap> tilemaps;
-    [SerializeField] private float offsetMultiplier = 1.1f; 
 
-    InputSystem inputActions;
+    [Header("Dig Settings")]
+    [Tooltip("כמה רחוק מהשחקן החפירה מתבצעת. נסה ערכים בין 0.5 ל-1.0")]
+    [SerializeField] private float digDistance = 0.8f;
+
+    [Tooltip("האם למחוק טייל בודד (false) או להרחיב מעט (true)")]
+    [SerializeField] private bool useWideDig = false;
+
+    private InputSystem inputActions;
 
     private void Awake()
     {
@@ -19,56 +25,68 @@ public class TileDigging : MonoBehaviour
 
     private void OnEnable()
     {
-        Events.onUnloadAssignTiles += assignTiles;
-        inputActions.Player.Dig.performed += OnDig;
         Events.onUnloadAssignTiles += AssignTiles;
+        inputActions.Player.Dig.performed += OnDig;
+        inputActions.Player.Enable();
     }
 
     private void OnDisable()
     {
         inputActions.Player.Dig.performed -= OnDig;
-        inputActions.Player.Disable();
         Events.onUnloadAssignTiles -= AssignTiles;
+        inputActions.Player.Disable();
     }
 
     private void OnDig(InputAction.CallbackContext ctx)
     {
-        if (grid == null) return;
+        if (grid == null || tilemaps == null) return;
 
         Vector2 move = inputActions.Player.DigDirection.ReadValue<Vector2>();
         Vector2 digDirection = SnapToCardinal(move);
-        if (digDirection == Vector2.zero)
-            return;
 
-        Vector3 tilePosition = transform.position + (Vector3)OffsetForDirection(digDirection);
-        RemoveTileAt(tilePosition);
+        if (digDirection == Vector2.zero) return;
+
+        // חישוב המיקום המדויק מול אנג'י
+        Vector3 targetWorldPos = transform.position + (Vector3)(digDirection * digDistance);
+        PerformDig(targetWorldPos, digDirection);
     }
 
-    private void RemoveTileAt(Vector3 tilePosition)
+    private void PerformDig(Vector3 worldPos, Vector2 direction)
     {
-        if (grid == null || tilemaps == null || tilemaps.Count == 0) return;
+        Vector3Int centerCell = grid.WorldToCell(worldPos);
 
-        Vector3Int cell = grid.WorldToCell(tilePosition);
+        // מחיקת הטייל הספציפי בלבד
+        DeleteAtCell(centerCell);
 
-        if (tilemaps.Any(tilemap => tilemap != null && tilemap.HasTile(cell)))
+        // רק אם סימנת ב-Inspector, זה ימחק שכנים (כרגע כבוי כברירת מחדל)
+        if (useWideDig)
         {
-            foreach (var tilemap in tilemaps)
+            if (direction == Vector2.left || direction == Vector2.right)
+            {
+                DeleteAtCell(centerCell + Vector3Int.up);
+                DeleteAtCell(centerCell + Vector3Int.down);
+            }
+            else
+            {
+                DeleteAtCell(centerCell + Vector3Int.left);
+                DeleteAtCell(centerCell + Vector3Int.right);
+            }
+        }
+
+        // --- התיקון הקריטי למניעת היתקעות בלי להגדיל את החור ---
+        // הסנכרון הזה מוודא שהפיזיקה מעודכנת לטייל שנמחק, גם אם הוא בודד.
+        Physics2D.SyncTransforms();
+    }
+
+    private void DeleteAtCell(Vector3Int cell)
+    {
+        foreach (var tilemap in tilemaps)
+        {
+            if (tilemap != null && tilemap.HasTile(cell))
+            {
                 tilemap.SetTile(cell, null);
+            }
         }
-    }
-
-    private void assignTiles(Grid grid, List<Tilemap> tilemaps)
-    {
-        RoomTilemapProvider tilemapProvider = FindFirstObjectByType<RoomTilemapProvider>();
-        if (tilemapProvider != null)
-        {
-            this.grid = grid;
-            this.tilemaps = tilemaps;
-        }
-        else Debug.LogWarning($"{name}: No RoomTilemapProvider found in scene.");
-        
-        inputActions.Player.Enable();
-        inputActions.Player.Dig.performed += OnDig;
     }
 
     private void AssignTiles(Grid newGrid, List<Tilemap> newTilemaps)
@@ -80,24 +98,8 @@ public class TileDigging : MonoBehaviour
     private Vector2 SnapToCardinal(Vector2 raw)
     {
         if (raw.sqrMagnitude < 0.25f) return Vector2.zero;
-
         if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
             return raw.x > 0 ? Vector2.right : Vector2.left;
-
         return raw.y > 0 ? Vector2.up : Vector2.down;
     }
-
-    private Vector2 OffsetForDirection(Vector2 dir)
-    {
-        Vector3 cellSize = grid.cellSize;
-        float directionX = cellSize.x * offsetMultiplier;
-        float directionY = cellSize.y * offsetMultiplier;
-
-        if (dir == Vector2.left) return new Vector2(-directionX, 0f);
-        if (dir == Vector2.right) return new Vector2(directionX, 0f);
-        if (dir == Vector2.up) return new Vector2(0f, directionY);
-        return new Vector2(0f, -directionY); 
-    }
-
-
 }
