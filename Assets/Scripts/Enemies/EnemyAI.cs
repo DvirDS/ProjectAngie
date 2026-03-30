@@ -11,8 +11,10 @@ public class EnemyAI : MonoBehaviour
     public float patrolSpeed = 2f;
     public float chaseSpeed = 5f;
     public float sightRange = 8f;
+    [Tooltip("כמה אחוזים מטווח הראייה נשארים כשאנג'י מתגנבת (למשל 0.3 = 30% מהטווח הרגיל)")]
+    [SerializeField] private float stealthDetectionMultiplier = 0.3f;
     public float stopChaseRange = 12f;
-    public LayerMask detectionLayers; 
+    public LayerMask detectionLayers;
 
     [Header("Patrol Points (Optional)")]
     public Transform[] waypoints;
@@ -22,9 +24,10 @@ public class EnemyAI : MonoBehaviour
     public SpriteRenderer alertBubble;
 
     private Transform player;
+    private PlayerStealth playerStealth; // רפרנס לסקריפט ההתגנבות של אנג'י
     private Rigidbody2D rb;
     private bool isFacingRight = true;
-    private Vector2 startPosition; 
+    private Vector2 startPosition;
 
     void Start()
     {
@@ -40,10 +43,11 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        // אם השחקנית לא נמצאה, ננסה למצוא אותה שוב (חשוב למעבר בין חדרים)
         if (player == null)
         {
             FindPlayerReference();
-            if (player == null) return; 
+            if (player == null) return;
         }
 
         switch (currentState)
@@ -62,43 +66,44 @@ public class EnemyAI : MonoBehaviour
         if (playerObj != null)
         {
             player = playerObj.transform;
+            // משיכת רפרנס לסקריפט ההתגנבות כדי לדעת אם היא 'מוחבאת'
+            playerStealth = playerObj.GetComponent<PlayerStealth>();
         }
     }
 
     private bool CanSeePlayer()
     {
-        if (player == null)
+        if (player == null) return false;
+
+        // חישוב טווח הראייה המושפע מהתגנבות
+        float currentSightRange = sightRange;
+
+        // אם אנג'י במצב Stealth, האויב יראה אותה רק ממרחק קצר מאוד
+        if (playerStealth != null && playerStealth.IsStealthing)
         {
-            return false;
+            currentSightRange *= stealthDetectionMultiplier;
         }
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer > sightRange)
+
+        // בדיקה ראשונית: האם היא בכלל בטווח הראייה המוקטן/רגיל?
+        if (distanceToPlayer > currentSightRange)
         {
             return false;
         }
 
+        // בדיקה משנית: האם יש קו ראייה נקי (Raycast) או שיש קיר באמצע?
         Vector2 direction = (player.position - transform.position).normalized;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, sightRange, detectionLayers);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, currentSightRange, detectionLayers);
 
         if (hit.collider != null)
         {
             if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("הללויה! הקרן פגעה בכלבה!");
+                // האויב ראה את אנג'י!
                 Debug.DrawRay(transform.position, direction * hit.distance, Color.red);
                 return true;
             }
-            else
-            {
-                Debug.Log("הקרן נחסמה! היא פגעה באובייקט בשם: " + hit.collider.gameObject.name);
-                Debug.DrawRay(transform.position, direction * hit.distance, Color.white);
-            }
-        }
-        else
-        {
-            Debug.Log("הקרן לא פגעה בכלום! (עברה דרך הכלבה, אולי חסר לה קוליידר?)");
-            Debug.DrawRay(transform.position, direction * sightRange, Color.green);
         }
 
         return false;
@@ -139,7 +144,8 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateAlert()
     {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        // מעבר מהיר למרדף (אפשר להוסיף כאן טיימר אם רוצים שהאויב "יחשוב" רגע)
         ChangeState(EnemyState.Chase);
     }
 
@@ -148,6 +154,8 @@ public class EnemyAI : MonoBehaviour
         if (player == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // אם השחקנית התרחקה מדי, האויב מוותר וחוזר למקום
         if (distanceToPlayer > stopChaseRange)
         {
             ChangeState(EnemyState.Return);
@@ -156,9 +164,9 @@ public class EnemyAI : MonoBehaviour
 
         float distanceX = Mathf.Abs(player.position.x - transform.position.x);
 
-        if (distanceX < 0.5f) 
+        if (distanceX < 0.5f)
         {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); 
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
         else
         {
@@ -212,7 +220,7 @@ public class EnemyAI : MonoBehaviour
             isFacingRight = true;
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
-        else if (directionX < 0 && isFacingRight)
+        else if (directionX < -0.1f && isFacingRight)
         {
             isFacingRight = false;
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
