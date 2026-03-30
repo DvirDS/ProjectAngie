@@ -436,7 +436,7 @@ Transform:
   m_GameObject: {fileID: 136802714}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 65.2276, y: 2.1026, z: 0}
+  m_LocalPosition: {x: 65.22, y: 2.107, z: 0}
   m_LocalScale: {x: 156.25403, y: 10.2021265, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4533,7 +4533,7 @@ GameObject:
   - component: {fileID: 345748136187987655}
   - component: {fileID: 4177470245661215992}
   - component: {fileID: 6727085809196556478}
-  - component: {fileID: 6906423540117405429}
+  - component: {fileID: 6906423540117405430}
   - component: {fileID: 3392345315686795958}
   - component: {fileID: 4840740199277927160}
   - component: {fileID: 4840740199277927161}
@@ -4542,6 +4542,7 @@ GameObject:
   - component: {fileID: 6906423540117405426}
   - component: {fileID: 6906423540117405427}
   - component: {fileID: 6906423540117405428}
+  - component: {fileID: 6906423540117405431}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -4596,8 +4597,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSniff
   _superSniffSkillData: {fileID: 11400000, guid: 2f9cc28045d4ebf45a16767e7bc2127f, type: 2}
   input: {fileID: 4840740199277927160}
---- !u!58 &6906423540117405429
-CircleCollider2D:
+--- !u!61 &6906423540117405430
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6906423540117405424}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.24272156, y: -0.98734975}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.08, y: 5.69}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.4050236, y: 3.715301}
+  m_EdgeRadius: 0
+--- !u!70 &6906423540117405431
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4630,8 +4677,9 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.28441772, y: -0.53910756}
-  m_Radius: 2.1987367
+  m_Offset: {x: -0.08009913, y: -1.0831378}
+  m_Size: {x: 3.4568455, y: 3.3040369}
+  m_Direction: 1
 --- !u!224 &7114246865926244190
 RectTransform:
   m_ObjectHideFlags: 0
