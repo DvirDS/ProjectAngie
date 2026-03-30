@@ -1,9 +1,8 @@
 using UnityEngine;
-using System; // חובה בשביל ה-Action
+using System;
 
 public class HealthDrainSystem : MonoBehaviour
 {
-    // הגדרת Event חדש שמשדר את הבריאות (נוכחי, מקסימום)
     public event Action<float, float> OnHealthChanged;
 
     [Header("Settings")]
@@ -11,21 +10,23 @@ public class HealthDrainSystem : MonoBehaviour
     private float currentHealth;
 
     [Header("Decay Rates (Per Second)")]
-    public float passiveDecay = 0.28f;
-    public float walkDecay = 0.42f;
-    public float runDecay = 1.67f;
+    public float passiveDecay = 0.28f; // עמידה במקום
+    public float walkDecay = 0.42f;    // הליכה
+    public float stealthDecay = 0.8f;  // התגנבות (תוכל לשנות את המספר כרצונך)
+    public float runDecay = 1.67f;     // ריצה מהירה
 
     [Header("Skills")]
     public float hpUpgradeBonus = 50f;
     private bool hasAppliedUpgrade = false;
 
+    // States
     private bool isMoving;
     private bool isSprinting;
+    private bool isStealthing; // המצב החדש שהוספנו
 
     void Start()
     {
         currentHealth = maxHealth;
-        // עדכון ראשוני ל-UI
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
@@ -33,13 +34,19 @@ public class HealthDrainSystem : MonoBehaviour
     {
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
 
-        float decayAmount = isSprinting ? runDecay : isMoving ? walkDecay : passiveDecay;
-        float previousHealth = currentHealth;
+        // קביעת קצב ירידת החיים לפי הפעולה הנוכחית של אנג'י
+        float decayAmount = passiveDecay;
 
+        if (isSprinting && isMoving) decayAmount = runDecay;
+        else if (isStealthing && isMoving) decayAmount = stealthDecay;
+        else if (isMoving) decayAmount = walkDecay;
+        else if (isStealthing) decayAmount = stealthDecay; // התגנבות במקום עדיין מעייפת
+
+        float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
-        // אם הבריאות השתנתה, נשדר את האירוע
+        // שידור ל-UI רק אם החיים באמת השתנו
         if (currentHealth != previousHealth)
         {
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -48,14 +55,16 @@ public class HealthDrainSystem : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Player is Dead / Out of Stamina");
-            if (GameManager.I != null) GameManager.I.GameOver(); // מעבר למסך הפסד
+            if (GameManager.I != null) GameManager.I.GameOver();
         }
     }
 
-    public void SetMovementState(bool moving, bool sprinting)
+    // הוספנו את ההתגנבות לפרמטרים שמקבלים מסקריפט התנועה
+    public void SetMovementState(bool moving, bool sprinting, bool stealthing)
     {
         isMoving = moving;
         isSprinting = sprinting;
+        isStealthing = stealthing;
     }
 
     public void ApplyHpUpgrade()
@@ -64,7 +73,6 @@ public class HealthDrainSystem : MonoBehaviour
         hasAppliedUpgrade = true;
         maxHealth += hpUpgradeBonus;
         currentHealth = maxHealth;
-
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 

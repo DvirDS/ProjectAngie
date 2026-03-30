@@ -9,17 +9,30 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sprite;
 
+    [Tooltip("רפרנס למערכת ההתגנבות שיצרנו")]
+    [SerializeField] private PlayerStealth playerStealth;
+
+    [Header("Skills")]
+    [Tooltip("גרור לכאן את קובץ הסקיל של הקפיצה הכפולה מתיקיית ה-Assets")]
+    [SerializeField] private Skill _doubleJumpSkillData;
+
     [Header("Speeds & Physics")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 8f;
+
+    [Tooltip("כמה חזקה תהיה הקפיצה הכפולה ביחס לרגילה? (1 = אותו כוח, 0.8 = קצת פחות)")]
+    [SerializeField] private float doubleJumpMultiplier = 1f;
+
+    [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.2f;
     [SerializeField] private LayerMask groundMask;
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool isFacingRight = false; // הגדרנו false כי אנג'י מצוירת שמאלה
+    private bool canDoubleJump; // המשתנה החדש שזוכר אם אפשר לקפוץ שוב באוויר
+    private bool isFacingRight = false;
     private float horizontalInput;
 
     private void Awake()
@@ -34,22 +47,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.I != null)
-            GameManager.I.OnStateChanged += HandleStateChanged;
-
-        // רישום לאירוע הקפיצה החדש - פותר את השגיאה!
-        if (input != null)
-            input.OnJumpPressed += PerformJump;
+        if (GameManager.I != null) GameManager.I.OnStateChanged += HandleStateChanged;
+        if (input != null) input.OnJumpPressed += PerformJump;
     }
 
     private void OnDisable()
     {
-        if (GameManager.I != null)
-            GameManager.I.OnStateChanged -= HandleStateChanged;
-
-        // ביטול רישום תקין (דרישת המרצה)
-        if (input != null)
-            input.OnJumpPressed -= PerformJump;
+        if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleStateChanged;
+        if (input != null) input.OnJumpPressed -= PerformJump;
     }
 
     private void Update()
@@ -59,8 +64,6 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = input.Move.x;
         CheckGround();
         HandleFlip();
-
-        // מחקנו מכאן את הבדיקה של JumpPressed כי הפונקציה נקראת מה-Event
         UpdateVisualsAndHealth();
     }
 
@@ -76,16 +79,38 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(horizontalInput * targetSpeed, rb.linearVelocity.y);
     }
 
+    // --- מערכת הקפיצות המעודכנת ---
     private void PerformJump()
     {
-        // קופצים רק אם אנחנו על הקרקע והמשחק לא בהפסקה
-        if (isGrounded && !IsGamePaused())
+        if (IsGamePaused()) return;
+
+        if (isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            if (animator != null) animator.SetTrigger("isJumping");
+            // קפיצה רגילה מהקרקע
+            ExecuteJump(1f);
+
+            // מכינים את הקפיצה הכפולה (במידה ויש לה את הסקיל)
+            canDoubleJump = true;
+        }
+        else if (canDoubleJump && _doubleJumpSkillData != null && _doubleJumpSkillData.isPurchased)
+        {
+            // קפיצה כפולה באוויר!
+            ExecuteJump(doubleJumpMultiplier);
+
+            // מאפסים כדי שלא תוכל לקפוץ 3 או 4 פעמים
+            canDoubleJump = false;
         }
     }
+
+    private void ExecuteJump(float forceMultiplier)
+    {
+        // איפוס מהירות הנפילה לפני הקפיצה כדי שהקפיצה תמיד תהיה באותו גובה
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * (jumpForce * forceMultiplier), ForceMode2D.Impulse);
+
+        if (animator != null) animator.SetTrigger("isJumping");
+    }
+    // ------------------------------
 
     private void HandleFlip()
     {
@@ -101,12 +126,18 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    private void CheckGround() => isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundMask);
+    private void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundMask);
+    }
 
     private void UpdateVisualsAndHealth()
     {
-        if (animator != null) animator.SetBool("IsMoving", Mathf.Abs(horizontalInput) > 0.01f);
-        if (healthDrain != null) healthDrain.SetMovementState(Mathf.Abs(horizontalInput) > 0.01f, input.SprintHeld);
+        bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+        bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
+
+        if (animator != null) animator.SetBool("IsMoving", isMoving);
+        if (healthDrain != null) healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing);
     }
 
     private void HandleStateChanged(GameManager.GameState newState)

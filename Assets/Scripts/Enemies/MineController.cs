@@ -3,35 +3,51 @@ using UnityEngine;
 public class MineController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float damageAmount = 30f;
+    [SerializeField] private float damageAmount = 10f;
     [SerializeField] private GameObject redAuraObject;
 
     [Header("Runtime Set")]
     [SerializeField] private MineRuntimeSet mineSet;
 
+    private ParticleSystem gasParticles;
+    private ParticleSystem.EmissionModule gasEmission; // גישה ל"ברז" החלקיקים
+
+    private void Awake()
+    {
+        if (redAuraObject != null)
+        {
+            gasParticles = redAuraObject.GetComponent<ParticleSystem>();
+
+            if (gasParticles != null)
+            {
+                // שומרים את הרכיב שאחראי על ייצור החלקיקים
+                gasEmission = gasParticles.emission;
+
+                // מתחילים את המשחק כשה"ברז" סגור, אבל המערכת עצמה רצה ברקע
+                gasEmission.enabled = false;
+                gasParticles.Play();
+            }
+        }
+    }
+
     private void OnEnable()
     {
-        mineSet.AddToList(this);
+        if (mineSet != null) mineSet.AddToList(this);
+        PlayerSniff.OnSuperSniff += SetSmellVisible;
     }
 
     private void OnDisable()
     {
-        mineSet.RemoveFromList(this);
-    }
-
-    void Start()
-    {
-        if (redAuraObject != null)
-        {
-            redAuraObject.SetActive(false);
-        }
+        if (mineSet != null) mineSet.RemoveFromList(this);
+        PlayerSniff.OnSuperSniff -= SetSmellVisible;
     }
 
     public void SetSmellVisible(bool canSmell)
     {
-        if (redAuraObject != null)
+        if (gasParticles != null)
         {
-            redAuraObject.SetActive(canSmell);
+            // פשוט פותחים או סוגרים את הברז - מגיב באופן מיידי וללא השהיה!
+            gasEmission.enabled = canSmell;
         }
     }
 

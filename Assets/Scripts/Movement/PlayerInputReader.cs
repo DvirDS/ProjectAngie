@@ -10,6 +10,7 @@ public class PlayerInputReader : MonoBehaviour
     public event Action OnJumpPressed;
     public event Action OnSkillMenuPressed;
     public event Action OnDashPressed;
+    public event Action OnStealthPressed;
 
     // --- משתנים למצב "לחוץ" (Held) ---
     public Vector2 Move { get; private set; }
@@ -36,6 +37,8 @@ public class PlayerInputReader : MonoBehaviour
         actions.Player.Sniff.performed += OnSniff;
         actions.Player.Sniff.canceled += OnSniff;
 
+        actions.Player.Stealth.performed += OnStealth;
+
         actions.Player.SkillMenu.performed += OnSkillMenu;
 
         actions.Enable();
@@ -55,6 +58,8 @@ public class PlayerInputReader : MonoBehaviour
 
         actions.Player.Sniff.performed -= OnSniff;
         actions.Player.Sniff.canceled -= OnSniff;
+
+        actions.Player.Stealth.performed -= OnStealth;
 
         actions.Player.SkillMenu.performed -= OnSkillMenu;
 
@@ -83,6 +88,11 @@ public class PlayerInputReader : MonoBehaviour
     private void OnSniff(InputAction.CallbackContext ctx)
     {
         SniffHeld = ctx.performed;
+    }
+
+    private void OnStealth(InputAction.CallbackContext ctx)
+    {
+        OnStealthPressed?.Invoke();
     }
 
     private void OnSkillMenu(InputAction.CallbackContext ctx)

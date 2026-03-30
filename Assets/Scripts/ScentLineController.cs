@@ -24,10 +24,13 @@ public class ScentLineController : MonoBehaviour
     private LineRenderer lineRenderer;
     private Material scentMaterial;
 
+    // משתנה חדש ששומר האם אנחנו מרחרחים עכשיו
+    private bool isSniffActive = false;
+
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.enabled = true; 
+        lineRenderer.enabled = true;
         lineRenderer.positionCount = pointsCount;
 
         if (lineRenderer.material != null)
@@ -36,6 +39,22 @@ public class ScentLineController : MonoBehaviour
             SetMaterialAlpha(0f);
         }
     }
+
+    // --- ההרשמה לאירוע הרחרוח הרגיל ---
+    private void OnEnable() => PlayerSniff.OnNormalSniff += HandleSniffState;
+    private void OnDisable() => PlayerSniff.OnNormalSniff -= HandleSniffState;
+
+    private void HandleSniffState(bool active)
+    {
+        isSniffActive = active;
+    }
+
+    // מעדכן את האנימציה כל פריים בהתאם למצב
+    private void Update()
+    {
+        UpdateLine(isSniffActive);
+    }
+    // ------------------------------------
 
     public void UpdateLine(bool active)
     {
