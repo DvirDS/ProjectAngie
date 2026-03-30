@@ -6,11 +6,14 @@ public class UIManager : MonoBehaviour
     public static UIManager I { get; private set; }
 
     [Header("Player References")]
-    [Tooltip("גרור לכאן את אנג'י (השחקן) מההיררכיה כדי לחבר את מד החיים")]
     [SerializeField] private HealthDrainSystem playerHealthSystem;
+    [SerializeField] private PlayerInputReader inputReader;
 
-    [Header("HUD")]
-    [SerializeField] private GameObject hudRoot;
+    [Header("HUD Elements")]
+    [Tooltip("האובייקט המכיל את מד החיים")]
+    [SerializeField] private GameObject healthBarRoot;
+    [Tooltip("האובייקט המכיל את הניקוד (Score)")]
+    [SerializeField] private GameObject scoreRoot;
     [SerializeField] private Slider healthBar;
 
     [Header("Screens")]
@@ -26,17 +29,18 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleGameStateChanged;
-
-        // התיקון: אנחנו מאזינים לשינויים בחיים של השחקן!
         if (playerHealthSystem != null) playerHealthSystem.OnHealthChanged += UpdateHealthUI;
+
+        // האזנה ללחיצת Pause מהמקלדת
+        if (inputReader != null) inputReader.OnPausePressed += TogglePause;
     }
 
     private void OnDisable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleGameStateChanged;
-
-        // ניתוק האזנה
         if (playerHealthSystem != null) playerHealthSystem.OnHealthChanged -= UpdateHealthUI;
+
+        if (inputReader != null) inputReader.OnPausePressed -= TogglePause;
     }
 
     private void Start()
@@ -44,33 +48,36 @@ public class UIManager : MonoBehaviour
         if (GameManager.I != null) HandleGameStateChanged(GameManager.I.State);
     }
 
+    private void TogglePause()
+    {
+        if (GameManager.I == null) return;
+
+        // החלפה בין Play ל-Pause
+        if (GameManager.I.State == GameManager.GameState.Play)
+            GameManager.I.PauseGame();
+        else if (GameManager.I.State == GameManager.GameState.Pause)
+            GameManager.I.ResumeGame();
+    }
+
     private void HandleGameStateChanged(GameManager.GameState state)
     {
-        // בדיקה האם עץ הסקילים פתוח כרגע
-        // אנחנו ניגשים לחלון עצמו דרך ה-instance של ה-SkillTreeManager
+        bool isPlay = (state == GameManager.GameState.Play);
         bool isSkillTreeOpen = SkillTreeManager.instance != null &&
                                SkillTreeManager.instance.skillTreeWindow != null &&
                                SkillTreeManager.instance.skillTreeWindow.activeSelf;
 
-        // לוגיקת הצגת ה-HUD (הניקוד ומד החיים):
-        // דולק אם: אנחנו בזמן משחק (Play) או אם עץ הסקילים פתוח
-        if (hudRoot)
-        {
-            hudRoot.SetActive(state == GameManager.GameState.Play || isSkillTreeOpen);
-        }
+        // מד החיים מוצג רק בזמן משחק
+        if (healthBarRoot) healthBarRoot.SetActive(isPlay);
 
-        // לוגיקת תפריט ה-Pause:
-        // דולק רק אם: המשחק בהפסקה (Pause) וגם עץ הסקילים סגור
+        // הניקוד מוצג בזמן משחק או כשהסקילים פתוחים
+        if (scoreRoot) scoreRoot.SetActive(isPlay || isSkillTreeOpen);
+
+        // פאנל ה-Pause מוצג רק ב-Pause וכשהסקילים סגורים
         if (pausePanel)
-        {
             pausePanel.SetActive(state == GameManager.GameState.Pause && !isSkillTreeOpen);
-        }
 
-        // מסך GameOver תמיד מוצג במצב GameOver
         if (gameOverPanel)
-        {
             gameOverPanel.SetActive(state == GameManager.GameState.GameOver);
-        }
     }
 
     public void UpdateHealthUI(float currentHealth, float maxHealth)
