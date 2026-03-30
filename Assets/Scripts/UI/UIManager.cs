@@ -46,12 +46,31 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameStateChanged(GameManager.GameState state)
     {
-        bool inPlay = (state == GameManager.GameState.Play);
-        if (hudRoot) hudRoot.SetActive(inPlay);
+        // בדיקה האם עץ הסקילים פתוח כרגע
+        // אנחנו ניגשים לחלון עצמו דרך ה-instance של ה-SkillTreeManager
+        bool isSkillTreeOpen = SkillTreeManager.instance != null &&
+                               SkillTreeManager.instance.skillTreeWindow != null &&
+                               SkillTreeManager.instance.skillTreeWindow.activeSelf;
 
-        bool isSkillTreeOpen = false; // עדכן את זה חזרה לפי ה-SkillTreeManager שלך
-        if (pausePanel) pausePanel.SetActive(state == GameManager.GameState.Pause && !isSkillTreeOpen);
-        if (gameOverPanel) gameOverPanel.SetActive(state == GameManager.GameState.GameOver);
+        // לוגיקת הצגת ה-HUD (הניקוד ומד החיים):
+        // דולק אם: אנחנו בזמן משחק (Play) או אם עץ הסקילים פתוח
+        if (hudRoot)
+        {
+            hudRoot.SetActive(state == GameManager.GameState.Play || isSkillTreeOpen);
+        }
+
+        // לוגיקת תפריט ה-Pause:
+        // דולק רק אם: המשחק בהפסקה (Pause) וגם עץ הסקילים סגור
+        if (pausePanel)
+        {
+            pausePanel.SetActive(state == GameManager.GameState.Pause && !isSkillTreeOpen);
+        }
+
+        // מסך GameOver תמיד מוצג במצב GameOver
+        if (gameOverPanel)
+        {
+            gameOverPanel.SetActive(state == GameManager.GameState.GameOver);
+        }
     }
 
     public void UpdateHealthUI(float currentHealth, float maxHealth)
