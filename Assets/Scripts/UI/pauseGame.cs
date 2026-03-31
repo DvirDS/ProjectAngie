@@ -13,7 +13,7 @@ public class PauseGame : MonoBehaviour
 
     public void OnQuitToMenu()
     {
-        Time.timeScale = 1f;
+        GameManager.I?.ResumeGame();
         SceneManager.LoadScene("MainMenu"); 
     }
 }
