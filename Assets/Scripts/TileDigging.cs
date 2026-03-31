@@ -10,10 +10,8 @@ public class TileDigging : MonoBehaviour
     [SerializeField] public List<Tilemap> tilemaps;
 
     [Header("Dig Settings")]
-    [Tooltip("כמה רחוק מהשחקן החפירה מתבצעת. נסה ערכים בין 0.5 ל-1.0")]
     [SerializeField] private float digDistance = 0.8f;
 
-    [Tooltip("האם למחוק טייל בודד (false) או להרחיב מעט (true)")]
     [SerializeField] private bool useWideDig = false;
 
     private InputSystem inputActions;
@@ -46,7 +44,6 @@ public class TileDigging : MonoBehaviour
 
         if (digDirection == Vector2.zero) return;
 
-        // חישוב המיקום המדויק מול אנג'י
         Vector3 targetWorldPos = transform.position + (Vector3)(digDirection * digDistance);
         PerformDig(targetWorldPos, digDirection);
     }
@@ -55,10 +52,8 @@ public class TileDigging : MonoBehaviour
     {
         Vector3Int centerCell = grid.WorldToCell(worldPos);
 
-        // מחיקת הטייל הספציפי בלבד
         DeleteAtCell(centerCell);
 
-        // רק אם סימנת ב-Inspector, זה ימחק שכנים (כרגע כבוי כברירת מחדל)
         if (useWideDig)
         {
             if (direction == Vector2.left || direction == Vector2.right)
@@ -72,9 +67,6 @@ public class TileDigging : MonoBehaviour
                 DeleteAtCell(centerCell + Vector3Int.right);
             }
         }
-
-        // --- התיקון הקריטי למניעת היתקעות בלי להגדיל את החור ---
-        // הסנכרון הזה מוודא שהפיזיקה מעודכנת לטייל שנמחק, גם אם הוא בודד.
         Physics2D.SyncTransforms();
     }
 

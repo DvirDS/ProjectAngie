@@ -9,11 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sprite;
 
-    [Tooltip("רפרנס למערכת ההתגנבות שיצרנו")]
     [SerializeField] private PlayerStealth playerStealth;
 
     [Header("Skills")]
-    [Tooltip("גרור לכאן את קובץ הסקיל של הקפיצה הכפולה מתיקיית ה-Assets")]
     [SerializeField] private Skill _doubleJumpSkillData;
 
     [Header("Speeds & Physics")]
@@ -21,7 +19,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 8f;
 
-    [Tooltip("כמה חזקה תהיה הקפיצה הכפולה ביחס לרגילה? (1 = אותו כוח, 0.8 = קצת פחות)")]
     [SerializeField] private float doubleJumpMultiplier = 1f;
 
     [Header("Ground Check")]
@@ -31,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool canDoubleJump; // המשתנה החדש שזוכר אם אפשר לקפוץ שוב באוויר
+    private bool canDoubleJump; 
     private bool isFacingRight = false;
     private float horizontalInput;
 
@@ -78,39 +75,31 @@ public class PlayerMovement : MonoBehaviour
         float targetSpeed = input.SprintHeld ? sprintSpeed : walkSpeed;
         rb.linearVelocity = new Vector2(horizontalInput * targetSpeed, rb.linearVelocity.y);
     }
-
-    // --- מערכת הקפיצות המעודכנת ---
     private void PerformJump()
     {
         if (IsGamePaused()) return;
 
         if (isGrounded)
         {
-            // קפיצה רגילה מהקרקע
             ExecuteJump(1f);
 
-            // מכינים את הקפיצה הכפולה (במידה ויש לה את הסקיל)
             canDoubleJump = true;
         }
         else if (canDoubleJump && _doubleJumpSkillData != null && _doubleJumpSkillData.isPurchased)
         {
-            // קפיצה כפולה באוויר!
             ExecuteJump(doubleJumpMultiplier);
 
-            // מאפסים כדי שלא תוכל לקפוץ 3 או 4 פעמים
             canDoubleJump = false;
         }
     }
 
     private void ExecuteJump(float forceMultiplier)
     {
-        // איפוס מהירות הנפילה לפני הקפיצה כדי שהקפיצה תמיד תהיה באותו גובה
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         rb.AddForce(Vector2.up * (jumpForce * forceMultiplier), ForceMode2D.Impulse);
 
         if (animator != null) animator.SetTrigger("isJumping");
     }
-    // ------------------------------
 
     private void HandleFlip()
     {

@@ -11,7 +11,6 @@ public class EnemyAI : MonoBehaviour
     public float patrolSpeed = 2f;
     public float chaseSpeed = 5f;
     public float sightRange = 8f;
-    [Tooltip("כמה אחוזים מטווח הראייה נשארים כשאנג'י מתגנבת (למשל 0.3 = 30% מהטווח הרגיל)")]
     [SerializeField] private float stealthDetectionMultiplier = 0.3f;
     public float stopChaseRange = 12f;
     public LayerMask detectionLayers;
@@ -24,7 +23,7 @@ public class EnemyAI : MonoBehaviour
     public SpriteRenderer alertBubble;
 
     private Transform player;
-    private PlayerStealth playerStealth; // רפרנס לסקריפט ההתגנבות של אנג'י
+    private PlayerStealth playerStealth; 
     private Rigidbody2D rb;
     private bool isFacingRight = true;
     private Vector2 startPosition;
@@ -43,7 +42,6 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        // אם השחקנית לא נמצאה, ננסה למצוא אותה שוב (חשוב למעבר בין חדרים)
         if (player == null)
         {
             FindPlayerReference();
@@ -66,7 +64,6 @@ public class EnemyAI : MonoBehaviour
         if (playerObj != null)
         {
             player = playerObj.transform;
-            // משיכת רפרנס לסקריפט ההתגנבות כדי לדעת אם היא 'מוחבאת'
             playerStealth = playerObj.GetComponent<PlayerStealth>();
         }
     }
@@ -75,10 +72,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return false;
 
-        // חישוב טווח הראייה המושפע מהתגנבות
         float currentSightRange = sightRange;
 
-        // אם אנג'י במצב Stealth, האויב יראה אותה רק ממרחק קצר מאוד
         if (playerStealth != null && playerStealth.IsStealthing)
         {
             currentSightRange *= stealthDetectionMultiplier;
@@ -86,13 +81,11 @@ public class EnemyAI : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // בדיקה ראשונית: האם היא בכלל בטווח הראייה המוקטן/רגיל?
         if (distanceToPlayer > currentSightRange)
         {
             return false;
         }
 
-        // בדיקה משנית: האם יש קו ראייה נקי (Raycast) או שיש קיר באמצע?
         Vector2 direction = (player.position - transform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, currentSightRange, detectionLayers);
 
@@ -100,7 +93,6 @@ public class EnemyAI : MonoBehaviour
         {
             if (hit.collider.CompareTag("Player"))
             {
-                // האויב ראה את אנג'י!
                 Debug.DrawRay(transform.position, direction * hit.distance, Color.red);
                 return true;
             }
@@ -145,7 +137,6 @@ public class EnemyAI : MonoBehaviour
     private void UpdateAlert()
     {
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        // מעבר מהיר למרדף (אפשר להוסיף כאן טיימר אם רוצים שהאויב "יחשוב" רגע)
         ChangeState(EnemyState.Chase);
     }
 
@@ -155,7 +146,6 @@ public class EnemyAI : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // אם השחקנית התרחקה מדי, האויב מוותר וחוזר למקום
         if (distanceToPlayer > stopChaseRange)
         {
             ChangeState(EnemyState.Return);

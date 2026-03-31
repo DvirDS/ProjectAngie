@@ -10,9 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PlayerInputReader inputReader;
 
     [Header("HUD Elements")]
-    [Tooltip("האובייקט המכיל את מד החיים")]
     [SerializeField] private GameObject healthBarRoot;
-    [Tooltip("האובייקט המכיל את הניקוד (Score)")]
     [SerializeField] private GameObject scoreRoot;
     [SerializeField] private Slider healthBar;
 
@@ -30,8 +28,6 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleGameStateChanged;
         if (playerHealthSystem != null) playerHealthSystem.OnHealthChanged += UpdateHealthUI;
-
-        // האזנה ללחיצת Pause מהמקלדת
         if (inputReader != null) inputReader.OnPausePressed += TogglePause;
     }
 
@@ -39,7 +35,6 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleGameStateChanged;
         if (playerHealthSystem != null) playerHealthSystem.OnHealthChanged -= UpdateHealthUI;
-
         if (inputReader != null) inputReader.OnPausePressed -= TogglePause;
     }
 
@@ -51,8 +46,6 @@ public class UIManager : MonoBehaviour
     private void TogglePause()
     {
         if (GameManager.I == null) return;
-
-        // החלפה בין Play ל-Pause
         if (GameManager.I.State == GameManager.GameState.Play)
             GameManager.I.PauseGame();
         else if (GameManager.I.State == GameManager.GameState.Pause)
@@ -66,13 +59,10 @@ public class UIManager : MonoBehaviour
                                SkillTreeManager.instance.skillTreeWindow != null &&
                                SkillTreeManager.instance.skillTreeWindow.activeSelf;
 
-        // מד החיים מוצג רק בזמן משחק
         if (healthBarRoot) healthBarRoot.SetActive(isPlay);
 
-        // הניקוד מוצג בזמן משחק או כשהסקילים פתוחים
         if (scoreRoot) scoreRoot.SetActive(isPlay || isSkillTreeOpen);
 
-        // פאנל ה-Pause מוצג רק ב-Pause וכשהסקילים סגורים
         if (pausePanel)
             pausePanel.SetActive(state == GameManager.GameState.Pause && !isSkillTreeOpen);
 

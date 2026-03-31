@@ -56,7 +56,5 @@ public class LightBeamDetector : MonoBehaviour
         }
         return closest;
     }
-
-    //private bool PlayerIsHidden(Transform playerTransform){}
 }
 

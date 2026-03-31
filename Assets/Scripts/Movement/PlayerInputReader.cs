@@ -11,7 +11,7 @@ public class PlayerInputReader : MonoBehaviour
     public event Action OnSkillMenuPressed;
     public event Action OnDashPressed;
     public event Action OnStealthPressed;
-    public event Action OnPausePressed; // אירוע חדש ל-Pause
+    public event Action OnPausePressed; 
 
     public Vector2 Move { get; private set; }
     public bool SprintHeld { get; private set; }
@@ -35,7 +35,6 @@ public class PlayerInputReader : MonoBehaviour
         actions.Player.Stealth.performed += OnStealth;
         actions.Player.SkillMenu.performed += OnSkillMenu;
 
-        // רישום לפעולת ה-Pause
         actions.Player.Pause.performed += OnPause;
 
         actions.Enable();
@@ -67,6 +66,5 @@ public class PlayerInputReader : MonoBehaviour
     private void OnStealth(InputAction.CallbackContext ctx) => OnStealthPressed?.Invoke();
     private void OnSkillMenu(InputAction.CallbackContext ctx) => OnSkillMenuPressed?.Invoke();
 
-    // פונקציה המפעילה את אירוע ה-Pause
     private void OnPause(InputAction.CallbackContext ctx) => OnPausePressed?.Invoke();
 }

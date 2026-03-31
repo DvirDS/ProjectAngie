@@ -7,7 +7,6 @@ public class ParallaxLayer : MonoBehaviour
     public Transform mainCamera;
 
     [Header("Parallax Settings")]
-    [Tooltip("0 = לא זז (קרוב), 1 = זז בדיוק עם המצלמה (שמיים רחוקים)")]
     [Range(0f, 1f)]
     public float parallaxEffectMultiplier;
 

@@ -10,7 +10,7 @@ public class MineController : MonoBehaviour
     [SerializeField] private MineRuntimeSet mineSet;
 
     private ParticleSystem gasParticles;
-    private ParticleSystem.EmissionModule gasEmission; // גישה ל"ברז" החלקיקים
+    private ParticleSystem.EmissionModule gasEmission; 
 
     private void Awake()
     {
@@ -20,10 +20,8 @@ public class MineController : MonoBehaviour
 
             if (gasParticles != null)
             {
-                // שומרים את הרכיב שאחראי על ייצור החלקיקים
                 gasEmission = gasParticles.emission;
 
-                // מתחילים את המשחק כשה"ברז" סגור, אבל המערכת עצמה רצה ברקע
                 gasEmission.enabled = false;
                 gasParticles.Play();
             }
@@ -46,7 +44,6 @@ public class MineController : MonoBehaviour
     {
         if (gasParticles != null)
         {
-            // פשוט פותחים או סוגרים את הברז - מגיב באופן מיידי וללא השהיה!
             gasEmission.enabled = canSmell;
         }
     }

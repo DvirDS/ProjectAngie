@@ -27,7 +27,6 @@ public class SkillTreeManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // הרשמה לאירוע הלחיצה ב-InputReader (ללא למבדה - דרישת המרצה)
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed += ToggleWindow;
@@ -36,7 +35,6 @@ public class SkillTreeManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // Unsubscribe תקין למניעת זליגות זיכרון
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed -= ToggleWindow;
@@ -53,13 +51,11 @@ public class SkillTreeManager : MonoBehaviour
 
     private void Update()
     {
-        // ה-Update נשאר ריק מבדיקות קלט כי אנחנו משתמשים ב-Events!
-        // זה חוסך משאבי מערכת ומונע באגים של תזמון.
+
     }
 
     private void ToggleWindow()
     {
-        // בדיקת מצב המשחק לפני פתיחת התפריט
         if (GameManager.I == null) return;
         if (GameManager.I.State != GameManager.GameState.Play &&
             GameManager.I.State != GameManager.GameState.Pause) return;

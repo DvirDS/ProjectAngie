@@ -10,12 +10,12 @@ public class PlayerDash : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private PlayerInputReader input;
-    [SerializeField] private PlayerMovement playerMovement; // כדי לכבות אותו זמנית בזמן הדאש
+    [SerializeField] private PlayerMovement playerMovement; 
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashForce = 15f; // עוצמת הדאש
-    [SerializeField] private float dashDuration = 0.2f; // כמה זמן הדאש נמשך
-    [SerializeField] private float dashCooldown = 1f; // זמן המתנה בין דאש לדאש
+    [SerializeField] private float dashForce = 15f; 
+    [SerializeField] private float dashDuration = 0.2f; 
+    [SerializeField] private float dashCooldown = 1f; 
 
     private Rigidbody2D rb;
     private bool isDashing = false;
@@ -29,7 +29,6 @@ public class PlayerDash : MonoBehaviour
 
     private void OnEnable()
     {
-        // אנחנו מאזינים לכפתור הדאש שהגדרת ב-Input Reader
         if (input != null) input.OnDashPressed += TryDash;
     }
 
@@ -40,10 +39,8 @@ public class PlayerDash : MonoBehaviour
 
     private void TryDash()
     {
-        // 1. מוודאים שהסקיל נרכש בעץ הסקילים
         if (_dashSkillData != null && _dashSkillData.isPurchased)
         {
-            // 2. מוודאים שאנחנו לא באמצע דאש כרגע, ושעבר מספיק זמן מהדאש הקודם (Cooldown)
             if (!isDashing && Time.time >= lastDashTime + dashCooldown)
             {
                 StartCoroutine(PerformDashRoutine());
@@ -60,24 +57,17 @@ public class PlayerDash : MonoBehaviour
         isDashing = true;
         lastDashTime = Time.time;
 
-        // מכבים זמנית את סקריפט התנועה הרגיל כדי שלא יאפס לנו את המהירות
         if (playerMovement != null) playerMovement.enabled = false;
 
-        // מבטלים כוח משיכה כדי שאנג'י תעוף ישר ולא תיפול באלכסון
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
 
-        // חישוב כיוון הדאש. מכיוון שאנג'י פונה שמאלה כברירת מחדל:
-        // כשה-Scale חיובי, היא מסתכלת שמאלה (-1). כשהוא שלילי, היא ימינה (1).
         float dashDirection = transform.localScale.x > 0 ? -1f : 1f;
 
-        // דוחפים את אנג'י בכוח!
         rb.linearVelocity = new Vector2(dashDirection * dashForce, 0f);
 
-        // ממתינים את זמן הדאש (למשל 0.2 שניות)
         yield return new WaitForSeconds(dashDuration);
 
-        // מחזירים הכל לקדמותו: כוח משיכה, מהירות אפס, ומדליקים את סקריפט התנועה
         rb.gravityScale = originalGravity;
         rb.linearVelocity = Vector2.zero;
         if (playerMovement != null) playerMovement.enabled = true;
