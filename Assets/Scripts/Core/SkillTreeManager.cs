@@ -17,8 +17,6 @@ public class SkillTreeManager : MonoBehaviour
     [Header("Data")]
     public int playerSkillPoints = 10;
 
-    private bool isOpen;
-
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -49,11 +47,6 @@ public class SkillTreeManager : MonoBehaviour
             skillTreeWindow.SetActive(false);
     }
 
-    private void Update()
-    {
-
-    }
-
     private void ToggleWindow()
     {
         if (GameManager.I == null) return;
@@ -62,18 +55,10 @@ public class SkillTreeManager : MonoBehaviour
 
         if (skillTreeWindow == null) return;
 
-        isOpen = !isOpen;
-        skillTreeWindow.SetActive(isOpen);
-
-        if (isOpen)
-        {
-            GameManager.I.PauseGame();
-            UpdateUI();
-        }
-        else
-        {
+        if (GameManager.I.State == GameManager.GameState.Pause)
             GameManager.I.ResumeGame();
-        }
+        else
+            GameManager.I.PauseGame();
     }
 
     private void ResetSkills()

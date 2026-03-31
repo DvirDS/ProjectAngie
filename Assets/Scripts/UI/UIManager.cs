@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [Header("Screens")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject skillTreePanel;
 
     private void Awake()
     {
@@ -54,20 +55,10 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameStateChanged(GameManager.GameState state)
     {
-        bool isPlay = (state == GameManager.GameState.Play);
-        bool isSkillTreeOpen = SkillTreeManager.instance != null &&
-                               SkillTreeManager.instance.skillTreeWindow != null &&
-                               SkillTreeManager.instance.skillTreeWindow.activeSelf;
-
-        if (healthBarRoot) healthBarRoot.SetActive(isPlay);
-
-        if (scoreRoot) scoreRoot.SetActive(isPlay || isSkillTreeOpen);
-
-        if (pausePanel)
-            pausePanel.SetActive(state == GameManager.GameState.Pause && !isSkillTreeOpen);
-
-        if (gameOverPanel)
-            gameOverPanel.SetActive(state == GameManager.GameState.GameOver);
+        if (healthBarRoot) healthBarRoot.SetActive(state == GameManager.GameState.Play);
+        if (pausePanel) pausePanel.SetActive(state == GameManager.GameState.Pause);
+        if (skillTreePanel) skillTreePanel.SetActive(state == GameManager.GameState.SkillTree);
+        if (gameOverPanel) gameOverPanel.SetActive(state == GameManager.GameState.GameOver);
     }
 
     public void UpdateHealthUI(float currentHealth, float maxHealth)

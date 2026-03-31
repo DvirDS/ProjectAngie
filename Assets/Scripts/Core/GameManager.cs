@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager I { get; private set; }
 
-    public enum GameState { Play, Pause, GameOver }
+    public enum GameState { Play, Pause, SkillTree, GameOver }
 
     [SerializeField] private GameState state = GameState.Play;
     public GameState State => state;

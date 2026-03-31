@@ -2659,11 +2659,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   playerHealthSystem: {fileID: 3151644542123515065}
   inputReader: {fileID: 4840740199277927160}
-  healthBarRoot: {fileID: 0}
-  scoreRoot: {fileID: 0}
+  healthBarRoot: {fileID: 84472324}
+  scoreRoot: {fileID: 5816876495010797013}
   healthBar: {fileID: 2205497}
   pausePanel: {fileID: 2753566161430921809}
   gameOverPanel: {fileID: 0}
+  skillTreePanel: {fileID: 1010265767}
 --- !u!1 &1671242515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,7 +3506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2117609135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4436,7 +4437,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TileDigger
   grid: {fileID: 0}
   tilemaps: []
-  offsetMultiplier: 1.1
+  digDistance: 0.8
+  useWideDig: 0
 --- !u!1 &5977944840149022734
 GameObject:
   m_ObjectHideFlags: 0
