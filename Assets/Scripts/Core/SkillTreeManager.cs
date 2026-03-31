@@ -50,15 +50,11 @@ public class SkillTreeManager : MonoBehaviour
     private void ToggleWindow()
     {
         if (GameManager.I == null) return;
-        if (GameManager.I.State != GameManager.GameState.Play &&
-            GameManager.I.State != GameManager.GameState.Pause) return;
 
-        if (skillTreeWindow == null) return;
-
-        if (GameManager.I.State == GameManager.GameState.Pause)
-            GameManager.I.ResumeGame();
-        else
-            GameManager.I.PauseGame();
+        if (GameManager.I.State == GameManager.GameState.Play)
+            GameManager.I.OpenSkillTree();
+        else if (GameManager.I.State == GameManager.GameState.SkillTree)
+            GameManager.I.CloseSkillTree();
     }
 
     private void ResetSkills()
