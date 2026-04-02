@@ -16,13 +16,16 @@ public class TutorialTrigger : MonoBehaviour
         tutorialAction = tutorial.keyInput;
         if (tutorialAction != null)
         {
-            tutorialAction.action.performed += OnDismiss;
+            PlayerInputReader.Instance.DisableAllActions();
+            tutorialAction.action.Enable();
+            tutorialAction.action.performed += OnTutorialPerformed;
         }
     }
 
-    private void OnDismiss(InputAction.CallbackContext ctx)
+    private void OnTutorialPerformed(InputAction.CallbackContext ctx)
     {
-        tutorialAction.action.performed -= OnDismiss;
+        PlayerInputReader.Instance.EnableAllActions();
+        tutorialAction.action.performed -= OnTutorialPerformed;
         TutorialManager.instance.StopDisplay();
     }
 }
