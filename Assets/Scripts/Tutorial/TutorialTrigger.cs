@@ -21,6 +21,7 @@ public class TutorialTrigger : MonoBehaviour
 
     private void OnTutorialPerformed(InputAction.CallbackContext ctx)
     {
+        gameObject.SetActive(false);
         tutorialAction.action.performed -= OnTutorialPerformed;
         TutorialManager.instance.StopDisplay();
     }
