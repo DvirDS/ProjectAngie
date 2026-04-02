@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleStateChanged;
         if (input != null) input.OnJumpPressed += PerformJump;
+
     }
 
     private void OnDisable()

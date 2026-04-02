@@ -16,19 +16,8 @@ public class PlayerInputReader : MonoBehaviour
     public bool SprintHeld { get; private set; }
     public bool SniffHeld { get; private set; }
 
-    public static PlayerInputReader Instance { get; private set; }
-
     void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
         actions = new InputSystem();
     }
 
@@ -66,8 +55,6 @@ public class PlayerInputReader : MonoBehaviour
         actions.Disable();
     }
 
-    public void DisableAllActions() => actions.Player.Disable();
-    public void EnableAllActions() => actions.Player.Enable();
     private void OnMove(InputAction.CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
     private void OnJump(InputAction.CallbackContext ctx) => OnJumpPressed?.Invoke();
     private void OnDash(InputAction.CallbackContext ctx) => OnDashPressed?.Invoke();
