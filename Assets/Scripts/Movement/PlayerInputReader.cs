@@ -1,9 +1,13 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class PlayerInputReader : MonoBehaviour
 {
+    public static PlayerInputReader instance;
+
     private InputSystem actions;
 
     public event Action OnJumpPressed;
@@ -18,6 +22,13 @@ public class PlayerInputReader : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         actions = new InputSystem();
     }
 
@@ -55,6 +66,16 @@ public class PlayerInputReader : MonoBehaviour
         actions.Disable();
     }
 
+    public void EnableAction(InputActionReference actionRef)
+    {
+        var action = actions.asset.FindAction(actionRef.action.id);
+        action?.Enable();
+    }
+    public void DisableAction(InputActionReference actionRef)
+    {
+        var action = actions.asset.FindAction(actionRef.action.id);
+        action?.Disable();
+    }
     private void OnMove(InputAction.CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
     private void OnJump(InputAction.CallbackContext ctx) => OnJumpPressed?.Invoke();
     private void OnDash(InputAction.CallbackContext ctx) => OnDashPressed?.Invoke();

@@ -8,17 +8,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private HealthDrainSystem healthDrain;
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer sprite;
-
     [SerializeField] private PlayerStealth playerStealth;
 
     [Header("Skills")]
-    [SerializeField] private Skill _doubleJumpSkillData;
+    [SerializeField] private Skill doubleJumpSkillData;
 
     [Header("Speeds & Physics")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 8f;
-
     [SerializeField] private float doubleJumpMultiplier = 1f;
 
     [Header("Ground Check")]
@@ -28,15 +26,22 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool canDoubleJump; 
+    private bool canDoubleJump;
     private bool isFacingRight = false;
     private float horizontalInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (!animator) animator = GetComponent<Animator>();
-        if (!sprite) sprite = GetComponent<SpriteRenderer>();
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        if (sprite == null)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+        }
 
         rb.freezeRotation = true;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
@@ -57,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (IsGamePaused()) return;
+        if (!CanProcessMovement()) return;
 
         horizontalInput = input.Move.x;
         CheckGround();
@@ -67,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsGamePaused()) return;
+        if (!CanProcessMovement()) return;
         ApplyMovement();
     }
 
@@ -78,28 +83,36 @@ public class PlayerMovement : MonoBehaviour
     }
     private void PerformJump()
     {
-        if (IsGamePaused()) return;
+        if (!CanProcessMovement()) return;
 
         if (isGrounded)
         {
             ExecuteJump(1f);
-
             canDoubleJump = true;
         }
-        else if (canDoubleJump && _doubleJumpSkillData != null && _doubleJumpSkillData.isPurchased)
+        else if (CanDoubleJump())
         {
             ExecuteJump(doubleJumpMultiplier);
-
             canDoubleJump = false;
         }
     }
 
+    private bool CanDoubleJump()
+    {
+        return canDoubleJump
+               && doubleJumpSkillData != null
+               && doubleJumpSkillData.isPurchased;
+    }
+
     private void ExecuteJump(float forceMultiplier)
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        StopVerticalMovement();
         rb.AddForce(Vector2.up * (jumpForce * forceMultiplier), ForceMode2D.Impulse);
 
-        if (animator != null) animator.SetTrigger("isJumping");
+        if (animator != null)
+        {
+            animator.SetTrigger("isJumping");
+        }
     }
 
     private void HandleFlip()
@@ -118,6 +131,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGround()
     {
+        if (groundCheck == null)
+        {
+            isGrounded = false;
+            return;
+        }
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundMask);
     }
 
@@ -132,8 +150,40 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleStateChanged(GameManager.GameState newState)
     {
-        if (newState != GameManager.GameState.Play) rb.linearVelocity = Vector2.zero;
+        if (newState != GameManager.GameState.Play)
+        {
+            StopMovement();
+        }
     }
 
-    private bool IsGamePaused() => GameManager.I != null && GameManager.I.State != GameManager.GameState.Play;
+    private void StopMovement()
+    {
+        horizontalInput = 0f;
+        rb.linearVelocity = Vector2.zero;
+        UpdateIdleState();
+    }
+
+    private void StopVerticalMovement()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+    }
+
+    private void UpdateIdleState()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+        }
+
+        if (healthDrain != null)
+        {
+            bool isStealthing = playerStealth != null && playerStealth.IsStealthing;
+            healthDrain.SetMovementState(false, false, isStealthing);
+        }
+    }
+
+    private bool CanProcessMovement()
+    {
+        return GameManager.I == null || GameManager.I.State == GameManager.GameState.Play;
+    }
 }

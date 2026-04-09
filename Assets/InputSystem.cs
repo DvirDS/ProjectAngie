@@ -1553,6 +1553,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Implicitly converts an <see ref="PlayerActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
         public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+
+        public static implicit operator PlayerActions(InputActionReference v)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Adds <see cref="InputAction.performed"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>

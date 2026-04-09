@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 443b8a4914b9bcc448979f3da09f171f, type: 3}
-  m_Name: SprintTutorial
+  m_Name: SkillTreeTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
-  tutorialTitle: Sprint
-  tutorialDescription: 'To sprint
+  tutorialTitle: 
+  tutorialDescription: 'To open skill tree menu
 
-    Press shift while walking'
-  keyInput: {fileID: -7471211009204490832, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    press k on keyboard, and click
+    on Double Jump'
+  keyInput: {fileID: 69922620823505426, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

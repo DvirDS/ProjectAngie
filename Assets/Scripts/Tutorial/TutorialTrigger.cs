@@ -9,19 +9,16 @@ public class TutorialTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
-
-        TutorialManager.instance.Show(tutorial.tutorialDescription);
-
+        
         tutorialAction = tutorial.keyInput;
-        if (tutorialAction != null)
-        {
-            tutorialAction.action.performed += OnTutorialPerformed;
-        }
+        if (tutorialAction == null) return;
+        
+        TutorialManager.instance.Show(tutorial.tutorialDescription, tutorialAction);
+        tutorialAction.action.performed += OnTutorialPerformed;
     }
 
     private void OnTutorialPerformed(InputAction.CallbackContext ctx)
     {
-        gameObject.SetActive(false);
         tutorialAction.action.performed -= OnTutorialPerformed;
         TutorialManager.instance.StopDisplay();
     }

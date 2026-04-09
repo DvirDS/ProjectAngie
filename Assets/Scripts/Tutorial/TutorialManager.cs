@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -9,17 +10,31 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private float displayDuration = 3f;
+    [SerializeField] private InputActionReference[] allTutorialActions;
 
     private Coroutine showRoutine;
 
     private void Awake()
     {
-        if (instance == null) 
-            instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
     }
 
-    public void Show(string message)
+    private void OnEnable()
     {
+        foreach (InputActionReference action in allTutorialActions)
+        {
+            PlayerInputReader.instance.DisableAction(action);
+        }
+    }
+
+    public void Show(string message, InputActionReference actRef)
+    {
+        PlayerInputReader.instance.EnableAction(actRef);
         tutorialText.text = message;
         tutorialPanel.SetActive(true);
     }
