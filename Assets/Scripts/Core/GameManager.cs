@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame() => SetState(GameState.Play);
     public void PauseGame() => SetState(GameState.Pause);
-    public void ResumeGame() => SetState(GameState.Play);    
+    public void ResumeGame() => SetState(GameState.Play);
     public void OpenSkillTree() => SetState(GameState.SkillTree);
     public void CloseSkillTree() => SetState(GameState.Play);
     public void GameOver() => SetState(GameState.GameOver);
