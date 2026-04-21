@@ -1,47 +1,66 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoadTrigger : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad;
-    [SerializeField] private string sceneToUnload;
+    [SerializeField] private SceneField[] sceneToLoad;
+    [SerializeField] private SceneField[] sceneToUnload;
+
     private const string playerTag = "Player";
-    private string sceneName;
+    private bool triggered = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(playerTag))
-        {
-            sceneName = gameObject.scene.name;
-            Events.onUnloadCreateBounds?.Invoke(sceneName);
-            Collider2D collider = GetComponent<Collider2D>();
-            collider.gameObject.SetActive(false);
+        if (triggered) return;
+        if (!collision.CompareTag(playerTag)) return;
 
-            LoadScene();
-            UnloadScene();
-        } 
+        triggered = true;
+
+        string sceneName = gameObject.scene.name;
+        Events.onUnloadCreateBounds?.Invoke(sceneName);
+
+        gameObject.SetActive(false);
+
+        LoadScenes();
+        UnloadScenes();
     }
 
-    private void LoadScene()
+    private void LoadScenes()
     {
-        if (!string.IsNullOrWhiteSpace(sceneToLoad) && !IsSceneLoaded(sceneToLoad))
+        for (int i = 0; i < sceneToLoad.Length; i++)
         {
-            SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+            bool isSceneLoaded = false;
+
+            for (int j = 0; j < SceneManager.sceneCount; j++)
+            {
+                Scene loadedScene = SceneManager.GetSceneAt(j);
+                if (loadedScene.name == sceneToLoad[i].SceneName)
+                {
+                    isSceneLoaded = true;
+                    break;
+                }
+            }
+
+            if (!isSceneLoaded)
+            {
+                SceneManager.LoadSceneAsync(sceneToLoad[i], LoadSceneMode.Additive);
+            }
         }
     }
 
-    private void UnloadScene()
+    private void UnloadScenes()
     {
-        if (!string.IsNullOrWhiteSpace(sceneToUnload) && IsSceneLoaded(sceneToUnload))
+        for (int i = 0; i < sceneToUnload.Length; i++)
         {
-            SceneManager.UnloadSceneAsync(sceneToUnload);
+            for (int j = 0; j < SceneManager.sceneCount; j++)
+            {
+                Scene loadedScene = SceneManager.GetSceneAt(j);
+                if (loadedScene.name == sceneToUnload[i].SceneName)
+                {
+                    SceneManager.UnloadSceneAsync(sceneToUnload[i]);
+                    break;
+                }
+            }
         }
-    }
-
-    private static bool IsSceneLoaded(string sceneName)
-    {
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-        return scene.IsValid() && scene.isLoaded;
     }
 }

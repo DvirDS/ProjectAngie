@@ -6,7 +6,7 @@ public class CreateRoomBounds : MonoBehaviour
 
     private Collider2D roomBoundCollider;
     private CinemachineConfiner2D confiner;
-    [SerializeField] private BoxCollider2D wall;
+    [SerializeField] private BoxCollider2D[] wall;
 
     void Awake()
     {
@@ -14,7 +14,10 @@ public class CreateRoomBounds : MonoBehaviour
         roomBoundCollider.enabled = false;
         if (wall != null)
         {
-            wall.enabled = false;
+            for (int i = 0; i < wall.Length; i++)
+            {
+                wall[i].isTrigger = true;
+            }
         }
     }
 
@@ -37,12 +40,17 @@ public class CreateRoomBounds : MonoBehaviour
 
     private void turnRoomColliderOn(string sceneName)
     {
+        Debug.Log($"Received event to turn on room bounds for scene {sceneName}");
         if (sceneName != gameObject.scene.name) return;
         confiner.BoundingShape2D = roomBoundCollider;
         confiner.InvalidateBoundingShapeCache();
         if (wall != null)
         {
-            wall.enabled = true;
+            for (int i = 0; i < wall.Length; i++)
+            {
+                wall[i].enabled = true;
+                wall[i].isTrigger = false;
+            }
         }
     }
 }

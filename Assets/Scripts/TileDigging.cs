@@ -5,9 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class TileDigging : MonoBehaviour
 {
-    [Header("Setup")]
-    [SerializeField] public Grid grid;
-    [SerializeField] public List<Tilemap> tilemaps;
+    private Grid grid;
+    private List<Tilemap> tilemaps;
 
     [Header("Dig Settings")]
     [SerializeField] private float digDistance = 0.8f;
@@ -21,9 +20,15 @@ public class TileDigging : MonoBehaviour
         inputActions = new InputSystem();
     }
 
+    public void AssignTiles(Grid newGrid, List<Tilemap> newTilemaps)
+    {
+        grid = newGrid;
+        tilemaps = newTilemaps;
+        Debug.Log($"TileDigger switched to grid {grid.name}, tilemaps count: {tilemaps.Count}");
+    }
+
     private void OnEnable()
     {
-        Events.onUnloadAssignTiles += AssignTiles;
         inputActions.Player.Dig.performed += OnDig;
         inputActions.Player.Enable();
     }
@@ -31,7 +36,6 @@ public class TileDigging : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Player.Dig.performed -= OnDig;
-        Events.onUnloadAssignTiles -= AssignTiles;
         inputActions.Player.Disable();
     }
 
@@ -54,19 +58,6 @@ public class TileDigging : MonoBehaviour
 
         DeleteAtCell(centerCell);
 
-        if (useWideDig)
-        {
-            if (direction == Vector2.left || direction == Vector2.right)
-            {
-                DeleteAtCell(centerCell + Vector3Int.up);
-                DeleteAtCell(centerCell + Vector3Int.down);
-            }
-            else
-            {
-                DeleteAtCell(centerCell + Vector3Int.left);
-                DeleteAtCell(centerCell + Vector3Int.right);
-            }
-        }
         Physics2D.SyncTransforms();
     }
 
@@ -79,12 +70,6 @@ public class TileDigging : MonoBehaviour
                 tilemap.SetTile(cell, null);
             }
         }
-    }
-
-    private void AssignTiles(Grid newGrid, List<Tilemap> newTilemaps)
-    {
-        grid = newGrid;
-        tilemaps = newTilemaps;
     }
 
     private Vector2 SnapToCardinal(Vector2 raw)
