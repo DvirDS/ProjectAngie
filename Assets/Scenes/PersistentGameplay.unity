@@ -3122,8 +3122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineConfiner2D
   BoundingShape2D: {fileID: 0}
-  Damping: 2.5
-  SlowingDistance: 5
+  Damping: 5
+  SlowingDistance: 10
   OversizeWindow:
     Enabled: 0
     MaxWindowSize: 0
@@ -4435,8 +4435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468686e8829f1a543b85830ca5a55d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileDigger
-  grid: {fileID: 0}
-  tilemaps: []
   digDistance: 0.8
   useWideDig: 0
 --- !u!1 &5977944840149022734
