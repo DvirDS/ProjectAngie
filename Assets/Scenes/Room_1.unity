@@ -833,7 +833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaad1c2af0f36fe47ac7b8c7640f57d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateLeftWall
-  wall: {fileID: 952413812906043499}
+  wall:
+  - {fileID: 952413812906043499}
 --- !u!1 &1023687501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,6 +1594,22 @@ PrefabInstance:
       propertyPath: sceneToUnload
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToUnload.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[0].m_SceneName
+      value: Room_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[0].m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 271e4c85f86a6454b8348b98dafb66fb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

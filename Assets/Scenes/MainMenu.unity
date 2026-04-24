@@ -390,8 +390,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888be1e43110f7041a9512fdc803cb74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuUI
-  persistentSceneName: PersistentGameplay
-  firstRoomSceneName: Room_1
+  persistentSceneName:
+    m_SceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+    m_SceneName: PersistentGameplay
+  firstRoomSceneName:
+    m_SceneAsset: {fileID: 102900000, guid: 6439756f0f27f254fb35e14a9c08eb30, type: 3}
+    m_SceneName: Room_1
 --- !u!114 &789917418
 MonoBehaviour:
   m_ObjectHideFlags: 0

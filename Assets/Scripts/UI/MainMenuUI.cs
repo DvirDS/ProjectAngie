@@ -4,8 +4,8 @@ using System.Collections;
 
 public class MainMenuUI : MonoBehaviour
 {
-    [SerializeField] private string persistentSceneName = "PersistentGameplay";
-    [SerializeField] private string firstRoomSceneName = "Room_1";
+    [SerializeField] private SceneField persistentSceneName;
+    [SerializeField] private SceneField firstRoomSceneName;
 
     public void OnPlayPressed()
     {

@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6961890903926811436, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 101.775
+      value: 146.9051
       objectReference: {fileID: 0}
     - target: {fileID: 6961890903926811436, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -422,7 +422,7 @@ Transform:
   m_GameObject: {fileID: 1407210615}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 102.73, y: 9.61, z: 0}
+  m_LocalPosition: {x: 147.86012, y: 9.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -440,7 +440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaad1c2af0f36fe47ac7b8c7640f57d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateLeftWall
-  wall: {fileID: 33169157}
+  wall:
+  - {fileID: 33169157}
 --- !u!1 &1495589305
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +467,7 @@ Transform:
   m_GameObject: {fileID: 1495589305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.53328, y: -1.74276, z: 0}
+  m_LocalPosition: {x: 80.66339, y: -1.74276, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -509,6 +510,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1538705344
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -554,6 +556,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 6597146003361089962, guid: c54a01291b8eb114bbc20ed7dc4a8fd8, type: 3}
   m_Color: {r: 0.49685538, g: 0.44008678, b: 0.44008678, a: 0.5882353}
   m_FlipX: 0
@@ -563,7 +566,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &1554980398
 PrefabInstance:
@@ -575,7 +577,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 102.72
+      value: 147.85011
       objectReference: {fileID: 0}
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -645,6 +647,38 @@ PrefabInstance:
       propertyPath: sceneToUnload
       value: Room_3
       objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToUnload.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[0].m_SceneName
+      value: Room_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[1].m_SceneName
+      value: Room_3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[0].m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 73459c383e9e2034693ba31dbd2ee524, type: 3}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[1].m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 8662a3c03290e244494bd2bb7c389b12, type: 3}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToUnload.Array.data[0].m_SceneName
+      value: Room_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToUnload.Array.data[0].m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 46a0bb83bf77e584cae238cff5e54292, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
