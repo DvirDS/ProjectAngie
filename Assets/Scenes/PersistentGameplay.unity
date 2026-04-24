@@ -4436,7 +4436,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileDigger
   digDistance: 0.8
-  useWideDig: 0
 --- !u!1 &5977944840149022734
 GameObject:
   m_ObjectHideFlags: 0
