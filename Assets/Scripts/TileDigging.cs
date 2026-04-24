@@ -11,8 +11,6 @@ public class TileDigging : MonoBehaviour
     [Header("Dig Settings")]
     [SerializeField] private float digDistance = 0.8f;
 
-    [SerializeField] private bool useWideDig = false;
-
     private InputSystem inputActions;
 
     private void Awake()

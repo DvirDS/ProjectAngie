@@ -2,29 +2,26 @@ using UnityEngine;
 
 public class LightBeamDetector : MonoBehaviour
 {
+    [SerializeField] private EnemyAI[] allSoldiers;
 
-    [SerializeField] private SoldierEnemy[] allSoldiers;
-    private string unlitLayer = "Unlit";
+    private const string UnlitLayer = "Unlit";
     private bool alerted;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        alerted = false; 
+        alerted = false;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.CompareTag("Player") || alerted) 
-            return;
+        if (!other.CompareTag("Player") || alerted) return;
 
         SpriteRenderer playerSprite = other.GetComponent<SpriteRenderer>();
-        if (playerSprite.sortingLayerName == unlitLayer) 
-            return;
+        if (playerSprite != null && playerSprite.sortingLayerName == UnlitLayer) return;
 
         alerted = true;
-        SoldierEnemy closest = FindClosestEnemyToLeft(other.transform);
-        if (closest != null)
-            closest.Alert();
+        EnemyAI closest = FindClosestEnemyToLeft(other.transform);
+        closest?.Alert();
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -33,19 +30,19 @@ public class LightBeamDetector : MonoBehaviour
             alerted = false;
     }
 
-    private SoldierEnemy FindClosestEnemyToLeft(Transform playerTransform)
+    private EnemyAI FindClosestEnemyToLeft(Transform playerTransform)
     {
-
-        SoldierEnemy closest = null;
+        EnemyAI closest = null;
         float closestDist = Mathf.Infinity;
 
-        foreach (SoldierEnemy soldier in allSoldiers)
+        foreach (EnemyAI soldier in allSoldiers)
         {
+            if (soldier == null) continue;
+
             float soldierX = soldier.transform.position.x;
             float playerX = playerTransform.position.x;
 
-            if (soldierX >= playerX) 
-                continue;
+            if (soldierX >= playerX) continue;
 
             float dist = playerX - soldierX;
             if (dist < closestDist)
@@ -54,7 +51,7 @@ public class LightBeamDetector : MonoBehaviour
                 closest = soldier;
             }
         }
+
         return closest;
     }
 }
-
