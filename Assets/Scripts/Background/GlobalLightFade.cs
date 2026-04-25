@@ -35,7 +35,7 @@ public class GlobalLightFade : MonoBehaviour
 
     IEnumerator FadeToDark()
     {
-        float startIntesity = 1f;
+        float startIntesity = globalLight.intensity;
         Color startColor = background.color;
         Color endColor = Color.darkBlue;
         
