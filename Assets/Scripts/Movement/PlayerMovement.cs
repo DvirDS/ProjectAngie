@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetTrigger("isJumping");
+            animator.SetTrigger("IsJumping");
         }
     }
 
@@ -144,7 +144,12 @@ public class PlayerMovement : MonoBehaviour
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
 
-        if (animator != null) animator.SetBool("IsMoving", isMoving);
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", isMoving);
+            animator.SetBool("IsGrounded", isGrounded);
+        }
+
         if (healthDrain != null) healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing);
     }
 
