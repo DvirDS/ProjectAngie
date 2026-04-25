@@ -9,6 +9,7 @@ public class PlayerStealth : MonoBehaviour
     [SerializeField] private PlayerInputReader input;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
+    public bool IsInDarkZone = false;
     public bool IsStealthing { get; private set; } = false;
 
     private void Awake()

@@ -575,7 +575,7 @@ Transform:
   m_GameObject: {fileID: 139103172}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.32999992, y: 0, z: -5}
+  m_LocalPosition: {x: 177.05, y: -3.28, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1428,7 +1428,7 @@ Transform:
   m_GameObject: {fileID: 882916365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.38, y: 2.57, z: 0}
+  m_LocalPosition: {x: -19.89, y: 4.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3103,7 +3103,7 @@ Transform:
   m_GameObject: {fileID: 1857625863}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.32999992, y: 0, z: -5}
+  m_LocalPosition: {x: 177.05, y: -3.28, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3621,7 +3621,7 @@ Transform:
   m_GameObject: {fileID: 6906423540117405424}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.71, y: 2.57, z: 0}
+  m_LocalPosition: {x: 157.16, y: 0.8, z: 0}
   m_LocalScale: {x: 0.166497, y: 0.17301601, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4282,7 +4282,7 @@ MonoBehaviour:
   groundRadius: 0.2
   groundMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
 --- !u!114 &5630087123642129056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4564,6 +4564,7 @@ MonoBehaviour:
   _stealthSkillData: {fileID: 11400000, guid: 6d1da6392b68519428f53d4ff5403b23, type: 2}
   input: {fileID: 4840740199277927160}
   spriteRenderer: {fileID: 4177470245661215992}
+  IsInDarkZone: 0
 --- !u!114 &6906423540117405427
 MonoBehaviour:
   m_ObjectHideFlags: 0
