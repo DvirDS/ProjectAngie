@@ -16,6 +16,12 @@ public class Elevator : MonoBehaviour
 
     private float callY;
     private const string PlayerTag = "Player";
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void OnEnable()
     {
@@ -60,18 +66,18 @@ public class Elevator : MonoBehaviour
     private void MoveTo(float floor, ElevatorState nextState)
     {
         float newY = Mathf.MoveTowards(
-            transform.position.y,
-            floor,
-            speed * Time.deltaTime
-        );
+                transform.position.y,
+                floor,
+                speed * Time.deltaTime
+            );
 
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        rb.MovePosition(new Vector2(transform.position.x, newY));
 
-        if (Mathf.Abs(transform.position.y - floor) < 0.01f)
+        if (Mathf.Abs(transform.position.y - floor) < 0.05f)
         {
-            transform.position = new Vector3(transform.position.x, floor, transform.position.z);
+            rb.MovePosition(new Vector2(transform.position.x, floor));
+            rb.linearVelocity = Vector2.zero;
             state = nextState;
         }
-            
     }
 }
