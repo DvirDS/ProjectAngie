@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1039704944748258769}
   - component: {fileID: 1593937442038382428}
   - component: {fileID: 8239599390119447818}
-  - component: {fileID: 1372398714880274174}
   - component: {fileID: 1672535650973775265}
+  - component: {fileID: 7095681138537701443}
   m_Layer: 0
   m_Name: Soldier
   m_TagString: Untagged
@@ -121,20 +121,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1372398714880274174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2587720522276603641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d05c2a8472d4e45864d01f5e73f74b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  chaseSpeed: 8
-  endX: 200
 --- !u!70 &1672535650973775265
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -172,3 +158,23 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &7095681138537701443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587720522276603641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e32f2a19e68a44d9f26ba5a2b6d7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  data: {fileID: 11400000, guid: c7b781730f950e04e91532b0800dcd73, type: 2}
+  currentState: 1
+  canFly: 0
+  waypoints: []
+  alertBubble: {fileID: 0}
+  detectionLayers:
+    serializedVersion: 2
+    m_Bits: 0

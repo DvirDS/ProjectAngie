@@ -221,21 +221,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 714532176372734142, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
-      propertyPath: m_LayerOverridePriority
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4465320085766411397, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
       propertyPath: m_Name
       value: Mine
-      objectReference: {fileID: 0}
-    - target: {fileID: 4465320085766411397, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4465320085766411397, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5884061594965040874, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -276,14 +264,6 @@ PrefabInstance:
     - target: {fileID: 5884061594965040874, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414701787009252863, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8414701787009252863, guid: d791af356e53cb94e9f8420bc026907f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4880,12 +4860,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 35.293407, y: -7.964939}
-      - {x: 35.24975, y: 10.80554}
+    - - {x: 37.225437, y: -8.968252}
+      - {x: 37.273586, y: 10.858589}
       - {x: 18.33316, y: 10.815937}
-      - {x: 18.378689, y: -1.0252309}
-      - {x: 18.346432, y: -1.0252776}
-      - {x: -18.69277, y: -0.9971688}
+      - {x: 18.33649, y: 2.970758}
+      - {x: -18.764456, y: 2.9693787}
       - {x: -18.689184, y: -8.016851}
       - {x: -8.083727, y: -8.18208}
       - {x: -7.454832, y: -8.199403}
