@@ -30742,6 +30742,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7095681138537701443, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
+      propertyPath: detectionLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7095681138537701443, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
       objectReference: {fileID: 717622487}
@@ -64159,10 +64163,6 @@ PrefabInstance:
     - target: {fileID: 8266300920202369382, guid: 5f02ff1398498c04d9167959ca41cc6a, type: 3}
       propertyPath: m_Name
       value: Rat_1.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266300920202369382, guid: 5f02ff1398498c04d9167959ca41cc6a, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
