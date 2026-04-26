@@ -8,6 +8,7 @@ TagManager:
   - CameraBounds
   - Background
   - Enemy
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -16,11 +17,11 @@ TagManager:
   - Water
   - UI
   - Player
-  - Enemy
+  - FlyEnemy
   - Ground
-  - 
-  - 
-  - 
+  - Platform
+  - Projectile
+  - GroundEnemy
   - 
   - 
   - 

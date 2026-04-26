@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 478694048309923072}
   - component: {fileID: 7947562892293853696}
   - component: {fileID: 1300023699247866022}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: wall platform
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ SpriteRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
