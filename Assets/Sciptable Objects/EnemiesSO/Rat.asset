@@ -17,5 +17,16 @@ MonoBehaviour:
   sightRange: 0
   stopChaseRange: 0
   stealthDetectionMultiplier: 0.3
+  sightBoxSize: {x: 10, y: 4}
+  stopChaseBoxSize: {x: 14, y: 6}
+  maxChaseDistance: 15
+  maxChaseBoxSize: {x: 20, y: 5}
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 15
+  shootingRange: 6
+  fireRate: 1.5
+  contactDamage: 10
+  damageInterval: 1
+  darkZoneDetectionMultiplier: 0.5
   alertDuration: 0.8
   waypointPauseTime: 0.5
