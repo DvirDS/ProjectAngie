@@ -142,12 +142,14 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateVisualsAndHealth()
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+        bool isRunning = isMoving && input.SprintHeld;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
 
         if (animator != null)
         {
             animator.SetBool("IsMoving", isMoving);
             animator.SetBool("IsGrounded", isGrounded);
+            animator.SetBool("IsRunning", isRunning);
         }
 
         if (healthDrain != null) healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing);
