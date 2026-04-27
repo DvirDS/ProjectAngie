@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144f7a44bbf49f24aa9df1a61c06a1f2, type: 3}
   m_Name: Rat
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
-  patrolSpeed: 2
-  chaseSpeed: 0
+  patrolSpeed: 1
+  chaseSpeed: 3
+  patrolOnly: 1
   sightRange: 0
-  stopChaseRange: 0
+  stopChaseRange: 5
   stealthDetectionMultiplier: 0.3
   sightBoxSize: {x: 10, y: 4}
   stopChaseBoxSize: {x: 14, y: 6}
-  maxChaseDistance: 15
+  maxChaseDistance: 7
   maxChaseBoxSize: {x: 20, y: 5}
-  projectilePrefab: {fileID: 0}
-  projectileSpeed: 15
+  projectilePrefab: {fileID: 4219890945228866071, guid: 8331dd9c87eeb9a4c8eee5429624c27f, type: 3}
+  projectileSpeed: 4
   shootingRange: 6
-  fireRate: 1.5
+  fireRate: 1
   contactDamage: 10
   damageInterval: 1
   darkZoneDetectionMultiplier: 0.5

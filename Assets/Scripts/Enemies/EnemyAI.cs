@@ -10,10 +10,6 @@ public class EnemyAI : MonoBehaviour
     [Header("State Settings")]
     public EnemyState currentState = EnemyState.Patrol;
 
-    [Header("Movement Type")]
-    [Tooltip("Disables gravity — enemy floats at its starting height.")]
-    [SerializeField] private bool canFly = false;
-
     [Header("Patrol Points")]
     public Transform[] waypoints;
 
@@ -52,7 +48,7 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogError($"EnemyAI on {gameObject.name} requires a Rigidbody2D component.");
         }
-        else if (canFly)
+        else if (data.canFly)
         {
             rb.gravityScale = 0f;
         }
@@ -140,7 +136,7 @@ private void UpdateChase()
     bool lostPlayer = false;
 
     // 1. Did the player escape the stop chase boundary?
-    if (canFly)
+    if (data.canFly)
     {
         // עכשיו אפשר להשתמש במשתנה שחישבנו
         lostPlayer = distanceToPlayer > data.stopChaseRange;
@@ -162,7 +158,7 @@ private void UpdateChase()
     // --- 2. The Smart Leash Mechanism! ---
     bool isOutsideBoundary = false;
 
-    if (canFly)
+    if (data.canFly)
     {
         // Circle logic for flying enemies
         float distanceFromStart = Vector2.Distance(startPosition, transform.position);
@@ -190,14 +186,14 @@ private void UpdateChase()
     if (isOutsideBoundary)
     {
         // Full stop! This prevents the jittering
-        rb.linearVelocity = canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+        rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
 
         // Ensure the enemy still faces the player instead of freezing
         float directionX = player.position.x - transform.position.x;
         FlipSprite(directionX);
 
         // Bonus: If it's a shooting enemy, it stays at the boundary and shoots if in range!
-        if (canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
+        if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
         {
             fireTimer -= Time.deltaTime;
             if (fireTimer <= 0f)
@@ -211,7 +207,7 @@ private void UpdateChase()
     }
 
     // --- 3. Normal chase logic (if we are within the boundary) ---
-    if (canFly && data.projectilePrefab != null)
+    if (data.canFly && data.projectilePrefab != null)
     {
         if (distanceToPlayer <= data.shootingRange)
         {
@@ -312,11 +308,12 @@ private void UpdateChase()
 
     private bool CanSeePlayer()
     {
+        if (data.patrolOnly) return false;
         if (player == null) return false;
 
         bool isInsideZone = false;
 
-        if (canFly)
+        if (data.canFly)
         {
             // --- Circle Logic (Flying) ---
             float currentRange = data.sightRange;
@@ -398,15 +395,15 @@ private void UpdateChase()
         if (distance < threshold)
         {
             // Stop moving: Flying enemies stop completely, ground enemies stop X movement but keep Y (gravity)
-            rb.linearVelocity = canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
-            onArrived?.Invoke();
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+            onArrived?.Invoke();    
         }
         else
         {
             // Calculate the direction towards the target
             Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
 
-            if (canFly)
+            if (data.canFly)
             {
                 // Free movement towards the target (Air)
                 rb.linearVelocity = direction * speed;
@@ -453,7 +450,7 @@ private void UpdateChase()
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (canFly) return;
+        if (data.canFly) return;
 
         if (other.CompareTag("Player"))
         {
@@ -473,7 +470,7 @@ private void UpdateChase()
     {
         if (data == null) return;
 
-        if (canFly)
+        if (data.canFly)
         {
             // --- Flying Enemies (Circles) ---
             Gizmos.color = Color.yellow;
@@ -496,7 +493,7 @@ private void UpdateChase()
         Gizmos.color = Color.cyan;
         Vector2 centerPoint = Application.isPlaying ? startPosition : (Vector2)transform.position;
 
-        if (canFly)
+        if (data.canFly)
             Gizmos.DrawWireSphere(centerPoint, data.maxChaseDistance);
         else
             Gizmos.DrawWireCube(centerPoint, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, 0f));

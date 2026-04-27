@@ -8,6 +8,10 @@ public class EnemySO : ScriptableObject
     public float patrolSpeed = 2f;
     public float chaseSpeed = 5f;
 
+    [Header("Behaviour")]
+    public bool patrolOnly = false;
+    public bool canFly = false;
+
     [Header("Detection")]
     public float sightRange = 8f;
     public float stopChaseRange = 12f;

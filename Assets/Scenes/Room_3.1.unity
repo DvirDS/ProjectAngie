@@ -753,7 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   lastFloorTransform: {fileID: 638822154}
-  speed: 4
+  speed: 6
   callZone: {fileID: 704417635}
 --- !u!50 &376338560
 Rigidbody2D:
