@@ -14,17 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   patrolSpeed: 1
   chaseSpeed: 3
+  patrolOnly: 0
+  canFly: 1
   sightRange: 4
   stopChaseRange: 5
   stealthDetectionMultiplier: 0.3
-  maxChaseDistance: 7
-  maxChaseBoxSize: {x: 20, y: 5}
   sightBoxSize: {x: 10, y: 4}
   stopChaseBoxSize: {x: 14, y: 6}
+  maxChaseDistance: 7
+  maxChaseBoxSize: {x: 20, y: 5}
   projectilePrefab: {fileID: 4219890945228866071, guid: 8331dd9c87eeb9a4c8eee5429624c27f, type: 3}
   projectileSpeed: 4
   shootingRange: 6
   fireRate: 1
+  contactDamage: 10
+  damageInterval: 1
   darkZoneDetectionMultiplier: 0.5
   alertDuration: 0.8
   waypointPauseTime: 0.5
