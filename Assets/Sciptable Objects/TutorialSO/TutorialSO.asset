@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 443b8a4914b9bcc448979f3da09f171f, type: 3}
-  m_Name: SkillTreeTutorial
+  m_Name: TutorialSO
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
-  tutorialTitle: 
-  tutorialDescription: "To open and close skill tree menu\npress k on keyboard, \nclick
-    on Double Jump"
-  keyInput: {fileID: 69922620823505426, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  tutorialTitle: Sniff
+  tutorialDescription: Press Q to sniff bomb
+  keyInput: {fileID: 2008228370708045729, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

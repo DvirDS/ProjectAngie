@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a8baa3d7a8549e344ac03b386408c4cc
+guid: 79d4efa0d48d3724d92727fe90f7b5f1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5170452775693544624
-    second: BlackTile_0
+      213: 5831496997145808332
+    second: Life bar transpar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
-  spriteExtrude: 0
-  spriteMeshType: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 15
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlackTile_0
+      name: Life bar transpar_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 40
+        y: 990
+        width: 218
+        height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 679b37491feb9e744b45dcde98f1a75c
-      internalID: -5170452775693544624
+      spriteID: ccd02af4f93ade050800000000000000
+      internalID: 5831496997145808332
       vertices: []
       indices: 
       edges: []
@@ -125,21 +125,17 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d4d218301d7595746aaa2ffbffbbc12e
-    internalID: 1854076910
+    spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceOnImport
-        value: True
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      BlackTile_0: -389990375
+      Life bar transpar_0: 5831496997145808332
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
