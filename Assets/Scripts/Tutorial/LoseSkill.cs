@@ -18,5 +18,6 @@ public class LoseSkill : MonoBehaviour
             skill.isUnlocked = false;
         }
         SkillTreeManager.instance.UpdateUI();
+        TutorialManager.instance.StopDisplay();
     }
 }
