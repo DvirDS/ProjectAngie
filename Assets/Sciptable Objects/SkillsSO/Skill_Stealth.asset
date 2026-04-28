@@ -15,8 +15,11 @@ MonoBehaviour:
   skillName: Stealth
   cost: 50
   icon: {fileID: 0}
+  skillDescription: Temporarily blend into the shadows to avoid enemy detection
+  activationKey: C
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
   - {fileID: 11400000, guid: a21ea3f6aa8840c4e88364635282289a, type: 2}
-  isUnlocked: 1
-  isPurchased: 1
+  nextSkills: []
+  isUnlocked: 0
+  isPurchased: 0

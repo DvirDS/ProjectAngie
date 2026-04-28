@@ -15,6 +15,8 @@ MonoBehaviour:
   skillName: Double Jump
   cost: 10
   icon: {fileID: 0}
+  skillDescription: Improves your ability to reach high places
+  activationKey: Space
   previousSkills: []
   nextSkills:
   - {fileID: 11400000, guid: a21ea3f6aa8840c4e88364635282289a, type: 2}

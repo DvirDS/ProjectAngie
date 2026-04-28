@@ -15,7 +15,10 @@ MonoBehaviour:
   skillName: Super Sniff
   cost: 10
   icon: {fileID: 0}
+  skillDescription: Heightens your senses to reveal hidden objects and enemy tracks
+  activationKey: Q
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
+  nextSkills: []
   isUnlocked: 0
   isPurchased: 0

@@ -197,18 +197,10 @@ PrefabInstance:
     - target: {fileID: 286290489198924852, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+      objectReference: {fileID: -4580670938525849379, guid: 03970032c166f374693c0061bc637ade, type: 3}
     - target: {fileID: 2194666844307416265, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
       propertyPath: m_Name
       value: Food
-      objectReference: {fileID: 0}
-    - target: {fileID: 6961890903926811436, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.50988704
-      objectReference: {fileID: 0}
-    - target: {fileID: 6961890903926811436, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5433545
       objectReference: {fileID: 0}
     - target: {fileID: 6961890903926811436, guid: 16d3db0244ec0a74598bc238503d7fee, type: 3}
       propertyPath: m_LocalPosition.x

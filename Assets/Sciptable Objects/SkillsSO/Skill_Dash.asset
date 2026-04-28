@@ -15,6 +15,9 @@ MonoBehaviour:
   skillName: Dash
   cost: 20
   icon: {fileID: 0}
+  skillDescription: Perform a quick dash forward to push heavy objects out of your
+    way
+  activationKey: E
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
   nextSkills:

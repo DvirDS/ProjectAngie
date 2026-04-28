@@ -57,6 +57,14 @@ public class SkillTreeManager : MonoBehaviour
             GameManager.I.CloseSkillTree();
     }
 
+    public void CloseWindow()
+    {
+        if (GameManager.I != null && GameManager.I.State == GameManager.GameState.SkillTree)
+        {
+            GameManager.I.CloseSkillTree();
+        }
+    }
+
     private void ResetSkills()
     {
         if (allSkillButtons == null) return;
@@ -114,4 +122,6 @@ public class SkillTreeManager : MonoBehaviour
         playerSkillPoints += amount;
         UpdateUI();
     }
+
+
 }

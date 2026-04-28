@@ -15,8 +15,11 @@ MonoBehaviour:
   skillName: HP Upgrade
   cost: 90
   icon: {fileID: 0}
+  skillDescription: Increases your vitality, allowing you to take more damage
+  activationKey: 'Passive '
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
   - {fileID: 11400000, guid: a21ea3f6aa8840c4e88364635282289a, type: 2}
+  nextSkills: []
   isUnlocked: 0
   isPurchased: 0
