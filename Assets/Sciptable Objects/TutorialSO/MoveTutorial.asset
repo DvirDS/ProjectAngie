@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MoveTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
   tutorialTitle: Move
-  tutorialDescription: To move, press Left or Right on keyboard
+  tutorialDescription: Use the Arrow Keys or W and D to move
   keyInput: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
