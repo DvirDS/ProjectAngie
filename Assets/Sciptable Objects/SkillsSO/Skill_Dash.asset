@@ -18,6 +18,7 @@ MonoBehaviour:
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
   nextSkills:
-  - {fileID: 11400000, guid: 09a3593b838f0ef4395093a48fe551c9, type: 2}
+  - {fileID: 11400000, guid: 0a279f58dbdf63045996a22a1ea6d961, type: 2}
+  - {fileID: 11400000, guid: 6d1da6392b68519428f53d4ff5403b23, type: 2}
   isUnlocked: 0
   isPurchased: 0

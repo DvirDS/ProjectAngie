@@ -3136,7 +3136,7 @@ Transform:
   m_GameObject: {fileID: 1646076000}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.1069, y: 3.07, z: 0}
+  m_LocalPosition: {x: -46.3605, y: 3.07, z: 0}
   m_LocalScale: {x: 0.6547436, y: 0.6630315, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3196,7 +3196,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 127.00981, y: 30.000002}
+  m_Size: {x: 127.78453, y: 30.000002}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -3235,7 +3235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   data: {fileID: 11400000, guid: 20d2233b3ee27824bbce6f9bffe8d435, type: 2}
   currentState: 1
-  canFly: 1
   waypoints:
   - {fileID: 997711661}
   - {fileID: 593973602}

@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   previousSkills: []
   nextSkills:
-  - {fileID: 11400000, guid: 151ab8fd1be945a4689878fb0595be7f, type: 2}
-  - {fileID: 11400000, guid: 2593c68852833ac4e8614c355e1c6383, type: 2}
+  - {fileID: 11400000, guid: a21ea3f6aa8840c4e88364635282289a, type: 2}
+  - {fileID: 11400000, guid: 2f9cc28045d4ebf45a16767e7bc2127f, type: 2}
   isUnlocked: 1
-  isPurchased: 1
+  isPurchased: 0

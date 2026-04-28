@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class LoseSkill : MonoBehaviour
 {
-    [SerializeField] private InputActionReference skillToLose;
     [SerializeField] private string LoseSkillText;
     [SerializeField] private Skill skillSO;
 
