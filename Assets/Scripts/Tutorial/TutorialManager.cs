@@ -34,7 +34,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Show(string message, InputActionReference actRef)
     {
-        if (actRef != null) PlayerInputReader.instance.EnableAction(actRef);
+        PlayerInputReader.instance.EnableAction(actRef);
         tutorialText.text = message;
         tutorialPanel.SetActive(true);
     }
