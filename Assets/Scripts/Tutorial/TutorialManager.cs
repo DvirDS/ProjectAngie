@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,18 +7,16 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager instance;
 
     [Header("Intro Bubble Settings")]
-    [Tooltip("גרור לכאן את הפאנל של בועת הפתיחה הגדולה")]
     [SerializeField] private GameObject introBubblePanel;
     [Header("Outro Bubble Settings")]
-    [SerializeField] private GameObject outroBubblePanel; // גרור לכאן את פאנל הסיום
+    [SerializeField] private GameObject outroBubblePanel; 
 
     [Header("Movement Unlock (New)")]
-    [Tooltip("הכנס לכאן את פעולות ההליכה בלבד, כדי שאנג'י תוכל לזוז לטריגרים אחרי הפתיח")]
     [SerializeField] private InputActionReference[] movementActions;
 
     [Header("In-Game Tutorial Settings")]
     [SerializeField] private TextMeshProUGUI tutorialText;
-    [SerializeField] private GameObject tutorialPanel; // הבועית הקטנה שקופצת בטריגרים
+    [SerializeField] private GameObject tutorialPanel; 
     [SerializeField] private InputActionReference[] allTutorialActions;
 
     public bool isIntroFinished = false;
@@ -37,22 +34,18 @@ public class TutorialManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // מציג את הבועה הגדולה של הפתיחה ברגע שהסצנה עולה
         if (introBubblePanel != null)
         {
             introBubblePanel.SetActive(true);
         }
 
-        // מוודא שהבועית הקטנה כבויה בהתחלה
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
 
-        // מקפיאים את המשחק והפיזיקה
         Time.timeScale = 0f;
 
-        // חוסם את כל הפעולות (קפיצה, התקפה וכו') 
         foreach (InputActionReference action in allTutorialActions)
         {
             PlayerInputReader.instance.DisableAction(action);
@@ -80,6 +73,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Show(string message, InputActionReference actRef)
     {
+        if (actRef == null) return;
         PlayerInputReader.instance.EnableAction(actRef);
         tutorialText.text = message;
         tutorialPanel.SetActive(true);
@@ -98,11 +92,10 @@ public class TutorialManager : MonoBehaviour
         if (outroBubblePanel != null)
         {
             outroBubblePanel.SetActive(true);
-            Time.timeScale = 0f; // מקפיאים את המשחק בזמן הקריאה
+            Time.timeScale = 0f; 
         }
     }
 
-    // פונקציה לסגירת בועת הסיום ותחילת המשחק
     public void CloseOutroAndStartGame()
     {
         if (outroBubblePanel != null)
@@ -111,6 +104,6 @@ public class TutorialManager : MonoBehaviour
         }
         Time.timeScale = 1f;
 
-        isGameStarted = true; // כאן אנחנו מאשרים לחיים להתחיל לרדת
+        isGameStarted = true; 
     }
 }

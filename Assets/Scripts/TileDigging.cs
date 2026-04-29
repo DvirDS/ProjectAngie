@@ -63,6 +63,7 @@ public class TileDigging : MonoBehaviour
     {
         foreach (var tilemap in tilemaps)
         {
+            Debug.Log($"Checking {tilemap.name} at {cell}, hasTile: {tilemap.HasTile(cell)}");
             if (tilemap != null && tilemap.HasTile(cell))
             {
                 tilemap.SetTile(cell, null);
