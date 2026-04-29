@@ -5,9 +5,7 @@ using System.Collections.Generic;
 public class Skill : ScriptableObject
 {
     public string skillName;
-    public int cost;
-    public string skillName; 
-    public int cost;         
+    public int cost;   
     public Sprite icon;
 
     [TextArea] 
