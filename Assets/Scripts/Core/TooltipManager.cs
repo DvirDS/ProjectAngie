@@ -28,7 +28,6 @@ public class TooltipManager : MonoBehaviour
                 HideTooltip();
                 return;
             }
-            // -------------------
 
             if (Mouse.current != null)
             {
