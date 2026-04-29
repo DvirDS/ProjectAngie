@@ -636,7 +636,7 @@ Transform:
   m_GameObject: {fileID: 139103172}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6100006, y: 0.73, z: -5}
+  m_LocalPosition: {x: -0.5, y: 0.73, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1819,7 +1819,7 @@ Transform:
   m_GameObject: {fileID: 882916365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.89, y: 3.08, z: 0}
+  m_LocalPosition: {x: -110.48, y: 3.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3694,7 +3694,7 @@ Transform:
   m_GameObject: {fileID: 1857625863}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6100006, y: 0.73, z: -5}
+  m_LocalPosition: {x: -0.5, y: 0.73, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3713,7 +3713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineConfiner2D
   BoundingShape2D: {fileID: 0}
-  Damping: 5
+  Damping: 0
   SlowingDistance: 10
   OversizeWindow:
     Enabled: 0
@@ -4370,7 +4370,7 @@ Transform:
   m_GameObject: {fileID: 6906423540117405424}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.28, y: 3.81, z: 0}
+  m_LocalPosition: {x: -110.98, y: 3.81, z: 0}
   m_LocalScale: {x: 0.166497, y: 0.17301601, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5392,7 +5392,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.4
   m_GravityScale: 1.5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 43737546b841bb9498660b9d35d3a764, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5433,7 +5433,6 @@ GameObject:
   - component: {fileID: 345748136187987655}
   - component: {fileID: 4177470245661215992}
   - component: {fileID: 6727085809196556478}
-  - component: {fileID: 6906423540117405430}
   - component: {fileID: 3392345315686795958}
   - component: {fileID: 4840740199277927160}
   - component: {fileID: 4840740199277927161}
@@ -5498,52 +5497,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSniff
   _superSniffSkillData: {fileID: 11400000, guid: 2f9cc28045d4ebf45a16767e7bc2127f, type: 2}
   input: {fileID: 4840740199277927160}
---- !u!61 &6906423540117405430
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6906423540117405424}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.24272156, y: -0.98734975}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.9777775, y: 6.322222}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 3.4050236, y: 3.715301}
-  m_EdgeRadius: 0
 --- !u!70 &6906423540117405431
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5578,8 +5531,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.08009913, y: -1.0831378}
-  m_Size: {x: 3.4568455, y: 3.3040369}
+  m_Offset: {x: 0.067303166, y: -0.8561226}
+  m_Size: {x: 6.346771, y: 3.7580912}
   m_Direction: 1
 --- !u!1 &7065958557962991881
 GameObject:
