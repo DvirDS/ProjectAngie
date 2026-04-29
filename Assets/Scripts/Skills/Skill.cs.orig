@@ -6,9 +6,8 @@ public class Skill : ScriptableObject
 {
     public string skillName;
     public int cost;
-    public string skillName; 
-    public int cost;         
     public Sprite icon;
+<<<<<<< HEAD
 
     [TextArea] 
     public string skillDescription;
@@ -16,6 +15,9 @@ public class Skill : ScriptableObject
 
     public Skill[] previousSkills;
     public Skill[] nextSkills;
+=======
+    public Skill[] previousSkills; 
+>>>>>>> main
 
     [HideInInspector] public bool isUnlocked;
     [HideInInspector] public bool isPurchased;

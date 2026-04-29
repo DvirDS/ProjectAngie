@@ -31,9 +31,14 @@ public class HealthDrainSystem : MonoBehaviour
 
     void Update()
     {
+        // בדיקה 1: האם ה-GameManager במצב Play
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
 
+        // בדיקה 2 (החדשה): האם אנחנו בתוך ה-Tutorial?
+        // אם המנהל קיים והמשחק עוד לא התחיל רשמית - אנחנו לא מורידים חיים
+        if (TutorialManager.instance != null && !TutorialManager.instance.isGameStarted) return;
 
+        // ... שאר הקוד המצוין שלך של חישוב ה-decayAmount ...
         float decayAmount = passiveDecay;
 
         if (isSprinting && isMoving) decayAmount = runDecay;

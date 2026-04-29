@@ -126,10 +126,10 @@ TextureImporter:
     physicsShape: []
     bones: []
 <<<<<<< HEAD
-    spriteID: 778bb9446605d8c4f886847bdc6b37bd
+    spriteID: 4fa78c670f64c7e448544a22c5bffb80
 =======
-    spriteID: 0956cf4458107994fa2ec413b001d04e
->>>>>>> origin/main
+    spriteID: 079d84529a5625d43a6eeda1bb45fcb6
+>>>>>>> main
     internalID: 1854076910
     vertices: []
     indices: 
@@ -144,10 +144,10 @@ TextureImporter:
         value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
 <<<<<<< HEAD
-      BlackTile_0: 655561347
+      BlackTile_0: -424582820
 =======
-      BlackTile_0: -1507054867
->>>>>>> origin/main
+      BlackTile_0: 772341141
+>>>>>>> main
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

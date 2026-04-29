@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: SkillTreeTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
   tutorialTitle: 
-  tutorialDescription: "To open and close skill tree menu\npress k on keyboard, \nclick
-    on Double Jump"
+  tutorialDescription: 'To open skill tree menu
+
+    press K on keyboard, and click
+    on Double Jump'
   keyInput: {fileID: 69922620823505426, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
