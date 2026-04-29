@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -17,7 +17,13 @@ public class MainMenuUI : MonoBehaviour
         if (!SceneManager.GetSceneByName(persistentSceneName).isLoaded)
             yield return SceneManager.LoadSceneAsync(persistentSceneName, LoadSceneMode.Additive);
 
+        RespawnManager.instance.SetFadeAlpha(1f);
+
         yield return SceneManager.LoadSceneAsync(firstRoomSceneName, LoadSceneMode.Additive);
+        yield return null;
+
+        yield return StartCoroutine(RespawnManager.instance.FadeIn());
+
         SceneManager.UnloadSceneAsync(gameObject.scene.name);
     }
 }

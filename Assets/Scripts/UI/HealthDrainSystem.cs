@@ -6,18 +6,18 @@ public class HealthDrainSystem : MonoBehaviour
     public event Action<float, float> OnHealthChanged;
 
     [Header("Settings")]
-    public float maxHealth = 100f;
-    private float currentHealth;
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float currentHealth;
 
     [Header("Decay Rates (Per Second)")]
-    public float passiveDecay = 0.28f; 
-    public float walkDecay = 0.42f;    
-    public float stealthDecay = 0.8f; 
-    public float runDecay = 1.67f;     
+    [SerializeField] private float passiveDecay = 0.28f;
+    [SerializeField] private float walkDecay = 0.42f;
+    [SerializeField] private float stealthDecay = 0.8f;
+    [SerializeField] private float runDecay = 1.67f;     
 
     [Header("Skills")]
-    public float hpUpgradeBonus = 50f;
-    private bool hasAppliedUpgrade = false;
+    [SerializeField] private float hpUpgradeBonus = 50f;
+    [SerializeField] private bool hasAppliedUpgrade = false;
 
     private bool isMoving;
     private bool isSprinting;
@@ -31,14 +31,9 @@ public class HealthDrainSystem : MonoBehaviour
 
     void Update()
     {
-        // בדיקה 1: האם ה-GameManager במצב Play
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
 
-        // בדיקה 2 (החדשה): האם אנחנו בתוך ה-Tutorial?
-        // אם המנהל קיים והמשחק עוד לא התחיל רשמית - אנחנו לא מורידים חיים
         if (TutorialManager.instance != null && !TutorialManager.instance.isGameStarted) return;
-
-        // ... שאר הקוד המצוין שלך של חישוב ה-decayAmount ...
         float decayAmount = passiveDecay;
 
         if (isSprinting && isMoving) decayAmount = runDecay;
@@ -58,7 +53,9 @@ public class HealthDrainSystem : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Player is Dead / Out of Stamina");
-            if (GameManager.I != null) GameManager.I.GameOver();
+            //if (GameManager.I != null) GameManager.I.GameOver();
+            RestoreHealth(maxHealth);
+            if (GameManager.I != null) RespawnManager.instance.Respawn();
         }
     }
 
