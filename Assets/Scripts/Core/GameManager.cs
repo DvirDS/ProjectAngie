@@ -13,11 +13,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (I != null && I != this) 
-        { 
-            Destroy(gameObject); 
-            return; 
-        }
+        if (I != null && I != this) { Destroy(gameObject); return; }
         I = this;
     }
 
@@ -27,13 +23,14 @@ public class GameManager : MonoBehaviour
     public void OpenSkillTree() => SetState(GameState.SkillTree);
     public void CloseSkillTree() => SetState(GameState.Play);
     public void GameOver() => SetState(GameState.GameOver);
+    public void StartTutorial() => SetState(GameState.Tutorial);
 
     public void SetState(GameState next)
     {
         if (state == next) return;
         state = next;
 
-        Time.timeScale = (state == GameState.Play) ? 1f : 0f;
+        Time.timeScale = (state == GameState.Play || state == GameState.Tutorial) ? 1f : 0f;
 
         OnStateChanged?.Invoke(state);
     }

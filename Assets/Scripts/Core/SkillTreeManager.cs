@@ -1,8 +1,11 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using static GameManager;
 
 public class SkillTreeManager : MonoBehaviour
 {
+    private const string HPUpgrade = "HP Upgrade";
+    private GameState stateBeforeSkillTree;
     public static SkillTreeManager instance;
 
     [Header("UI References")]
@@ -51,21 +54,25 @@ public class SkillTreeManager : MonoBehaviour
     {
         if (GameManager.I == null) return;
 
-        if (GameManager.I.State == GameManager.GameState.Play)
+        if (GameManager.I.State == GameManager.GameState.Play ||
+            GameManager.I.State == GameManager.GameState.Tutorial)
+        {
+            stateBeforeSkillTree = GameManager.I.State;
             GameManager.I.OpenSkillTree();
+        }
         else if (GameManager.I.State == GameManager.GameState.SkillTree)
-            GameManager.I.CloseSkillTree();
+        {
+            GameManager.I.SetState(stateBeforeSkillTree);
+        }
     }
 
     public void CloseWindow()
     {
         if (GameManager.I != null && GameManager.I.State == GameManager.GameState.SkillTree)
-        {
-            GameManager.I.CloseSkillTree();
-        }
+            GameManager.I.SetState(stateBeforeSkillTree);
     }
 
-    private void ResetSkills()
+    public void ResetSkills()
     {
         if (allSkillButtons == null) return;
 
@@ -77,6 +84,7 @@ public class SkillTreeManager : MonoBehaviour
                 btn.skillData.isUnlocked = (btn.skillData.previousSkills.Length == 0);
             }
         }
+        UpdateUI();
     }
 
     public void TryUnlockSkill(Skill skill, SkillButton buttonRef)
@@ -93,7 +101,7 @@ public class SkillTreeManager : MonoBehaviour
         skill.isPurchased = true;
         skill.isUnlocked = true;
 
-        if (skill.skillName == "HP Upgrade")
+        if (skill.skillName == HPUpgrade)
         {
             if (playerHealth != null)
                 playerHealth.ApplyHpUpgrade();

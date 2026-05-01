@@ -13,7 +13,7 @@ public class HealthDrainSystem : MonoBehaviour
     [SerializeField] private float passiveDecay = 0.28f;
     [SerializeField] private float walkDecay = 0.42f;
     [SerializeField] private float stealthDecay = 0.8f;
-    [SerializeField] private float runDecay = 1.67f;     
+    [SerializeField] private float runDecay = 1.67f;
 
     [Header("Skills")]
     [SerializeField] private float hpUpgradeBonus = 50f;
@@ -21,41 +21,37 @@ public class HealthDrainSystem : MonoBehaviour
 
     private bool isMoving;
     private bool isSprinting;
-    private bool isStealthing; 
+    private bool isStealthing;
 
-    void Start()
+    private void Awake()
     {
         currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    void Update()
+    private void Update()
     {
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
-
-        if (TutorialManager.instance != null && !TutorialManager.instance.isGameStarted) return;
+        Debug.Log($"Draining — state: {GameManager.I.State}");
         float decayAmount = passiveDecay;
 
         if (isSprinting && isMoving) decayAmount = runDecay;
         else if (isStealthing && isMoving) decayAmount = stealthDecay;
         else if (isMoving) decayAmount = walkDecay;
-        else if (isStealthing) decayAmount = stealthDecay; 
+        else if (isStealthing) decayAmount = stealthDecay;
 
         float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
         if (currentHealth != previousHealth)
-        {
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
-        }
 
         if (currentHealth <= 0)
         {
-            Debug.Log("Player is Dead / Out of Stamina");
-            //if (GameManager.I != null) GameManager.I.GameOver();
             RestoreHealth(maxHealth);
-            if (GameManager.I != null) RespawnManager.instance.Respawn();
+            if (RespawnManager.instance != null)
+                RespawnManager.instance.Respawn();
         }
     }
 
