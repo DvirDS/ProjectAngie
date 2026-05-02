@@ -1,31 +1,47 @@
 using UnityEngine;
 
-[DefaultExecutionOrder(50)]
+[DefaultExecutionOrder(500)]
 public class ParallaxLayer : MonoBehaviour
 {
-    [Header("Camera Reference")]
-    public Transform mainCamera;
+    [SerializeField, Range(0f, 1f)]
+    private float parallaxEffectMultiplier = 0.3f;
 
-    [Header("Parallax Settings")]
-    [Range(0f, 1f)]
-    public float parallaxEffectMultiplier;
+    private Transform cameraTransform;
+    private Vector3 startPosition;
+    private Vector3 cameraStartPosition;
 
-    private Vector3 lastCameraPosition;
-
-    void Start()
+    private void OnEnable()
     {
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main.transform;
-        }
-
-        lastCameraPosition = mainCamera.position;
+        TryFindCamera();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        Vector3 deltaMovement = mainCamera.position - lastCameraPosition;
-        transform.position += new Vector3(deltaMovement.x * parallaxEffectMultiplier, 0, 0);
-        lastCameraPosition = mainCamera.position;
+        if (cameraTransform == null)
+        {
+            TryFindCamera();
+            return;
+        }
+
+        Vector3 cameraDelta = cameraTransform.position - cameraStartPosition;
+
+        transform.position = startPosition + new Vector3(
+            cameraDelta.x * parallaxEffectMultiplier,
+            0f,
+            0f
+        );
+    }
+
+    private void TryFindCamera()
+    {
+        Camera cam = Camera.main;
+
+        if (cam == null)
+            return;
+
+        cameraTransform = cam.transform;
+
+        startPosition = transform.position;
+        cameraStartPosition = cameraTransform.position;
     }
 }
