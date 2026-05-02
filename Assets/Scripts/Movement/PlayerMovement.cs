@@ -109,10 +109,6 @@ public class PlayerMovement : MonoBehaviour
         StopVerticalMovement();
         rb.AddForce(Vector2.up * (jumpForce * forceMultiplier), ForceMode2D.Impulse);
 
-        if (animator != null)
-        {
-            animator.SetTrigger("IsJumping");
-        }
     }
 
     private void HandleFlip()
@@ -139,17 +135,35 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundMask);
     }
 
-    private void UpdateVisualsAndHealth()
+private void UpdateVisualsAndHealth()
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
         bool isRunning = isMoving && input.SprintHeld;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
-
         if (animator != null)
         {
             animator.SetBool("IsMoving", isMoving);
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetBool("IsRunning", isRunning);
+            
+            animator.SetFloat("yVelocity", rb.linearVelocity.y);
+
+            float jumpProg = Mathf.InverseLerp(jumpForce, 0f, rb.linearVelocity.y);
+            animator.SetFloat("JumpProgress", jumpProg);
+
+            float distanceToGround = 10f; 
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 20f, groundMask);
+            
+            if (hit.collider != null)
+            {
+                distanceToGround = hit.distance;
+            }
+
+            float targetFallProg = Mathf.InverseLerp(4f, 0.487f, distanceToGround);     
+            float currentFallProg = animator.GetFloat("FallProgress");
+            float smoothedFallProg = Mathf.Lerp(currentFallProg, targetFallProg, Time.deltaTime * 15f);
+
+            animator.SetFloat("FallProgress", smoothedFallProg);
         }
 
         if (healthDrain != null) healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing);
