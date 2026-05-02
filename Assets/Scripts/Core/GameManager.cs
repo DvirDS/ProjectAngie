@@ -1,7 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private SceneFade fadeScreen;
+    [SerializeField] private float holdBlackScreenDuration = 2f;
+    [SerializeField] private float fadeDuration = 5f;
     public static GameManager I { get; private set; }
 
     public enum GameState { Play, Pause, Tutorial, SkillTree, GameOver }
@@ -15,6 +19,17 @@ public class GameManager : MonoBehaviour
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
         I = this;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(startGameFade());
+    }
+
+    private IEnumerator startGameFade()
+    {
+        yield return StartCoroutine(fadeScreen.HoldColorDuration(Color.black, holdBlackScreenDuration));
+        yield return StartCoroutine(fadeScreen.FadeInCoroutine(fadeDuration));
     }
 
     public void StartGame() => SetState(GameState.Play);

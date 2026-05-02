@@ -10,7 +10,14 @@ public class SceneFade : MonoBehaviour
     private void Awake()
     {
         fadeScreen = GetComponent<Image>();
-        fadeScreen.enabled = false;
+        fadeScreen.raycastTarget = false;
+    }
+
+    public IEnumerator HoldColorDuration(Color color, float holdDuration)
+    {
+        fadeScreen.color = color;
+        yield return new WaitForSecondsRealtime(holdDuration);
+
     }
 
     public IEnumerator FadeInCoroutine(float duration)
@@ -43,7 +50,6 @@ public class SceneFade : MonoBehaviour
 
             yield return null;
             elapsedTime += Time.deltaTime;
-            Debug.Log("elapsed time: " + elapsedTime);
         }
     }
 }
