@@ -191,6 +191,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanProcessMovement()
     {
-        return GameManager.I == null || GameManager.I.State == GameManager.GameState.Play;
+        if (GameManager.I == null) return true;
+        return GameManager.I.State == GameManager.GameState.Play ||
+               GameManager.I.State == GameManager.GameState.Tutorial;
     }
 }

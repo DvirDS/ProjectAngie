@@ -6,9 +6,8 @@ using UnityEngine.Rendering.Universal;
 public class GlobalLightFade : MonoBehaviour
 {
     private Light2D globalLight;
-    private SpriteRenderer background;
     [SerializeField] float endIntensity = 0.005f;
-    [SerializeField] float duration = 7f;
+    [SerializeField] float duration = 3f;
 
     void Awake()
     {
@@ -16,12 +15,6 @@ public class GlobalLightFade : MonoBehaviour
         if (globalLight == null)
         {
             Debug.LogError("No Light2D component found on this GameObject.");
-        }
-
-        background = GameObject.FindGameObjectWithTag("Background").GetComponent<SpriteRenderer>();
-        if (background == null)
-        {
-            Debug.LogError("No SpriteRenderer with tag 'Background' found in the scene.");
         }
     }
 
@@ -36,14 +29,12 @@ public class GlobalLightFade : MonoBehaviour
     IEnumerator FadeToDark()
     {
         float startIntesity = globalLight.intensity;
-        Color startColor = background.color;
         Color endColor = Color.darkBlue;
         
         float time = 0f;
         while (time < duration)
         {
-            time += Time.deltaTime;
-            background.color = Color.Lerp(startColor, endColor, time / duration);
+            time += Time.unscaledDeltaTime;
             globalLight.intensity = Mathf.Lerp(startIntesity, endIntensity, time / duration);
             yield return null;
         }

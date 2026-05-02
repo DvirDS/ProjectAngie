@@ -13,7 +13,6 @@ public class Skill : ScriptableObject
     public string activationKey;
 
     public Skill[] previousSkills;
-    public Skill[] nextSkills;
 
     [HideInInspector] public bool isUnlocked;
     [HideInInspector] public bool isPurchased;

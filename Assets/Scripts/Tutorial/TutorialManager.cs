@@ -6,104 +6,84 @@ public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager instance;
 
-    [Header("Intro Bubble Settings")]
+    [Header("Bubbles")]
     [SerializeField] private GameObject introBubblePanel;
-    [Header("Outro Bubble Settings")]
-    [SerializeField] private GameObject outroBubblePanel; 
+    [SerializeField] private GameObject outroBubblePanel;
 
-    [Header("Movement Unlock (New)")]
-    [SerializeField] private InputActionReference[] movementActions;
-
-    [Header("In-Game Tutorial Settings")]
+    
+    [Header("In-Game Tutorial")]
+    [SerializeField] private Collider2D moveTrigger;
     [SerializeField] private TextMeshProUGUI tutorialText;
-    [SerializeField] private GameObject tutorialPanel; 
+    [SerializeField] private GameObject tutorialPanel;
+
+    [Header("All Tutorial Actions — disabled at start")]
     [SerializeField] private InputActionReference[] allTutorialActions;
 
     public bool isIntroFinished = false;
-    public bool isGameStarted = false;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
+        if (instance != null && instance != this) 
+        { 
+            Destroy(gameObject); 
+            return; 
         }
         instance = this;
     }
 
     private void OnEnable()
     {
-        if (introBubblePanel != null)
-        {
-            introBubblePanel.SetActive(true);
-        }
-
-        if (tutorialPanel != null)
-        {
-            tutorialPanel.SetActive(false);
-        }
-
-        Time.timeScale = 0f;
+        introBubblePanel?.SetActive(false);
+        outroBubblePanel?.SetActive(false);
+        tutorialPanel?.SetActive(false);
+        moveTrigger.enabled = false;
 
         foreach (InputActionReference action in allTutorialActions)
-        {
             PlayerInputReader.instance.DisableAction(action);
-        }
+
+        moveTrigger.enabled = false;
+    }
+
+    public void ShowIntro()
+    {
+        introBubblePanel?.SetActive(true);
+        GameManager.I.SetState(GameManager.GameState.Tutorial);
     }
 
     public void CloseIntroBubble()
     {
-        if (introBubblePanel != null)
-        {
-            introBubblePanel.SetActive(false);
-        }
-
+        introBubblePanel?.SetActive(false);
         isIntroFinished = true;
-        Time.timeScale = 1f;
 
-        if (movementActions != null)
-        {
-            foreach (InputActionReference action in movementActions)
-            {
-                PlayerInputReader.instance.EnableAction(action);
-            }
-        }
+        moveTrigger.enabled = true;
+        moveTrigger.isTrigger = true;
     }
 
     public void Show(string message, InputActionReference actRef)
     {
-        if (actRef == null) return;
-        PlayerInputReader.instance.EnableAction(actRef);
+        if (actRef != null)
+            PlayerInputReader.instance.EnableAction(actRef);
+
         tutorialText.text = message;
         tutorialPanel.SetActive(true);
     }
 
     public void HideTutorial()
     {
-        if (tutorialPanel != null)
-        {
-            tutorialPanel.SetActive(false);
-        }
+        tutorialPanel?.SetActive(false);
     }
 
     public void ShowOutro()
     {
-        if (outroBubblePanel != null)
-        {
-            outroBubblePanel.SetActive(true);
-            Time.timeScale = 0f; 
-        }
+        outroBubblePanel?.SetActive(true);
     }
 
     public void CloseOutroAndStartGame()
     {
-        if (outroBubblePanel != null)
-        {
-            outroBubblePanel.SetActive(false);
-        }
-        Time.timeScale = 1f;
-
-        isGameStarted = true; 
+        outroBubblePanel?.SetActive(false);
+        foreach (InputActionReference action in allTutorialActions)
+            PlayerInputReader.instance.EnableAction(action);
+        
+        GameManager.I.SetState(GameManager.GameState.Play);
     }
 }

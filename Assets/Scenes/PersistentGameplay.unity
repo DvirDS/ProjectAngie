@@ -547,7 +547,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -636,7 +636,7 @@ Transform:
   m_GameObject: {fileID: 139103172}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.74, z: -5}
+  m_LocalPosition: {x: 39.44, y: -0.8499999, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -659,13 +659,13 @@ MonoBehaviour:
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
-  UpdateMethod: 1
+  UpdateMethod: 2
   BlendUpdateMethod: 1
   LensModeOverride:
     Enabled: 0
     DefaultMode: 2
   DefaultBlend:
-    Style: 2
+    Style: 0
     Time: 2
     CustomCurve:
       serializedVersion: 2
@@ -749,6 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61747daa8eea2cf479a87541334ba565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
+  fadeScreen: {fileID: 1511086097}
   fadePanel: {fileID: 1511086094}
   holdDuration: 0.5
   fadeDuration: 0.4
@@ -1473,6 +1474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a187a5fe7a86c44a2702ef62508c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  fadeScreen: {fileID: 1511086097}
+  holdBlackScreenDuration: 2
+  fadeDuration: 5
   state: 0
 --- !u!1 &619394800
 GameObject:
@@ -1552,7 +1556,7 @@ Transform:
   m_GameObject: {fileID: 619394800}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.52, y: 6.18, z: 0}
+  m_LocalPosition: {x: 4.279999, y: 6.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1867,7 +1871,7 @@ Transform:
   m_GameObject: {fileID: 882916365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -110.48, y: 3.08, z: 0}
+  m_LocalPosition: {x: -130.75, y: 3.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2944,6 +2948,7 @@ GameObject:
   - component: {fileID: 1511086096}
   - component: {fileID: 1511086095}
   - component: {fileID: 1511086094}
+  - component: {fileID: 1511086097}
   m_Layer: 5
   m_Name: FadeScreen
   m_TagString: Untagged
@@ -3020,6 +3025,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511086092}
   m_CullTransparentMesh: 1
+--- !u!114 &1511086097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511086092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d26e08ab4f01943893d2472edc895b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneFade
 --- !u!1 &1547753246
 GameObject:
   m_ObjectHideFlags: 0
@@ -3680,7 +3697,7 @@ Transform:
   m_GameObject: {fileID: 1728065953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 19.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3831,7 +3848,7 @@ Transform:
   m_GameObject: {fileID: 1857625863}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.74, z: -5}
+  m_LocalPosition: {x: 39.44, y: -0.8499999, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4479,6 +4496,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136812127}
   m_CullTransparentMesh: 1
+--- !u!1 &2142310363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142310365}
+  - component: {fileID: 2142310364}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2142310364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142310363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 2e50a00591f0b2845ad22460c3862865, type: 2}
+--- !u!4 &2142310365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142310363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 58.035088, y: -7.8549995, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &241397692385164288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4507,7 +4573,7 @@ Transform:
   m_GameObject: {fileID: 6906423540117405424}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -110.98, y: 3.82, z: 0}
+  m_LocalPosition: {x: -91.31, y: 2.23, z: 0}
   m_LocalScale: {x: 0.166497, y: 0.17301601, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5974,6 +6040,7 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2142310365}
   - {fileID: 619394802}
   - {fileID: 882916366}
   - {fileID: 136802716}

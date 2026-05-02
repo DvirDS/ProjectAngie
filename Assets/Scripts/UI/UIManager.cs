@@ -55,7 +55,8 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameStateChanged(GameManager.GameState state)
     {
-        if (healthBarRoot) healthBarRoot.SetActive(state == GameManager.GameState.Play);
+        if (healthBarRoot) healthBarRoot.SetActive(state == GameManager.GameState.Play || 
+            state == GameManager.GameState.Tutorial);
         if (pausePanel) pausePanel.SetActive(state == GameManager.GameState.Pause);
         if (skillTreePanel) skillTreePanel.SetActive(state == GameManager.GameState.SkillTree);
         if (gameOverPanel) gameOverPanel.SetActive(state == GameManager.GameState.GameOver);

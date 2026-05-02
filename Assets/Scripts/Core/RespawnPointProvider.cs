@@ -6,6 +6,6 @@ public class RespawnPointProvider : MonoBehaviour
 
     private void Awake()
     {
-        RespawnManager.instance.respawnPoint = respawnPoint.transform;
+        RespawnManager.instance.RespawnPoint = respawnPoint.transform;
     }
 }
