@@ -11,11 +11,7 @@ public class GlobalLightFade : MonoBehaviour
 
     void Awake()
     {
-        globalLight = FindFirstObjectByType<Light2D>();
-        if (globalLight == null)
-        {
-            Debug.LogError("No Light2D component found on this GameObject.");
-        }
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
