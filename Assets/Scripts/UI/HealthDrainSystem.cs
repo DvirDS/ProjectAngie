@@ -32,7 +32,6 @@ public class HealthDrainSystem : MonoBehaviour
     private void Update()
     {
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
-        Debug.Log($"Draining — state: {GameManager.I.State}");
         float decayAmount = passiveDecay;
 
         if (isSprinting && isMoving) decayAmount = runDecay;
