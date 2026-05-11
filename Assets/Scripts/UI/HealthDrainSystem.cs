@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class HealthDrainSystem : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HealthDrainSystem : MonoBehaviour
     [SerializeField] private float walkDecay = 0.42f;
     [SerializeField] private float stealthDecay = 0.8f;
     [SerializeField] private float runDecay = 1.67f;
+    [SerializeField] private float digDecay = 1.5f;
 
     [Header("Skills")]
     [SerializeField] private float hpUpgradeBonus = 50f;
@@ -22,6 +24,7 @@ public class HealthDrainSystem : MonoBehaviour
     private bool isMoving;
     private bool isSprinting;
     private bool isStealthing;
+    private bool isDigging;
 
     private void Awake()
     {
@@ -34,10 +37,11 @@ public class HealthDrainSystem : MonoBehaviour
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
         float decayAmount = passiveDecay;
 
-        if (isSprinting && isMoving) decayAmount = runDecay;
-        else if (isStealthing && isMoving) decayAmount = stealthDecay;
-        else if (isMoving) decayAmount = walkDecay;
-        else if (isStealthing) decayAmount = stealthDecay;
+        decayAmount = isSprinting && isMoving ? runDecay 
+            : isMoving ? walkDecay
+            : isDigging ? digDecay   
+            : isStealthing ? stealthDecay
+            : passiveDecay;
 
         float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;
@@ -54,11 +58,12 @@ public class HealthDrainSystem : MonoBehaviour
         }
     }
 
-    public void SetMovementState(bool moving, bool sprinting, bool stealthing)
+    public void SetMovementState(bool moving, bool sprinting, bool stealthing, bool digging = false)
     {
         isMoving = moving;
         isSprinting = sprinting;
         isStealthing = stealthing;
+        isDigging = digging;
     }
 
     public void ApplyHpUpgrade()
