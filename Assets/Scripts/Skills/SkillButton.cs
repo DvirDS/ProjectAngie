@@ -7,7 +7,10 @@ public class SkillButton : MonoBehaviour
     public Skill skillData;
     public Image skillIcon;
     public Button myButton; 
-    public TextMeshProUGUI nameText; 
+    public TextMeshProUGUI nameText;
+    public Color isPurchasedColor = new Color(0.396f, 0.012f, 0.604f);
+    public Color isNotPurchasedColor = new Color(0.031f, 0.243f, 0.765f);
+
 
     void Start()
     {
@@ -51,13 +54,13 @@ public class SkillButton : MonoBehaviour
         {
             if (myButton != null) myButton.interactable = true;
             if (skillIcon != null) skillIcon.color = Color.white;
-            if (myButton != null && myButton.image != null) myButton.image.color = Color.green;
+            if (myButton != null && myButton.image != null) myButton.image.color = isPurchasedColor;
         }
         else
         {
             if (myButton != null) myButton.interactable = false;
             if (skillIcon != null) skillIcon.color = new Color(0.3f, 0.3f, 0.3f, 1f);
-            if (myButton != null && myButton.image != null) myButton.image.color = new Color(0.7f, 0.2f, 0.2f, 1f);
+            if (myButton != null && myButton.image != null) myButton.image.color = isNotPurchasedColor;
         }
     }
 

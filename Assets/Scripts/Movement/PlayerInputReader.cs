@@ -19,6 +19,7 @@ public class PlayerInputReader : MonoBehaviour
     public Vector2 Move { get; private set; }
     public bool SprintHeld { get; private set; }
     public bool SniffHeld { get; private set; }
+    public bool DigHeld { get; private set; }
 
     void Awake()
     {
@@ -38,6 +39,8 @@ public class PlayerInputReader : MonoBehaviour
         actions.Player.Move.canceled += OnMove;
         actions.Player.Jump.performed += OnJump;
         actions.Player.Dash.performed += OnDash;
+        actions.Player.Dig.performed += OnDig;
+        actions.Player.Dig.canceled += OnDig;
         actions.Player.Sprint.performed += OnSprint;
         actions.Player.Sprint.canceled += OnSprint;
         actions.Player.Sniff.performed += OnSniff;
@@ -55,6 +58,8 @@ public class PlayerInputReader : MonoBehaviour
         actions.Player.Move.canceled -= OnMove;
         actions.Player.Jump.performed -= OnJump;
         actions.Player.Dash.performed -= OnDash;
+        actions.Player.Dig.performed -= OnDig;
+        actions.Player.Dig.canceled -= OnDig;
         actions.Player.Sprint.performed -= OnSprint;
         actions.Player.Sprint.canceled -= OnSprint;
         actions.Player.Sniff.performed -= OnSniff;
@@ -79,6 +84,7 @@ public class PlayerInputReader : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx) => Move = ctx.ReadValue<Vector2>();
     private void OnJump(InputAction.CallbackContext ctx) => OnJumpPressed?.Invoke();
     private void OnDash(InputAction.CallbackContext ctx) => OnDashPressed?.Invoke();
+    private void OnDig(InputAction.CallbackContext ctx) => DigHeld = ctx.performed;
     private void OnSprint(InputAction.CallbackContext ctx) => SprintHeld = ctx.performed;
     private void OnSniff(InputAction.CallbackContext ctx) => SniffHeld = ctx.performed;
     private void OnStealth(InputAction.CallbackContext ctx) => OnStealthPressed?.Invoke();

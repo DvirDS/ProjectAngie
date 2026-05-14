@@ -29,12 +29,9 @@ public class PlayerMovement : MonoBehaviour
     private bool canDoubleJump;
     private bool isFacingRight = false;
     private float horizontalInput;
-
-    // המשתנה החדש ששומר את עוצמת הקפיצה
     private float currentJumpForceMultiplier = 1f;
-
-    // משתנה חדש שנועל את התנועה בזמן ההתכווצות
     private bool isPreparingToJump = false;
+    private bool isDigging;
 
     private void Awake()
     {
@@ -70,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!CanProcessMovement()) return;
 
-        horizontalInput = input.Move.x;
+        horizontalInput = isDigging ? 0f : input.Move.x; 
+        isDigging = input.DigHeld;
+
         CheckGround();
         HandleFlip();
         UpdateVisualsAndHealth();
@@ -84,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
-        // תנאי שעוצר את ההחלקה אם אנחנו מתכווצים על הרצפה לקראת קפיצה
         if (isPreparingToJump && isGrounded)
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -124,22 +122,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            // קפיצה ראשונה מהרצפה: הכנה והתכווצות
             isPreparingToJump = true;
             if (animator != null) animator.SetTrigger("IsJumping");
         }
         else
         {
-            // קפיצה כפולה באוויר: דוחפים למעלה פיזית וזהו! 
-            // לא מפעילים פה שום אנימציה דרך הקוד.
             ApplyPhysicalJump();
         }
     }
 
-    // הפונקציה החדשה שהאנימטור יקרא לה דרך ה-Animation Event
     public void ApplyPhysicalJump()
     {
-        // מכבים את נעילת התנועה כדי שיהיה אפשר לזוז באוויר
         isPreparingToJump = false;
 
         StopVerticalMovement();
@@ -180,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsMoving", isMoving);
             animator.SetBool("IsGrounded", isGrounded);
             animator.SetBool("IsRunning", isRunning);
+            animator.SetBool("IsDigging", isDigging);
 
             animator.SetFloat("yVelocity", rb.linearVelocity.y);
 
@@ -201,7 +195,8 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("FallProgress", smoothedFallProg);
         }
 
-        if (healthDrain != null) healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing);
+        if (healthDrain != null) 
+            healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing, isDigging);
     }
 
     private void HandleStateChanged(GameManager.GameState newState)
@@ -216,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = 0f;
         rb.linearVelocity = Vector2.zero;
+        isDigging = false;
         UpdateIdleState();
     }
 
