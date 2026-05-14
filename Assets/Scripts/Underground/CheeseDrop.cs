@@ -23,6 +23,7 @@ public class CheeseDrop : MonoBehaviour
     {
         cheese.GetComponentInChildren<CheesePickUp>().IsCheesePickUp = false;
         MakeRigidBodyDynamic(cheese);
+        cheese.GetComponentInChildren<CheesePickUp>().CanPickUp = false;
     }
 
     private void DropStick()
