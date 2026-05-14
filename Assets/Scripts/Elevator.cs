@@ -67,7 +67,7 @@ public class Elevator : MonoBehaviour
     {
         float newY = Mathf.MoveTowards(
                 transform.position.y,
-                floor,
+                floor - 0.1f,
                 speed * Time.deltaTime
             );
 

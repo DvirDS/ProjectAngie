@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443b8a4914b9bcc448979f3da09f171f, type: 3}
   m_Name: SkillTreeTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
-  tutorialTitle: 
+  tutorialTitle: Skill Tree
   tutorialDescription: 'To open skill tree menu
 
     press K on keyboard, and click

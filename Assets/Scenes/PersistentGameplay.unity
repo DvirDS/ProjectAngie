@@ -2556,6 +2556,8 @@ MonoBehaviour:
   skillIcon: {fileID: 0}
   myButton: {fileID: 442525402}
   nameText: {fileID: 1862404815}
+  isPurchasedColor: {r: 0.396, g: 0.012, b: 0.604, a: 1}
+  isNotPurchasedColor: {r: 0.031, g: 0.243, b: 0.765, a: 1}
 --- !u!1 &458853205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3380,6 +3382,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592089685}
   m_CullTransparentMesh: 1
+--- !u!1 &613832799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613832800}
+  m_Layer: 6
+  m_Name: Snout
+  m_TagString: Snout
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &613832800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613832799}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.14, y: 1.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 345748136187987655}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -5576,6 +5609,8 @@ MonoBehaviour:
   skillIcon: {fileID: 1137592109}
   myButton: {fileID: 1251724013}
   nameText: {fileID: 1671242517}
+  isPurchasedColor: {r: 0.396, g: 0.012, b: 0.604, a: 1}
+  isNotPurchasedColor: {r: 0.031, g: 0.243, b: 0.765, a: 1}
 --- !u!114 &1251724013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5872,6 +5907,8 @@ MonoBehaviour:
   skillIcon: {fileID: 1420855180}
   myButton: {fileID: 1256713733}
   nameText: {fileID: 1581228982}
+  isPurchasedColor: {r: 0.396, g: 0.012, b: 0.604, a: 1}
+  isNotPurchasedColor: {r: 0.031, g: 0.243, b: 0.765, a: 1}
 --- !u!1 &1259578837
 GameObject:
   m_ObjectHideFlags: 0
@@ -6086,6 +6123,8 @@ MonoBehaviour:
   skillIcon: {fileID: 684198029}
   myButton: {fileID: 1311556033}
   nameText: {fileID: 1474509631}
+  isPurchasedColor: {r: 0.396, g: 0.012, b: 0.604, a: 1}
+  isNotPurchasedColor: {r: 0.031, g: 0.243, b: 0.765, a: 1}
 --- !u!1 &1376338539
 GameObject:
   m_ObjectHideFlags: 0
@@ -7152,6 +7191,8 @@ MonoBehaviour:
   skillIcon: {fileID: 244591308}
   myButton: {fileID: 1547753248}
   nameText: {fileID: 370900642}
+  isPurchasedColor: {r: 0.396, g: 0.012, b: 0.604, a: 1}
+  isNotPurchasedColor: {r: 0.031, g: 0.243, b: 0.765, a: 1}
 --- !u!114 &1547753248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10208,6 +10249,7 @@ Transform:
   - {fileID: 391321011}
   - {fileID: 3390916272443071751}
   - {fileID: 1825140283}
+  - {fileID: 613832800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &933456041667518182
@@ -10620,6 +10662,7 @@ MonoBehaviour:
   walkDecay: 0.42
   stealthDecay: 0.8
   runDecay: 1.67
+  digDecay: 1.5
   hpUpgradeBonus: 50
   hasAppliedUpgrade: 0
 --- !u!4 &3390916272443071751
@@ -10993,7 +11036,7 @@ MonoBehaviour:
   doubleJumpSkillData: {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
   walkSpeed: 5
   sprintSpeed: 8
-  jumpForce: 8
+  jumpForce: 10
   doubleJumpMultiplier: 1
   groundCheck: {fileID: 1825140283}
   groundRadius: 0.2
