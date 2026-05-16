@@ -10,21 +10,26 @@ public class PlayerDash : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private PlayerInputReader input;
-    [SerializeField] private PlayerMovement playerMovement; 
+    [SerializeField] private PlayerMovement playerMovement;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashForce = 15f; 
-    [SerializeField] private float dashDuration = 0.2f; 
-    [SerializeField] private float dashCooldown = 1f; 
+    [SerializeField] private float dashForce = 15f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
 
     private Rigidbody2D rb;
     private bool isDashing = false;
     private float lastDashTime = -100f;
+    private float originalGravity;
+
+    private Coroutine currentDashCoroutine;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         if (playerMovement == null) playerMovement = GetComponent<PlayerMovement>();
+
+        originalGravity = rb.gravityScale;
     }
 
     private void OnEnable()
@@ -43,7 +48,8 @@ public class PlayerDash : MonoBehaviour
         {
             if (!isDashing && Time.time >= lastDashTime + dashCooldown)
             {
-                StartCoroutine(PerformDashRoutine());
+                if (currentDashCoroutine != null) StopCoroutine(currentDashCoroutine);
+                currentDashCoroutine = StartCoroutine(PerformDashRoutine());
             }
         }
         else
@@ -59,19 +65,66 @@ public class PlayerDash : MonoBehaviour
 
         if (playerMovement != null) playerMovement.enabled = false;
 
-        float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-
         float dashDirection = transform.localScale.x > 0 ? -1f : 1f;
 
         rb.linearVelocity = new Vector2(dashDirection * dashForce, 0f);
 
         yield return new WaitForSeconds(dashDuration);
 
+        EndDash();
+    }
+
+    private void EndDash()
+    {
+        isDashing = false;
         rb.gravityScale = originalGravity;
         rb.linearVelocity = Vector2.zero;
         if (playerMovement != null) playerMovement.enabled = true;
+    }
 
-        isDashing = false;
+    // שינינו את הפונקציה כך שתקבל את כל נתוני ההתנגשות
+    private void HandleDashCollision(Collision2D collision)
+    {
+        // 1. שולפים את וקטור הכיוון (נורמל) של משטח הפגיעה הראשון
+        Vector2 contactNormal = collision.GetContact(0).normal;
+
+        // 2. בודקים אם הפגיעה היא אנכית (מלמעלה או מלמטה)
+        // אם הערך המוחלט של Y גדול, זה אומר שאנחנו עומדים על הקופסה או פוגעים בה מלמטה.
+        // במקרה כזה, נצא מהפונקציה ולא נדחוף.
+        if (Mathf.Abs(contactNormal.y) > 0.5f)
+        {
+            return;
+        }
+
+        DashMovable obj = collision.gameObject.GetComponent<DashMovable>();
+        if (obj != null)
+        {
+            float dashDir = transform.localScale.x > 0 ? -1f : 1f;
+            obj.ApplyPush(new Vector2(dashDir, 0));
+
+            if (currentDashCoroutine != null) StopCoroutine(currentDashCoroutine);
+            EndDash();
+
+            rb.AddForce(new Vector2(-dashDir * 3f, 0.5f), ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDashing)
+        {
+            // מעבירים את ה-collision במלואו
+            HandleDashCollision(collision);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (isDashing)
+        {
+            // מעבירים את ה-collision במלואו
+            HandleDashCollision(collision);
+        }
     }
 }
