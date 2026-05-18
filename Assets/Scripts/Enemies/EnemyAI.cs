@@ -7,23 +7,25 @@ public class EnemyAI : MonoBehaviour
     [Header("Data")]
     [SerializeField] private EnemySO data;
 
-    [Header("State")]
-    [SerializeField] private EnemyState currentState = EnemyState.Patrol;
+    [Header("State Settings")]
+    public EnemyState currentState = EnemyState.Patrol;
 
     [Header("Patrol Points")]
-    [SerializeField] private Transform[] waypoints;
+    public Transform[] waypoints;
+
+    [Header("Combat Settings")]
+    [SerializeField] private Transform firePoint;
+    private float fireTimer = 0f;
 
     [Header("References")]
     [SerializeField] private SpriteRenderer alertBubble;
     [SerializeField] private LayerMask detectionLayers;
 
-    private EnemyFlying flying;
-    private EnemyShooting shooting;
+
 
     private Rigidbody2D rb;
     private Transform player;
     private PlayerStealth playerStealth;
-
     private bool isFacingRight = true;
     private Vector2 startPosition;
     private int currentWaypointIndex = 0;
@@ -31,39 +33,40 @@ public class EnemyAI : MonoBehaviour
     private float alertTimer = 0f;
     private float waypointPauseTimer = 0f;
     private bool isWaypointPausing = false;
+    private float lastDamageTime;
 
     private void Awake()
     {
+        // Safety check for the data file reference
         if (data == null)
-            Debug.LogError($"EnemyAI on {gameObject.name} is missing its EnemySO reference!");
+        {
+            Debug.LogError($"EnemyAI on {gameObject.name} is missing the EnemySO (Data) reference!");
+        }
 
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
+        {
             Debug.LogError($"EnemyAI on {gameObject.name} requires a Rigidbody2D component.");
-
-        flying = GetComponent<EnemyFlying>();
-        shooting = GetComponent<EnemyShooting>();
-
-        if (flying != null)
-            flying.Init(rb, data);
-
-        if (shooting != null)
-            shooting.Init(data);
-
-        PlayerDamageDealer dealer = GetComponent<PlayerDamageDealer>();
-        if (dealer != null)
-            dealer.Initialize(data.contactDamage, data.damageInterval);
+        }
+        else if (data.canFly)
+        {
+            rb.gravityScale = 0f;
+        }
     }
 
-    private void Start()
+    void Start()
     {
         FindPlayerReference();
+
+        rb = GetComponent<Rigidbody2D>();
         startPosition = transform.position;
+
         if (alertBubble != null) alertBubble.gameObject.SetActive(false);
+
         ChangeState(currentState);
     }
 
-    private void Update()
+    void Update()
     {
         if (player == null)
         {
@@ -81,10 +84,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------------------
-    // States
-    // -------------------------------------------------------------------------
-
     private void UpdateIdle()
     {
         SetVelocityX(0f);
@@ -93,9 +92,17 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdatePatrol()
     {
-        if (CanSeePlayer()) { ChangeState(EnemyState.Alert); return; }
+        if (CanSeePlayer())
+        {
+            ChangeState(EnemyState.Alert);
+            return;
+        }
 
-        if (waypoints == null || waypoints.Length == 0) { SetVelocityX(0f); return; }
+        if (waypoints == null || waypoints.Length == 0)
+        {
+            SetVelocityX(0f);
+            return;
+        }
 
         if (isWaypointPausing)
         {
@@ -109,7 +116,7 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        MoveToPoint(waypoints[currentWaypointIndex].position, data.patrolSpeed, 0.2f, StartWaypointPause);
+        MoveToPoint(waypoints[currentWaypointIndex].position, data.patrolSpeed, 0.2f, () => StartWaypointPause());
     }
 
     private void UpdateAlert()
@@ -123,188 +130,305 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return;
 
-        if (IsOutsideStopChaseRange())
+        // --- ��� ����� ������ ����! ---
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        bool lostPlayer = false;
+
+        // 1. Did the player escape the stop chase boundary?
+        if (data.canFly)
+        {
+            // ����� ���� ������ ������ �������
+            lostPlayer = distanceToPlayer > data.stopChaseRange;
+        }
+        else
+        {
+            float chaseDiffX = Mathf.Abs(player.position.x - transform.position.x);
+            float chaseDiffY = Mathf.Abs(player.position.y - transform.position.y);
+            lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
+        }
+
+        // If yes, give up and return
+        if (lostPlayer)
         {
             ChangeState(EnemyState.Return);
             return;
         }
 
-        if (IsOutsideLeashBoundary())
+        // --- 2. The Smart Leash Mechanism! ---
+        bool isOutsideBoundary = false;
+
+        if (data.canFly)
         {
-            HoldAtBoundary();
-            return;
+            // Circle logic for flying enemies
+            float distanceFromStart = Vector2.Distance(startPosition, transform.position);
+            float playerDistanceFromStart = Vector2.Distance(startPosition, player.position);
+
+            isOutsideBoundary = (distanceFromStart >= data.maxChaseDistance && playerDistanceFromStart > data.maxChaseDistance);
+        }
+        else
+        {
+            // Box logic for ground enemies
+            float diffX = Mathf.Abs(transform.position.x - startPosition.x);
+            float diffY = Mathf.Abs(transform.position.y - startPosition.y);
+
+            float playerDiffX = Mathf.Abs(player.position.x - startPosition.x);
+            float playerDiffY = Mathf.Abs(player.position.y - startPosition.y);
+
+            float halfWidth = data.maxChaseBoxSize.x / 2f;
+            float halfHeight = data.maxChaseBoxSize.y / 2f;
+
+            isOutsideBoundary = (diffX >= halfWidth || diffY >= halfHeight) &&
+                                (playerDiffX > halfWidth || playerDiffY > halfHeight);
         }
 
-        if (shooting != null)
-            shooting.UpdateCombat(player, rb, MoveToward);
+        // If the enemy reached the boundary edge AND the player is outside this boundary
+        if (isOutsideBoundary)
+        {
+            // Full stop! This prevents the jittering
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+
+            // Ensure the enemy still faces the player instead of freezing
+            float directionX = player.position.x - transform.position.x;
+            FlipSprite(directionX);
+
+            // Bonus: If it's a shooting enemy, it stays at the boundary and shoots if in range!
+            if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
+            {
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
+                {
+                    Shoot();
+                    fireTimer = data.fireRate;
+                }
+            }
+
+            return; // Stop the function here so the enemy doesn't try to move further
+        }
+
+        // --- 3. Normal chase logic (if we are within the boundary) ---
+        if (data.canFly && data.projectilePrefab != null)
+        {
+            if (distanceToPlayer <= data.shootingRange)
+            {
+                // Within shooting range: stop moving to aim and shoot
+                SetVelocityX(0f);
+                rb.linearVelocity = Vector2.zero;
+
+                // Ensure the enemy faces the player
+                float directionX = player.position.x - transform.position.x;
+                FlipSprite(directionX);
+
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
+                {
+                    Shoot();
+                    fireTimer = data.fireRate; // Reset timer for the next shot
+                }
+            }
+            else
+            {
+                // Too far to shoot: move closer to the player
+                MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
+            }
+        }
         else
-            MoveToward(player.position);
+        {
+            // Standard melee enemy logic: move towards the player
+            MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
+        }
     }
+
+    private void Shoot()
+    {
+        if (data.projectilePrefab == null) return;
+
+        Vector2 spawnPos = firePoint != null ? (Vector2)firePoint.position : (Vector2)transform.position;
+        GameObject bullet = Instantiate(data.projectilePrefab, spawnPos, Quaternion.identity);
+
+        Vector2 shootDirection = (player.position - (Vector3)spawnPos).normalized;
+
+        Projectile bulletScript = bullet.GetComponent<Projectile>();
+        if (bulletScript != null)
+        {
+            bulletScript.SetDirection(shootDirection, data.projectileSpeed);
+        }
+    }
+
+
 
     private void UpdateReturn()
     {
-        if (CanSeePlayer()) { ChangeState(EnemyState.Alert); return; }
+        // Keep eyes open while returning
+        if (CanSeePlayer())
+        {
+            ChangeState(EnemyState.Alert);
+            return;
+        }
 
         Vector2 targetPos = startPosition;
         int closestIndex = 0;
 
+        // Logic to find the closest waypoint
         if (waypoints != null && waypoints.Length > 0)
         {
-            float minDist = float.MaxValue;
+            float minDistance = float.MaxValue;
+
             for (int i = 0; i < waypoints.Length; i++)
             {
                 float dist = Vector2.Distance(transform.position, waypoints[i].position);
-                if (dist < minDist) { minDist = dist; targetPos = waypoints[i].position; closestIndex = i; }
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    targetPos = waypoints[i].position;
+                    closestIndex = i; // Save the index to continue patrol from here
+                }
             }
         }
 
+        // Move to the closest point found
         MoveToPoint(targetPos, data.patrolSpeed, 0.3f, () =>
         {
-            currentWaypointIndex = closestIndex;
-            ChangeState(waypoints != null && waypoints.Length > 0 ? EnemyState.Patrol : EnemyState.Idle);
+            currentWaypointIndex = closestIndex; // Set the next patrol point
+
+            if (waypoints != null && waypoints.Length > 0)
+                ChangeState(EnemyState.Patrol);
+            else
+                ChangeState(EnemyState.Idle);
         });
     }
 
-    // -------------------------------------------------------------------------
-    // Chase helpers
-    // -------------------------------------------------------------------------
-
-    private bool IsOutsideStopChaseRange()
+    private void FindPlayerReference()
     {
-        if (flying != null)
-            return Vector2.Distance(transform.position, player.position) > data.stopChaseRange;
-
-        float dx = Mathf.Abs(player.position.x - transform.position.x);
-        float dy = Mathf.Abs(player.position.y - transform.position.y);
-        return dx > data.stopChaseBoxSize.x / 2f || dy > data.stopChaseBoxSize.y / 2f;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj == null) return;
+        player = playerObj.transform;
+        playerStealth = playerObj.GetComponent<PlayerStealth>();
     }
 
-    private bool IsOutsideLeashBoundary()
+    private bool CanSeePlayer()
     {
-        if (flying != null)
-            return flying.IsOutsideBoundary(transform.position, player.position);
+        if (data.patrolOnly) return false;
+        if (player == null) return false;
 
-        float dx = Mathf.Abs(transform.position.x - startPosition.x);
-        float dy = Mathf.Abs(transform.position.y - startPosition.y);
-        float pdx = Mathf.Abs(player.position.x - startPosition.x);
-        float pdy = Mathf.Abs(player.position.y - startPosition.y);
-        float hw = data.maxChaseBoxSize.x / 2f;
-        float hh = data.maxChaseBoxSize.y / 2f;
-        return (dx >= hw || dy >= hh) && (pdx > hw || pdy > hh);
-    }
+        bool isInsideZone = false;
 
-    private void HoldAtBoundary()
-    {
-        rb.linearVelocity = flying != null ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
-        FlipSprite(player.position.x - transform.position.x);
-
-        if (shooting != null)
-            shooting.TryShootIfInRange(player, rb);
-    }
-
-    private void MoveToward(Vector2 target)
-    {
-        MoveToPoint(target, data.chaseSpeed, 0.5f, null);
-    }
-
-    // -------------------------------------------------------------------------
-    // Movement
-    // -------------------------------------------------------------------------
-
-    private void MoveToPoint(Vector2 target, float speed, float threshold, System.Action onArrived)
-    {
-        if (Vector2.Distance(transform.position, target) < threshold)
+        if (data.canFly)
         {
-            rb.linearVelocity = flying != null ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
-            onArrived?.Invoke();
-            return;
+            // --- Circle Logic (Flying) ---
+            float currentRange = data.sightRange;
+            if (playerStealth != null)
+            {
+                if (playerStealth.IsStealthing) currentRange *= data.stealthDetectionMultiplier;
+                if (playerStealth.IsInDarkZone) currentRange *= data.darkZoneDetectionMultiplier;
+            }
+            isInsideZone = Vector2.Distance(transform.position, player.position) <= currentRange;
+        }
+        else
+        {
+            // --- Box Logic (Ground) ---
+            Vector2 currentBox = data.sightBoxSize;
+            if (playerStealth != null)
+            {
+                if (playerStealth.IsStealthing) currentBox *= data.stealthDetectionMultiplier;
+                if (playerStealth.IsInDarkZone) currentBox *= data.darkZoneDetectionMultiplier;
+            }
+
+            float diffX = Mathf.Abs(player.position.x - transform.position.x);
+            float diffY = Mathf.Abs(player.position.y - transform.position.y);
+
+            // Check if inside width and height
+            isInsideZone = (diffX <= currentBox.x / 2f && diffY <= currentBox.y / 2f);
         }
 
-        Vector2 direction = (target - (Vector2)transform.position).normalized;
+        // If Angie is mathematically inside the zone, shoot a raycast to make sure there are no walls
+        if (isInsideZone)
+        {
+            Vector2 direction = (player.position - transform.position).normalized;
+            float dist = Vector2.Distance(transform.position, player.position);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, dist, detectionLayers);
 
-        if (flying != null)
-            rb.linearVelocity = direction * speed;
-        else
-            SetVelocityX(direction.x * speed);
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+        }
 
-        FlipSprite(direction.x);
+        return false;
     }
 
-    private void SetVelocityX(float x) =>
-        rb.linearVelocity = new Vector2(x, rb.linearVelocity.y);
+    public void ChangeState(EnemyState newState)
+    {
+        currentState = newState;
+
+        if (newState == EnemyState.Alert)
+            alertTimer = data != null ? data.alertDuration : 0.8f;
+
+        UpdateAlertBubble();
+    }
+
+    public void Alert() => ChangeState(EnemyState.Alert);
 
     private void FlipSprite(float directionX)
     {
         if (directionX > 0.1f && !isFacingRight)
         {
             isFacingRight = true;
-            Vector3 s = transform.localScale;
-            s.x = Mathf.Abs(s.x);
-            transform.localScale = s;
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
         else if (directionX < -0.1f && isFacingRight)
         {
             isFacingRight = false;
-            Vector3 s = transform.localScale;
-            s.x = -Mathf.Abs(s.x);
-            transform.localScale = s;
+            Vector3 scale = transform.localScale;
+            scale.x = -Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Detection
-    // -------------------------------------------------------------------------
-
-    private bool CanSeePlayer()
+    private void MoveToPoint(Vector2 targetPos, float speed, float threshold, System.Action onArrived)
     {
-        if (data.patrolOnly || player == null) return false;
+        float distance = Vector2.Distance(transform.position, targetPos);
 
-        bool inZone;
-
-        if (flying != null)
+        // Check if we reached the target
+        if (distance < threshold)
         {
-            float range = data.sightRange;
-            if (playerStealth != null)
-            {
-                if (playerStealth.IsStealthing) range *= data.stealthDetectionMultiplier;
-                if (playerStealth.IsInDarkZone) range *= data.darkZoneDetectionMultiplier;
-            }
-            inZone = Vector2.Distance(transform.position, player.position) <= range;
+            // Stop moving: Flying enemies stop completely, ground enemies stop X movement but keep Y (gravity)
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+            onArrived?.Invoke();
         }
         else
         {
-            Vector2 box = data.sightBoxSize;
-            if (playerStealth != null)
+            // Calculate the direction towards the target
+            Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
+
+            if (data.canFly)
             {
-                if (playerStealth.IsStealthing) box *= data.stealthDetectionMultiplier;
-                if (playerStealth.IsInDarkZone) box *= data.darkZoneDetectionMultiplier;
+                // Free movement towards the target (Air)
+                rb.linearVelocity = direction * speed;
             }
-            float dx = Mathf.Abs(player.position.x - transform.position.x);
-            float dy = Mathf.Abs(player.position.y - transform.position.y);
-            inZone = dx <= box.x / 2f && dy <= box.y / 2f;
+            else
+            {
+                // Movement only on the X axis (Ground)
+                SetVelocityX(direction.x * speed);
+            }
+
+            // Face the correct direction
+            FlipSprite(direction.x);
         }
-
-        if (!inZone) return false;
-
-        Vector2 dir = (player.position - transform.position).normalized;
-        float dist = Vector2.Distance(transform.position, player.position);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, detectionLayers);
-        return hit.collider != null && hit.collider.CompareTag("Player");
     }
 
-    // -------------------------------------------------------------------------
-    // State management
-    // -------------------------------------------------------------------------
-
-    public void ChangeState(EnemyState newState)
+    private void SetVelocityX(float x)
     {
-        currentState = newState;
-        if (newState == EnemyState.Alert)
-            alertTimer = data != null ? data.alertDuration : 0.8f;
-        UpdateAlertBubble();
+        rb.linearVelocity = new Vector2(x, rb.linearVelocity.y);
     }
 
-    public void Alert() => ChangeState(EnemyState.Alert);
+    private void StartWaypointPause()
+    {
+        isWaypointPausing = true;
+        waypointPauseTimer = data != null ? data.waypointPauseTime : 0.5f;
+    }
 
     private void UpdateAlertBubble()
     {
@@ -325,51 +449,37 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Misc
-    // -------------------------------------------------------------------------
-
-    private void FindPlayerReference()
-    {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj == null) return;
-        player = playerObj.transform;
-        playerStealth = playerObj.GetComponent<PlayerStealth>();
-    }
-
-    private void StartWaypointPause()
-    {
-        isWaypointPausing = true;
-        waypointPauseTimer = data != null ? data.waypointPauseTime : 0.5f;
-    }
-
-    // -------------------------------------------------------------------------
-    // Gizmos
-    // -------------------------------------------------------------------------
-
     private void OnDrawGizmosSelected()
     {
         if (data == null) return;
 
-        bool isFlying = flying != null || GetComponent<EnemyFlying>() != null;
-
-        Gizmos.color = Color.yellow;
-        if (isFlying)
+        if (data.canFly)
+        {
+            // --- Flying Enemies (Circles) ---
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, data.sightRange);
+
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(transform.position, data.stopChaseRange);
+        }
         else
+        {
+            // --- Ground Enemies (Boxes) ---
+            Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position, new Vector3(data.sightBoxSize.x, data.sightBoxSize.y, 0f));
 
-        Gizmos.color = Color.gray;
-        if (isFlying)
-            Gizmos.DrawWireSphere(transform.position, data.stopChaseRange);
-        else
+            Gizmos.color = Color.gray;
             Gizmos.DrawWireCube(transform.position, new Vector3(data.stopChaseBoxSize.x, data.stopChaseBoxSize.y, 0f));
+        }
 
+        // Leash Boundary - Blue
         Gizmos.color = Color.cyan;
-        Vector2 center = Application.isPlaying ? startPosition : (Vector2)transform.position;
-        if (isFlying)
-            Gizmos.DrawWireSphere(center, data.maxChaseDistance);
+        Vector2 centerPoint = Application.isPlaying ? startPosition : (Vector2)transform.position;
+
+        if (data.canFly)
+            Gizmos.DrawWireSphere(centerPoint, data.maxChaseDistance);
         else
-            Gizmos.DrawWireCube(center, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, 0f));
+            Gizmos.DrawWireCube(centerPoint, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, 0f));
     }
+
 }
