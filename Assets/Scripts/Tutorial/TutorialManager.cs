@@ -33,7 +33,7 @@ public class TutorialManager : MonoBehaviour
 
     private void OnEnable()
     {
-        introBubblePanel?.SetActive(false);
+        introBubblePanel?.SetActive(true);
         outroBubblePanel?.SetActive(false);
         tutorialPanel?.SetActive(false);
         moveTrigger.enabled = false;
@@ -76,6 +76,9 @@ public class TutorialManager : MonoBehaviour
     public void ShowOutro()
     {
         outroBubblePanel?.SetActive(true);
+        Time.timeScale = 0f;
+        foreach (InputActionReference action in allTutorialActions)
+            PlayerInputReader.instance.DisableAction(action);
     }
 
     public void CloseOutroAndStartGame()
