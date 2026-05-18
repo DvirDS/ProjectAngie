@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5884061594965040874}
   - component: {fileID: 714532176372734142}
   - component: {fileID: 3211758838042725760}
+  - component: {fileID: -6045465446915670635}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -82,9 +83,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0fde59c62696348b3f495360166d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MineController
-  damageAmount: 10
   redAuraObject: {fileID: 8414701787009252863}
   mineSet: {fileID: 11400000, guid: 22daf71ac8367fc45ae8afb1957210b8, type: 2}
+--- !u!114 &-6045465446915670635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4465320085766411397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623ad32ff0d6e5841941ed115cac2e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  damage: 20
+  interval: 0
+  destroyOnHit: 1
 --- !u!1 &5656956388325382063
 GameObject:
   m_ObjectHideFlags: 0

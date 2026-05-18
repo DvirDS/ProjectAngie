@@ -16,11 +16,7 @@ public class CheesePickUp : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        if (CanPickUp)
-        {
-            IsCheesePickUp = true;
-        }
-        //IsCheesePickUp = CanPickUp ? true : false;
+        IsCheesePickUp = CanPickUp;
     }
 
     void Update()

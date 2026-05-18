@@ -6,11 +6,11 @@ public class CallElevator : MonoBehaviour
     public event Action<float> OnPlayerEntered;
 
     private const string PlayerTag = "Player";
+    [SerializeField] float transformOffset = 0.8f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(PlayerTag))
-            OnPlayerEntered?.Invoke(other.transform.position.y);
+            OnPlayerEntered?.Invoke(other.transform.position.y - transformOffset);
     }
-
 }
