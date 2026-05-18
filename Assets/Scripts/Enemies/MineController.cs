@@ -3,7 +3,6 @@ using UnityEngine;
 public class MineController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float damageAmount = 10f;
     [SerializeField] private GameObject redAuraObject;
 
     [Header("Runtime Set")]
@@ -45,20 +44,6 @@ public class MineController : MonoBehaviour
         if (gasParticles != null)
         {
             gasEmission.enabled = canSmell;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            HealthDrainSystem playerHealth = other.GetComponent<HealthDrainSystem>();
-
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damageAmount);
-                Destroy(gameObject);
-            }
         }
     }
 }

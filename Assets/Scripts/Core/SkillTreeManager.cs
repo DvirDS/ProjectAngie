@@ -130,6 +130,4 @@ public class SkillTreeManager : MonoBehaviour
         playerSkillPoints += amount;
         UpdateUI();
     }
-
-
 }

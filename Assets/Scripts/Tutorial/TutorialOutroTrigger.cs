@@ -6,8 +6,15 @@ public class TutorialOutroTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            TutorialManager.instance.ShowOutro();
+            Debug.Log("Outro trigger hit!");
 
+            if (TutorialManager.instance == null)
+            {
+                Debug.LogError("TutorialManager.instance is null!");
+                return;
+            }
+
+            TutorialManager.instance.ShowOutro();
             Destroy(gameObject);
         }
     }

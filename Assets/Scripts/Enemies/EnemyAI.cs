@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
 
     private Rigidbody2D rb;
     private Transform player;
-    private PlayerStealth playerStealth; 
+    private PlayerStealth playerStealth;
     private bool isFacingRight = true;
     private Vector2 startPosition;
     private int currentWaypointIndex = 0;
@@ -126,118 +126,118 @@ public class EnemyAI : MonoBehaviour
         if (alertTimer <= 0f) ChangeState(EnemyState.Chase);
     }
 
-private void UpdateChase()
-{
-    if (player == null) return;
-
-    // --- äðä äùåøä ùäééúä çñøä! ---
-    float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-    bool lostPlayer = false;
-
-    // 1. Did the player escape the stop chase boundary?
-    if (data.canFly)
+    private void UpdateChase()
     {
-        // òëùéå àôùø ìäùúîù áîùúðä ùçéùáðå
-        lostPlayer = distanceToPlayer > data.stopChaseRange;
-    }
-    else
-    {
-        float chaseDiffX = Mathf.Abs(player.position.x - transform.position.x);
-        float chaseDiffY = Mathf.Abs(player.position.y - transform.position.y);
-        lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
-    }
+        if (player == null) return;
 
-    // If yes, give up and return
-    if (lostPlayer)
-    {
-        ChangeState(EnemyState.Return);
-        return;
-    }
+        // --- ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ---
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-    // --- 2. The Smart Leash Mechanism! ---
-    bool isOutsideBoundary = false;
+        bool lostPlayer = false;
 
-    if (data.canFly)
-    {
-        // Circle logic for flying enemies
-        float distanceFromStart = Vector2.Distance(startPosition, transform.position);
-        float playerDistanceFromStart = Vector2.Distance(startPosition, player.position);
-        
-        isOutsideBoundary = (distanceFromStart >= data.maxChaseDistance && playerDistanceFromStart > data.maxChaseDistance);
-    }
-    else
-    {
-        // Box logic for ground enemies
-        float diffX = Mathf.Abs(transform.position.x - startPosition.x);
-        float diffY = Mathf.Abs(transform.position.y - startPosition.y);
-        
-        float playerDiffX = Mathf.Abs(player.position.x - startPosition.x);
-        float playerDiffY = Mathf.Abs(player.position.y - startPosition.y);
-
-        float halfWidth = data.maxChaseBoxSize.x / 2f;
-        float halfHeight = data.maxChaseBoxSize.y / 2f;
-
-        isOutsideBoundary = (diffX >= halfWidth || diffY >= halfHeight) && 
-                            (playerDiffX > halfWidth || playerDiffY > halfHeight);
-    }
-
-    // If the enemy reached the boundary edge AND the player is outside this boundary
-    if (isOutsideBoundary)
-    {
-        // Full stop! This prevents the jittering
-        rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
-
-        // Ensure the enemy still faces the player instead of freezing
-        float directionX = player.position.x - transform.position.x;
-        FlipSprite(directionX);
-
-        // Bonus: If it's a shooting enemy, it stays at the boundary and shoots if in range!
-        if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
+        // 1. Did the player escape the stop chase boundary?
+        if (data.canFly)
         {
-            fireTimer -= Time.deltaTime;
-            if (fireTimer <= 0f)
-            {
-                Shoot();
-                fireTimer = data.fireRate;
-            }
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            lostPlayer = distanceToPlayer > data.stopChaseRange;
         }
-        
-        return; // Stop the function here so the enemy doesn't try to move further
-    }
-
-    // --- 3. Normal chase logic (if we are within the boundary) ---
-    if (data.canFly && data.projectilePrefab != null)
-    {
-        if (distanceToPlayer <= data.shootingRange)
+        else
         {
-            // Within shooting range: stop moving to aim and shoot
-            SetVelocityX(0f);
-            rb.linearVelocity = Vector2.zero;
-            
-            // Ensure the enemy faces the player
+            float chaseDiffX = Mathf.Abs(player.position.x - transform.position.x);
+            float chaseDiffY = Mathf.Abs(player.position.y - transform.position.y);
+            lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
+        }
+
+        // If yes, give up and return
+        if (lostPlayer)
+        {
+            ChangeState(EnemyState.Return);
+            return;
+        }
+
+        // --- 2. The Smart Leash Mechanism! ---
+        bool isOutsideBoundary = false;
+
+        if (data.canFly)
+        {
+            // Circle logic for flying enemies
+            float distanceFromStart = Vector2.Distance(startPosition, transform.position);
+            float playerDistanceFromStart = Vector2.Distance(startPosition, player.position);
+
+            isOutsideBoundary = (distanceFromStart >= data.maxChaseDistance && playerDistanceFromStart > data.maxChaseDistance);
+        }
+        else
+        {
+            // Box logic for ground enemies
+            float diffX = Mathf.Abs(transform.position.x - startPosition.x);
+            float diffY = Mathf.Abs(transform.position.y - startPosition.y);
+
+            float playerDiffX = Mathf.Abs(player.position.x - startPosition.x);
+            float playerDiffY = Mathf.Abs(player.position.y - startPosition.y);
+
+            float halfWidth = data.maxChaseBoxSize.x / 2f;
+            float halfHeight = data.maxChaseBoxSize.y / 2f;
+
+            isOutsideBoundary = (diffX >= halfWidth || diffY >= halfHeight) &&
+                                (playerDiffX > halfWidth || playerDiffY > halfHeight);
+        }
+
+        // If the enemy reached the boundary edge AND the player is outside this boundary
+        if (isOutsideBoundary)
+        {
+            // Full stop! This prevents the jittering
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+
+            // Ensure the enemy still faces the player instead of freezing
             float directionX = player.position.x - transform.position.x;
             FlipSprite(directionX);
 
-            fireTimer -= Time.deltaTime;
-            if (fireTimer <= 0f)
+            // Bonus: If it's a shooting enemy, it stays at the boundary and shoots if in range!
+            if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
             {
-                Shoot();
-                fireTimer = data.fireRate; // Reset timer for the next shot
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
+                {
+                    Shoot();
+                    fireTimer = data.fireRate;
+                }
+            }
+
+            return; // Stop the function here so the enemy doesn't try to move further
+        }
+
+        // --- 3. Normal chase logic (if we are within the boundary) ---
+        if (data.canFly && data.projectilePrefab != null)
+        {
+            if (distanceToPlayer <= data.shootingRange)
+            {
+                // Within shooting range: stop moving to aim and shoot
+                SetVelocityX(0f);
+                rb.linearVelocity = Vector2.zero;
+
+                // Ensure the enemy faces the player
+                float directionX = player.position.x - transform.position.x;
+                FlipSprite(directionX);
+
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
+                {
+                    Shoot();
+                    fireTimer = data.fireRate; // Reset timer for the next shot
+                }
+            }
+            else
+            {
+                // Too far to shoot: move closer to the player
+                MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
             }
         }
         else
         {
-            // Too far to shoot: move closer to the player
+            // Standard melee enemy logic: move towards the player
             MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
         }
     }
-    else
-    {
-        // Standard melee enemy logic: move towards the player
-        MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
-    }
-}
 
     private void Shoot()
     {
@@ -396,7 +396,7 @@ private void UpdateChase()
         {
             // Stop moving: Flying enemies stop completely, ground enemies stop X movement but keep Y (gravity)
             rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
-            onArrived?.Invoke();    
+            onArrived?.Invoke();
         }
         else
         {
@@ -448,23 +448,6 @@ private void UpdateChase()
                 break;
         }
     }
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (data.canFly) return;
-
-        if (other.CompareTag("Player"))
-        {
-            if (Time.time >= lastDamageTime + data.damageInterval)
-            {
-                HealthDrainSystem playerHealth = other.GetComponent<HealthDrainSystem>();
-                if (playerHealth != null)
-                {
-                    playerHealth.TakeDamage(data.contactDamage);
-                    lastDamageTime = Time.time;
-                }
-            }
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {
@@ -500,4 +483,3 @@ private void UpdateChase()
     }
 
 }
-
