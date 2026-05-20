@@ -223,6 +223,7 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
+  firePoint: {fileID: 0}
   alertBubble: {fileID: 0}
   detectionLayers:
     serializedVersion: 2
@@ -240,5 +241,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageDealer
   damage: 10
-  interval: 0
+  interval: 1
   destroyOnHit: 0

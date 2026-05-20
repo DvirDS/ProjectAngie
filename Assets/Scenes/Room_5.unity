@@ -2670,8 +2670,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: sceneToLoad.Array.data[0].m_SceneName
+      value: Room_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: sceneToUnload.Array.data[0].m_SceneName
-      value: Room_4
+      value: xRoom_4
       objectReference: {fileID: 0}
     - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: sceneToUnload.Array.data[0].m_SceneAsset
