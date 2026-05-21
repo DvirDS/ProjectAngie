@@ -1563,7 +1563,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4
+  m_SortingOrder: -5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3739957133524300147, guid: 787ef2fbe46ee6c448010759bf972e6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2488,8 +2488,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 933657413}
-  - component: {fileID: 933657412}
   - component: {fileID: 933657414}
+  - component: {fileID: 933657415}
   m_Layer: 3
   m_Name: RoomBounds
   m_TagString: Untagged
@@ -2497,8 +2497,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &933657412
-BoxCollider2D:
+--- !u!4 &933657413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933657411}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15, y: 6.9, z: 0}
+  m_LocalScale: {x: 2.252143, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &933657414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933657411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaad1c2af0f36fe47ac7b8c7640f57d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreateLeftWall
+  physicalBounds: []
+  dampingX: 0.1
+  dampingY: 0.1
+--- !u!60 &933657415
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2531,7 +2561,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -11.138773, y: -3.0583944}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2541,37 +2571,14 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 79.95444, y: 9.615387}
-  m_EdgeRadius: 0
---- !u!4 &933657413
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933657411}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: 6.9, z: 0}
-  m_LocalScale: {x: 2.252143, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &933657414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933657411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaad1c2af0f36fe47ac7b8c7640f57d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CreateLeftWall
-  wall:
-  - {fileID: 952413812906043499}
+  m_Points:
+    m_Paths:
+    - - {x: -51, y: -8}
+      - {x: 14, y: -8}
+      - {x: 29, y: -8}
+      - {x: 29, y: 1.6}
+      - {x: -51, y: 1.6}
+  m_UseDelaunayMesh: 1
 --- !u!1 &939305852
 GameObject:
   m_ObjectHideFlags: 0
@@ -4471,7 +4478,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7699978436774145253, guid: ae43054fa177d624b9849c56f40d12d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5755,11 +5762,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
---- !u!61 &952413812906043499 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 6956827225385285151, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
-  m_PrefabInstance: {fileID: 952413812906043498}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &952413812906043500 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5780560731315072206, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}

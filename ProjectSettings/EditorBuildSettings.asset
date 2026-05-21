@@ -23,15 +23,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Room_4.unity
     guid: 982ddc8ed3e49ab40a644ad7987436f2
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/xRoom_4.unity
+    guid: 5df882628b13fe444833cb769688c05a
+  - enabled: 1
     path: Assets/Scenes/Room_5.unity
     guid: 73459c383e9e2034693ba31dbd2ee524
   - enabled: 0
     path: Assets/Scenes/xRoom_2.unity
     guid: 271e4c85f86a6454b8348b98dafb66fb
-  - enabled: 0
-    path: Assets/Scenes/xRoom_4.unity
-    guid: 5df882628b13fe444833cb769688c05a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

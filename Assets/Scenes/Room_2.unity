@@ -719,11 +719,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.71
+      value: -57.27
       objectReference: {fileID: 0}
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.95
+      value: -1.82
       objectReference: {fileID: 0}
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1327,7 +1327,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -1404,8 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaad1c2af0f36fe47ac7b8c7640f57d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreateLeftWall
-  wall:
-  - {fileID: 3786129377789007398}
+  physicalBounds: []
 --- !u!61 &580766746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23090,11 +23089,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3786129377789007401}
   m_SourcePrefab: {fileID: 100100000, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
---- !u!61 &3786129377789007398 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 6956827225385285151, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
-  m_PrefabInstance: {fileID: 3786129377789007397}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3786129377789007399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5187295217765942053, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
