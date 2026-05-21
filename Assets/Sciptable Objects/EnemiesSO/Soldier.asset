@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   patrolSpeed: 2
   chaseSpeed: 4
+  patrolOnly: 0
+  canFly: 0
   sightRange: 5
   stopChaseRange: 8
   stealthDetectionMultiplier: 0.3
