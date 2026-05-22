@@ -24,7 +24,7 @@ public class HealthDrainSystem : MonoBehaviour
     private bool isMoving;
     private bool isSprinting;
     private bool isStealthing;
-    private bool isDigging;
+    private bool isSniffing;
 
     private void Awake()
     {
@@ -37,10 +37,11 @@ public class HealthDrainSystem : MonoBehaviour
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
         float decayAmount = passiveDecay;
 
-        decayAmount = isSprinting && isMoving ? runDecay 
-            : isMoving ? walkDecay  
-            : isStealthing ? stealthDecay
-            : passiveDecay;
+        decayAmount = isSniffing ? sniffDecay
+                    : isSprinting && isMoving ? runDecay
+                    : isMoving ? walkDecay
+                    : isStealthing ? stealthDecay
+                    : passiveDecay;
 
         float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;
@@ -57,12 +58,12 @@ public class HealthDrainSystem : MonoBehaviour
         }
     }
 
-    public void SetMovementState(bool moving, bool sprinting, bool stealthing, bool digging = false)
+    public void SetMovementState(bool moving, bool sprinting, bool stealthing, bool sniffing = false)
     {
         isMoving = moving;
         isSprinting = sprinting;
         isStealthing = stealthing;
-        isDigging = digging;
+        isSniffing = sniffing;
     }
 
     public void ApplyHpUpgrade()

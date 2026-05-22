@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Visual Effects")]
+    [SerializeField] private ParticleSystem sniffAuraEffect;
+
     [Header("References")]
     [SerializeField] private PlayerInputReader input;
     [SerializeField] private HealthDrainSystem healthDrain;
@@ -32,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float currentJumpForceMultiplier = 1f;
     private bool isPreparingToJump = false;
     private bool isDigging;
-
+    private bool isSuperSniffing;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -55,12 +58,16 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleStateChanged;
         if (input != null) input.OnJumpPressed += PerformJump;
 
+        // הרשמה לאיוונט
+        PlayerSniff.OnSuperSniff += HandleSuperSniff;
     }
 
     private void OnDisable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleStateChanged;
         if (input != null) input.OnJumpPressed -= PerformJump;
+
+        PlayerSniff.OnSuperSniff -= HandleSuperSniff;
     }
 
     private void Update()
@@ -170,8 +177,8 @@ public class PlayerMovement : MonoBehaviour
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
-
         bool isRunning = isMoving && input.SprintHeld && !isStealthing;
+        bool isSniffing = input.SniffHeld;
 
         if (animator != null)
         {
@@ -201,8 +208,22 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("FallProgress", smoothedFallProg);
         }
 
+        if (sniffAuraEffect != null)
+        {
+            if (isSuperSniffing && !sniffAuraEffect.isPlaying)
+            {
+                sniffAuraEffect.Play();
+            }
+            else if (!isSuperSniffing && sniffAuraEffect.isPlaying)
+            {
+                sniffAuraEffect.Stop();
+            }
+        }
+
         if (healthDrain != null)
-            healthDrain.SetMovementState(isMoving, isRunning, isStealthing, isDigging);
+        {
+            healthDrain.SetMovementState(isMoving, isRunning, isStealthing, isSuperSniffing);
+        }
     }
 
     private void HandleStateChanged(GameManager.GameState newState)
@@ -245,5 +266,10 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.I == null) return true;
         return GameManager.I.State == GameManager.GameState.Play ||
                GameManager.I.State == GameManager.GameState.Tutorial;
+    }
+
+    private void HandleSuperSniff(bool active)
+    {
+        isSuperSniffing = active;
     }
 }
