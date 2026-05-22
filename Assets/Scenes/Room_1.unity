@@ -2924,12 +2924,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome, Survivor.\r\n\r\nThe world is your enemy, and every breath is
-    earned.\n\r\n<color=#FF0000><u>Your Health Bar drains with every action - Walking,
-    Running, and Jumping each take their toll at different rates.</u></color> \r\n\r\nThere
-    are no tools here, only your instincts. Find food to stay alive and unlock powerful
-    abilities through your Skill Tree. Choose your path wisely to navigate the wilds
-    and overcome the dangers ahead.\r\nEvolve to survive. Move smart, or perish."
+  m_text: "Welcome, Survivor.\r\n\r\nThe world is your enemy.\n\r\n<color=#FF0000><u>Every
+    action costs health - Walking, Running, and Jumping drain your life at different
+    rates.</u></color> \r\n\r\nFind food to stay alive, unlock abilities in your
+    Skill Tree, and evolve.\n\nMove smart, or perish."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2956,8 +2954,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 17
+  m_fontSizeBase: 17
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
