@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Skill_SuperSniff
   m_EditorClassIdentifier: Assembly-CSharp::Skill
   skillName: Super Sniff
-  cost: 10
+  cost: 20
   icon: {fileID: 0}
-  skillDescription: Heightens your senses to reveal hidden objects and enemy tracks
+  skillDescription: Heightens your senses to reveal hidden objects and enemy tracks.
+    <color=red>Costs health while active.</color>
   activationKey: Q
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
-  nextSkills: []
   isUnlocked: 0
   isPurchased: 0

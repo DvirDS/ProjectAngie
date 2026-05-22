@@ -15,7 +15,7 @@ public class HealthDrainSystem : MonoBehaviour
     [SerializeField] private float walkDecay = 0.42f;
     [SerializeField] private float stealthDecay = 0.8f;
     [SerializeField] private float runDecay = 1.67f;
-    [SerializeField] private float digDecay = 1.5f;
+    [SerializeField] private float sniffDecay = 1.2f;
 
     [Header("Skills")]
     [SerializeField] private float hpUpgradeBonus = 50f;
@@ -38,8 +38,7 @@ public class HealthDrainSystem : MonoBehaviour
         float decayAmount = passiveDecay;
 
         decayAmount = isSprinting && isMoving ? runDecay 
-            : isMoving ? walkDecay
-            : isDigging ? digDecay   
+            : isMoving ? walkDecay  
             : isStealthing ? stealthDecay
             : passiveDecay;
 

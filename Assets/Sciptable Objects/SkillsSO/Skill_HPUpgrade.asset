@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Skill_HPUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::Skill
   skillName: HP Upgrade
-  cost: 50
+  cost: 40
   icon: {fileID: 0}
   skillDescription: Increases your vitality, allowing you to take more damage
   activationKey: 'Passive '

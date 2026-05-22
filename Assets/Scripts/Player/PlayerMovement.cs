@@ -89,7 +89,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        float targetSpeed = input.SprintHeld ? sprintSpeed : walkSpeed;
+        bool isStealthing = playerStealth != null && playerStealth.IsStealthing;
+        bool isSniffing = input.SniffHeld;
+        bool canSprint = input.SprintHeld && !isStealthing && !isSniffing;
+        float targetSpeed = canSprint ? sprintSpeed : walkSpeed;
         rb.linearVelocity = new Vector2(horizontalInput * targetSpeed, rb.linearVelocity.y);
     }
 
@@ -166,12 +169,15 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateVisualsAndHealth()
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
-        bool isRunning = isMoving && input.SprintHeld;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
+
+        bool isRunning = isMoving && input.SprintHeld && !isStealthing;
+
         if (animator != null)
         {
             animator.SetBool("IsMoving", isMoving);
             animator.SetBool("IsGrounded", isGrounded);
+
             animator.SetBool("IsRunning", isRunning);
             animator.SetBool("IsDigging", isDigging);
 
@@ -195,8 +201,8 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("FallProgress", smoothedFallProg);
         }
 
-        if (healthDrain != null) 
-            healthDrain.SetMovementState(isMoving, input.SprintHeld, isStealthing, isDigging);
+        if (healthDrain != null)
+            healthDrain.SetMovementState(isMoving, isRunning, isStealthing, isDigging);
     }
 
     private void HandleStateChanged(GameManager.GameState newState)

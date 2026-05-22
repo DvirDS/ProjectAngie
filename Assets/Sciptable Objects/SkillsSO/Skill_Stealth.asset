@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Skill_Stealth
   m_EditorClassIdentifier: Assembly-CSharp::Skill
   skillName: Stealth
-  cost: 40
+  cost: 50
   icon: {fileID: 0}
-  skillDescription: Temporarily blend into the shadows to avoid enemy detection
+  skillDescription: Temporarily blend into the shadows to avoid enemy detection.
+    <color=red>Costs health while active.</color>
   activationKey: C
   previousSkills:
   - {fileID: 11400000, guid: 89f168d395a1ecf46892cd0d605aa71e, type: 2}
