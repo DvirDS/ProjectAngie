@@ -1,5 +1,13 @@
 fileFormatVersion: 2
 guid: e761064d2a467724db0740f18d5cd9ac
+AssetOrigin:
+  serializedVersion: 1
+  productId: 321830
+  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
+  packageVersion: 1.0
+  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Trees/Background
+    Tree 7.png
+  uploadId: 762067
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -219,11 +227,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321830
-  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
-  packageVersion: 1.0
-  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Trees/Background
-    Tree 7.png
-  uploadId: 762067

@@ -1,10 +1,18 @@
 fileFormatVersion: 2
-guid: 9115a404539d9c148a65ffa9439521fd
+guid: c90c51e12448be844ab23f83df1991ba
+AssetOrigin:
+  serializedVersion: 1
+  productId: 321830
+  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
+  packageVersion: 1.0
+  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Trees/Background
+    Tree Bush 3.png
+  uploadId: 762067
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7350830527734792294
-    second: Skull Garden Tiles_960x960 Sprite Sheet_0
+      213: 6086972428341700517
+    second: Background Tree Bush 3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +59,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 640
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -178,133 +186,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_0
+      name: Background Tree Bush 3_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1202
-        width: 960
-        height: 718
+        y: 1205
+        width: 5988
+        height: 1254
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ab8073ba7e094e544b76e867530e3b14
-      internalID: -361433132
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 960
-        y: 1202
-        width: 960
-        height: 718
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c078efa6633e92444bf84fa1bb5833f7
-      internalID: -1601394267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 1920
-        y: 1202
-        width: 960
-        height: 718
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 34c2817aa7a092c4ea06ca7aeda2d4a0
-      internalID: -1513373771
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 484
-        width: 960
-        height: 718
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0a1b9899665f82f408514ae4df26c067
-      internalID: -1261414325
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 960
-        y: 484
-        width: 960
-        height: 718
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d53e23ae144a5f34aad5e465309e2338
-      internalID: -517678839
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skull Garden Tiles_960x960 Sprite Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 1920
-        y: 484
-        width: 960
-        height: 718
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 657baffcd9ace6d4b9e63f63b7b2215c
-      internalID: 1285633975
+      spriteID: 5a767e46c25497450800000000000000
+      internalID: 6086972428341700517
       vertices: []
       indices: 
       edges: []
@@ -313,7 +211,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 07eebd1adb491e440854e385f98ab51d
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -323,22 +221,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Skull Garden Tiles_960x960 Sprite Sheet_0: -361433132
-      Skull Garden Tiles_960x960 Sprite Sheet_1: -1601394267
-      Skull Garden Tiles_960x960 Sprite Sheet_2: -1513373771
-      Skull Garden Tiles_960x960 Sprite Sheet_3: -1261414325
-      Skull Garden Tiles_960x960 Sprite Sheet_4: -517678839
-      Skull Garden Tiles_960x960 Sprite Sheet_5: 1285633975
+      Background Tree Bush 3_0: 6086972428341700517
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321830
-  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
-  packageVersion: 1.0
-  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Platform
-    Tiles/Skull Garden Tiles_960x960 Sprite Sheet.png
-  uploadId: 762067

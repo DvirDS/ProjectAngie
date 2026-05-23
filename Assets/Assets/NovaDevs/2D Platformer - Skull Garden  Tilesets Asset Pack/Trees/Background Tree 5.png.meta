@@ -1,13 +1,18 @@
 fileFormatVersion: 2
-guid: e82d5aa5d240d28438f85f3a451361ca
+guid: e75e2d013780bc84dbfc97536ba94557
+AssetOrigin:
+  serializedVersion: 1
+  productId: 321830
+  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
+  packageVersion: 1.0
+  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Trees/Background
+    Tree 5.png
+  uploadId: 762067
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2369964941221578523
-    second: Background Tree 6_0
-  - first:
-      213: 5930444154921100488
-    second: Background Tree 6_1
+      213: 1112817324528274302
+    second: Background Tree 5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -181,13 +186,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background Tree 6_0
+      name: Background Tree 5_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1354
-        width: 160
-        height: 130
+        x: 11
+        y: 2
+        width: 1083
+        height: 1337
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,30 +201,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b1744a3be8ec3e020800000000000000
-      internalID: 2369964941221578523
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Background Tree 6_1
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 0
-        width: 1060
-        height: 1432
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8c42d5eb98b2d4250800000000000000
-      internalID: 5930444154921100488
+      spriteID: e7b8860f575817f00800000000000000
+      internalID: 1112817324528274302
       vertices: []
       indices: 
       edges: []
@@ -238,18 +221,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Background Tree 6_0: 2369964941221578523
-      Background Tree 6_1: 5930444154921100488
+      Background Tree 5_0: 1112817324528274302
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 321830
-  packageName: Free 2D Platformer - Skull Garden Tilesets Asset Pack
-  packageVersion: 1.0
-  assetPath: Assets/NovaDevs/2D Platformer - Skull Garden  Tilesets Asset Pack/Trees/Background
-    Tree 6.png
-  uploadId: 762067
