@@ -6,7 +6,7 @@ public class LoseSkill : TutorialTrigger
     {
         if (!collision.CompareTag("Player")) return;
 
-        SkillTreeManager.instance.ResetSkills();
+        SkillTreeManager.Instance.ResetSkills();
         TutorialManager.instance.Show(tutorial.tutorialDescription, null);
     }
 }

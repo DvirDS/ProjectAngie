@@ -32,9 +32,9 @@ public class Coin : MonoBehaviour
         if (CoinsManager.Instance != null)
             CoinsManager.Instance.MarkCollected(coinID);
 
-        if (SkillTreeManager.instance != null)
+        if (SkillTreeManager.Instance != null)
         {
-            SkillTreeManager.instance.AddSkillPoints(pointsValue);
+            SkillTreeManager.Instance.AddSkillPoints(pointsValue);
         }
 
         Destroy(gameObject);

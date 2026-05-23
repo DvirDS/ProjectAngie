@@ -49,7 +49,7 @@ public class SceneFade : MonoBehaviour
             fadeScreen.color = Color.Lerp(startColor, targetColor, elapsedPercentag);
 
             yield return null;
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
         }
     }
 }

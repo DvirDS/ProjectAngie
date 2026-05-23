@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class RespawnManager : MonoBehaviour
 {
-    public static RespawnManager instance;
+    public static RespawnManager Instance;
 
     [SerializeField] private SceneFade fadeScreen;
     [SerializeField] private float holdDuration = 0.3f;
@@ -17,12 +17,12 @@ public class RespawnManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this) 
+        if (Instance != null && Instance != this) 
         { 
             Destroy(gameObject); 
             return; 
         }
-        instance = this;
+        Instance = this;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

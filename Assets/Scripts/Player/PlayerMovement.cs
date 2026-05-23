@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float doubleJumpMultiplier = 1f;
+    [SerializeField] private float speedMultiplier = 1f;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -58,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleStateChanged;
         if (input != null) input.OnJumpPressed += PerformJump;
 
-        // הרשמה לאיוונט
         PlayerSniff.OnSuperSniff += HandleSuperSniff;
     }
 
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         bool isSniffing = input.SniffHeld;
         bool canSprint = input.SprintHeld && !isStealthing && !isSniffing;
         float targetSpeed = canSprint ? sprintSpeed : walkSpeed;
-        rb.linearVelocity = new Vector2(horizontalInput * targetSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(horizontalInput * targetSpeed * speedMultiplier, rb.linearVelocity.y);
     }
 
     private void PerformJump()
@@ -271,5 +272,26 @@ public class PlayerMovement : MonoBehaviour
     private void HandleSuperSniff(bool active)
     {
         isSuperSniffing = active;
+    }
+    public void SlowToStop(float duration)
+    {
+        StartCoroutine(SlowToStopRoutine(duration));
+    }
+
+    private IEnumerator SlowToStopRoutine(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            speedMultiplier = Mathf.Lerp(1f, 0f, elapsed / duration);
+            yield return null;
+        }
+
+        speedMultiplier = 0f;
+        rb.linearVelocity = Vector2.zero;
+
+        if (GameManager.I != null)
+            GameManager.I.GameOver();
     }
 }
