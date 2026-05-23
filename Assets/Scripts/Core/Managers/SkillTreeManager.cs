@@ -6,7 +6,7 @@ public class SkillTreeManager : MonoBehaviour
 {
     private const string HPUpgrade = "HP Upgrade";
     private GameState stateBeforeSkillTree;
-    public static SkillTreeManager instance;
+    public static SkillTreeManager Instance;
 
     [Header("UI References")]
     public GameObject skillTreeWindow;
@@ -22,7 +22,7 @@ public class SkillTreeManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (Instance == null) Instance = this;
         ResetSkills();
     }
 

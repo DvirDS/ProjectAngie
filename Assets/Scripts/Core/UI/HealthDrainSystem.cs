@@ -53,8 +53,8 @@ public class HealthDrainSystem : MonoBehaviour
         if (currentHealth <= 0)
         {
             RestoreHealth(maxHealth);
-            if (RespawnManager.instance != null)
-                RespawnManager.instance.Respawn();
+            if (RespawnManager.Instance != null)
+                RespawnManager.Instance.Respawn();
         }
     }
 

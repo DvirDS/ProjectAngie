@@ -5,7 +5,7 @@ public class CoinsManager : MonoBehaviour
 {
     public static CoinsManager Instance { get; private set; }
 
-    private readonly HashSet<string> collectedCoinIDs = new HashSet<string>();
+    private readonly HashSet<string> collectedCoinIDs = new();
 
     private void Awake()
     {

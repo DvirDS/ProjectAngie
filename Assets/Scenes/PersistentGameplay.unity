@@ -1868,6 +1868,11 @@ MonoBehaviour:
   fadeScreen: {fileID: 1511086097}
   holdBlackScreenDuration: 1
   fadeDuration: 5
+  slowDownDuration: 3
+  gameOverFadeDuration: 2
+  mainMenuScene:
+    m_SceneAsset: {fileID: 102900000, guid: c645a97deb14bb743a839228616dc989, type: 3}
+    m_SceneName: MainMenu
   state: 2
 --- !u!1 &527918370
 GameObject:
@@ -13397,6 +13402,7 @@ MonoBehaviour:
   sprintSpeed: 8
   jumpForce: 10
   doubleJumpMultiplier: 1
+  speedMultiplier: 1
   groundCheck: {fileID: 1825140283}
   groundRadius: 0.2
   groundMask:
@@ -13806,7 +13812,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.22549713}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -13816,7 +13822,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.9777775, y: 6.322222}
+  m_Size: {x: 8.9777775, y: 5.871228}
   m_EdgeRadius: 0
 --- !u!1 &7065958557962991881
 GameObject:
