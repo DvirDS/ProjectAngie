@@ -14,13 +14,15 @@ public class RespawnManager : MonoBehaviour
 
     private bool isRespawning = false;
     private string sceneNameToReload;
+    private Vector3 respawnPosition;
+    private bool hasRespawnPoint = false;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(gameObject); 
-            return; 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
         }
         Instance = this;
 
@@ -35,6 +37,11 @@ public class RespawnManager : MonoBehaviour
     public void Respawn()
     {
         if (isRespawning) return;
+        if (!hasRespawnPoint && RespawnPoint == null)
+        {
+            Debug.LogWarning("RespawnManager: no respawn point set — cannot respawn.");
+            return;
+        }
         StartCoroutine(RespawnRoutine());
     }
 
@@ -42,14 +49,13 @@ public class RespawnManager : MonoBehaviour
     {
         isRespawning = true;
 
-        if (RespawnPoint == null)
+        if (RespawnPoint != null)
         {
-            Debug.LogWarning("RespawnManager: no RespawnPoint set — cannot respawn.");
-            isRespawning = false;
-            yield break;
+            respawnPosition = RespawnPoint.position;
+            sceneNameToReload = RespawnPoint.gameObject.scene.name;
+            RespawnPoint = null;
+            hasRespawnPoint = true;
         }
-
-        sceneNameToReload = RespawnPoint.gameObject.scene.name;
 
         var player = GameObject.FindWithTag("Player");
         if (player != null)
@@ -79,7 +85,7 @@ public class RespawnManager : MonoBehaviour
         Events.onUnloadCreateBounds?.Invoke(sceneNameToReload);
 
         var player = GameObject.FindWithTag("Player");
-        if (player != null && RespawnPoint != null)
+        if (player != null)
         {
             var rb = player.GetComponent<Rigidbody2D>();
             if (rb != null)
@@ -87,9 +93,12 @@ public class RespawnManager : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
             }
-            player.transform.position = RespawnPoint.position;
+            player.transform.position = respawnPosition;
             if (rb != null)
-                rb.position = RespawnPoint.position;
+                rb.position = respawnPosition;
+
+            var health = player.GetComponent<HealthDrainSystem>();
+            if (health != null) health.ResetAfterRespawn();
         }
 
         yield return StartCoroutine(fadeScreen.HoldColorDuration(Color.black, holdDuration));
