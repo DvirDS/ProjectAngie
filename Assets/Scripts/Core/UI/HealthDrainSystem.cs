@@ -25,6 +25,7 @@ public class HealthDrainSystem : MonoBehaviour
     private bool isSprinting;
     private bool isStealthing;
     private bool isSniffing;
+    private bool isDead = false;
 
     private void Awake()
     {
@@ -35,6 +36,8 @@ public class HealthDrainSystem : MonoBehaviour
     private void Update()
     {
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
+        if (isDead) return;
+        
         float decayAmount = passiveDecay;
 
         decayAmount = isSniffing ? sniffDecay
@@ -50,9 +53,11 @@ public class HealthDrainSystem : MonoBehaviour
         if (currentHealth != previousHealth)
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isDead)
         {
-            RestoreHealth(maxHealth);
+            isDead = true;
+            currentHealth = maxHealth;
+            OnHealthChanged?.Invoke(currentHealth, maxHealth);
             if (RespawnManager.Instance != null)
                 RespawnManager.Instance.Respawn();
         }
@@ -84,6 +89,13 @@ public class HealthDrainSystem : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    public void ResetAfterRespawn()
+    {
+        isDead = false;
+        currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

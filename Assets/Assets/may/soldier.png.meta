@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 734d4ffc0a3700f46a1236aa257937d7
+guid: dcd96d390342e51418d5c38b93660e11
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6770129211876028947
-    second: Gemini_Generated_Image_bsmccwbsmccwbsmc (1)(1)_0
+      213: 6246832655069406539
+    second: soldier_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,29 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_bsmccwbsmccwbsmc (1)(1)_0
+      name: soldier_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2048
-        height: 1959
+        x: 107
+        y: 65
+        width: 915
+        height: 954
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 55.5, y: -463}
+        - {x: 47.5, y: 400}
+        - {x: -51.5, y: 437}
+        - {x: -149.5, y: 375}
+        - {x: -169.5, y: 251}
+        - {x: -163.5, y: -462}
+      tessellationDetail: 0
       bones: []
-      spriteID: ded42aaf95bab02a0800000000000000
-      internalID: -6770129211876028947
+      spriteID: b45e8b0e33531b650800000000000000
+      internalID: 6246832655069406539
       vertices: []
       indices: 
       edges: []
@@ -125,7 +131,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 24e78136311547a46b9cc0a7f31b3d52
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +141,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_bsmccwbsmccwbsmc (1)(1)_0: -6770129211876028947
+      soldier_0: 6246832655069406539
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

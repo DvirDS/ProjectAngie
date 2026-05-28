@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class RespawnPointProvider : MonoBehaviour
 {
-    [SerializeField] private GameObject respawnPoint;
+    [SerializeField] private Transform respawnPoint;
 
-    private void Awake()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        RespawnManager.Instance.RespawnPoint = respawnPoint.transform;
+        if (!other.CompareTag("Player")) return;
+        RespawnManager.Instance.RespawnPoint = respawnPoint;
     }
 }
