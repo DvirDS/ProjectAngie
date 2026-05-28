@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isPreparingToJump = false;
     private bool isDigging;
     private bool isSuperSniffing;
+
+    public float JumpForce { get => jumpForce; set => jumpForce = value; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
