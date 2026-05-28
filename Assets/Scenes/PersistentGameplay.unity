@@ -1868,6 +1868,7 @@ MonoBehaviour:
   fadeScreen: {fileID: 1511086097}
   holdBlackScreenDuration: 1
   fadeDuration: 5
+  managers: []
   slowDownDuration: 3
   gameOverFadeDuration: 2
   mainMenuScene:
@@ -13407,7 +13408,7 @@ MonoBehaviour:
   groundRadius: 0.2
   groundMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 2944
 --- !u!114 &5630087123642129056
 MonoBehaviour:
   m_ObjectHideFlags: 0
