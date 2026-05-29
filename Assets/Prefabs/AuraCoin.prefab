@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4305005731553011221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.93, y: 3.41, z: 0}
+  m_LocalPosition: {x: -0.03, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4845,7 +4845,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7773111491494966825}
+  - component: {fileID: 8202064706652814061}
   - component: {fileID: 8236624375225827965}
+  - component: {fileID: 3647005027575572093}
   m_Layer: 0
   m_Name: AuraCoin
   m_TagString: Untagged
@@ -4872,6 +4874,42 @@ Transform:
   - {fileID: 3348995757786087447}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &8202064706652814061
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710244109829214025}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.025295258, y: 0.025295258}
+  m_Radius: 0.38616943
 --- !u!114 &8236624375225827965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4889,12 +4927,23 @@ MonoBehaviour:
   - {fileID: 8948783367520716503}
   - {fileID: 1800561323791602725}
   - {fileID: 39563428346713912}
-  objectColliders:
-  - {fileID: 5734867018357047511}
-  - {fileID: 1369570676252439534}
-  - {fileID: 778193035657116359}
+  objectColliders: []
   highlightParticles: {fileID: 1026294046835630947}
   disableCollisionWhenHidden: 1
+--- !u!114 &3647005027575572093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710244109829214025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8e65012504a0c4baee1c1af564919f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Coin
+  pointsValue: 30
+  coinID: AuraCoin_01
 --- !u!1 &5150994154827580956
 GameObject:
   m_ObjectHideFlags: 0
@@ -4923,7 +4972,7 @@ Transform:
   m_GameObject: {fileID: 5150994154827580956}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.789001, y: 3.3140001, z: 0}
+  m_LocalPosition: {x: 0.19, y: -0.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4995,7 +5044,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5150994154827580956}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -5031,12 +5080,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5150994154827580956}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b8e65012504a0c4baee1c1af564919f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   pointsValue: 10
+  coinID: 
 --- !u!1 &5632688433034437987
 GameObject:
   m_ObjectHideFlags: 0
@@ -5065,7 +5115,7 @@ Transform:
   m_GameObject: {fileID: 5632688433034437987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.136002, y: 3.3140001, z: 0}
+  m_LocalPosition: {x: -0.15700531, y: -0.07999992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5137,7 +5187,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5632688433034437987}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -5173,12 +5223,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5632688433034437987}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b8e65012504a0c4baee1c1af564919f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   pointsValue: 10
+  coinID: 
 --- !u!1 &7882030321044281489
 GameObject:
   m_ObjectHideFlags: 0
@@ -5207,7 +5258,7 @@ Transform:
   m_GameObject: {fileID: 7882030321044281489}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.953003, y: 3.6240005, z: 0}
+  m_LocalPosition: {x: 0.025994256, y: 0.23000045, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5279,7 +5330,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7882030321044281489}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -5315,9 +5366,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7882030321044281489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b8e65012504a0c4baee1c1af564919f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coin
   pointsValue: 10
+  coinID: 

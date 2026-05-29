@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 443b8a4914b9bcc448979f3da09f171f, type: 3}
-  m_Name: LoseSkillTutorial
+  m_Name: CollectSkillTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
-  tutorialTitle: Lose Skill
-  tutorialDescription: "You lost you skill! \nTo acquire skills (what should Angie
-    do?) "
+  tutorialTitle: Collect coins
+  tutorialDescription: 'Collect Coins to unlock new skills from the Skill Tree '
   keyInput: {fileID: 0}
