@@ -1352,32 +1352,8 @@ PrefabInstance:
       value: AngieLight
       objectReference: {fileID: 0}
     - target: {fileID: 2774292745715722711, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_Intensity
-      value: 5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774292745715722711, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_FalloffIntensity
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774292745715722711, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_PointLightInnerRadius
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774292745715722711, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_PointLightOuterRadius
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093345567302037407, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093345567302037407, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093345567302037407, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
+      propertyPath: m_BlendStyleIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9093345567302037407, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1419,8 +1395,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5036299565269962033, guid: 5d2152f821857c9479ecfecabbda9b7f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

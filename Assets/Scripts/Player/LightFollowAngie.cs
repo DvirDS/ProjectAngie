@@ -1,21 +1,14 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LightFollowAngie : MonoBehaviour
 {
-    private Rigidbody2D player;
-    private bool isPlayerUnderground = false;
+    public static Light2D Instance { get; private set; }
+    public static float DefaultIntensity { get; private set; }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    player = collision.GetComponent<Rigidbody2D>();
-    //    Collider2D collider = GetComponent<Collider2D>();
-    //    collider.enabled = false;
-    //    isPlayerUnderground = true;
-    //}
-
-    void Update()
+    private void Awake()
     {
-        if (isPlayerUnderground) 
-            transform.position = player.position;
+        Instance = GetComponent<Light2D>();
+        DefaultIntensity = Instance.intensity;
     }
 }
