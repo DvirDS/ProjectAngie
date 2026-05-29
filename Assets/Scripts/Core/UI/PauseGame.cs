@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseGame : MonoBehaviour
 {
+
     public void OnResumeButton()
     {
         if (GameManager.I != null)
@@ -18,18 +19,16 @@ public class PauseGame : MonoBehaviour
             GameManager.I.ResumeGame();
         }
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void OnQuitToMenu()
     {
-        GameManager.I?.ResumeGame();
+        if (GameManager.I != null)
+        {
+            GameManager.I.ResumeGame();
+        }
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void OnQuitButton()
-    {
-        Debug.Log("Quitting game..."); 
-        Application.Quit(); 
-    }
 }
