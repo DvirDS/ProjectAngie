@@ -3,7 +3,7 @@ using UnityEngine.Rendering.Universal;
 
 public class AngiesLightZone : MonoBehaviour
 {
-    [SerializeField] private float targetIntensity = 0.4f;
+    [SerializeField] private float targetIntensity = 2f;
     [SerializeField] private float transitionSpeed = 2f;
 
     private static float defaultIntensity = -1f;
@@ -13,7 +13,7 @@ public class AngiesLightZone : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         if (defaultIntensity < 0f)
-            defaultIntensity = LightFollowAngie.Instance.intensity;
+            defaultIntensity = LightFollowAngie.DefaultIntensity;
 
         StopAllCoroutines();
         StartCoroutine(LerpLight(targetIntensity));
