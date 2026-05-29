@@ -1655,6 +1655,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
     - target: {fileID: 4710244109829214025, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
       propertyPath: m_Name
       value: AuraCoin
@@ -2478,6 +2482,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
     - target: {fileID: 6532806176603336938, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: m_Name
       value: Gold (2)
@@ -2722,6 +2730,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
     - target: {fileID: 6532806176603336938, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: m_Name
       value: Gold (1)
@@ -2867,6 +2879,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
+      propertyPath: floatingTextPrefab
+      value: 
+      objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
     - target: {fileID: 6532806176603336938, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: m_Name
       value: Gold
