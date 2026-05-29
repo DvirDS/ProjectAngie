@@ -6,6 +6,10 @@ public class Coin : MonoBehaviour
     [Header("Coin Settings")]
     [SerializeField] private int pointsValue = 10;
 
+    [Header("UI Effects")]
+    [Tooltip("גרור לכאן את ה-Prefab של ה-Floating Text Canvas")]
+    [SerializeField] private GameObject floatingTextPrefab;
+
     [Header("Persistence")]
     [Tooltip("Must be unique across the whole game. E.g. 'watchtower_coin_01'")]
     [SerializeField] private string coinID;
@@ -29,6 +33,22 @@ public class Coin : MonoBehaviour
 
     private void CollectCoin()
     {
+        if (floatingTextPrefab != null)
+        {
+            Canvas screenCanvas = Object.FindAnyObjectByType<Canvas>();
+
+            if (screenCanvas != null)
+            {
+                GameObject textInstance = Instantiate(floatingTextPrefab, screenCanvas.transform);
+
+                FloatingText floatingTextScript = textInstance.GetComponent<FloatingText>();
+                if (floatingTextScript != null)
+                {
+                    floatingTextScript.Initialize($"+{pointsValue}", transform.position);
+                }
+            }
+        }
+
         if (CoinsManager.Instance != null)
             CoinsManager.Instance.MarkCollected(coinID);
 
