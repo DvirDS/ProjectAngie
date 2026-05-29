@@ -37,14 +37,14 @@ public class HealthDrainSystem : MonoBehaviour
     {
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
         if (isDead) return;
-        
+
         float decayAmount = passiveDecay;
 
-        decayAmount = isSniffing ? sniffDecay
-                    : isSprinting && isMoving ? runDecay
-                    : isMoving ? walkDecay
-                    : isStealthing ? stealthDecay
-                    : passiveDecay;
+        decayAmount = isStealthing ? stealthDecay                    
+                    : isSniffing ? sniffDecay                        
+                    : isSprinting && isMoving ? runDecay             
+                    : isMoving ? walkDecay                           
+                    : passiveDecay;                                 
 
         float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;

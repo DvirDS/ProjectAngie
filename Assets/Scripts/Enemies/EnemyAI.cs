@@ -21,8 +21,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private SpriteRenderer alertBubble;
     [SerializeField] private LayerMask detectionLayers;
 
-
-
     private Rigidbody2D rb;
     private Transform player;
     private PlayerStealth playerStealth;
@@ -37,7 +35,6 @@ public class EnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        // Safety check for the data file reference
         if (data == null)
         {
             Debug.LogError($"EnemyAI on {gameObject.name} is missing the EnemySO (Data) reference!");
@@ -130,15 +127,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (player == null) return;
 
-        // --- ��� ����� ������ ����! ---
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
         bool lostPlayer = false;
 
-        // 1. Did the player escape the stop chase boundary?
+        // 1. האם השחקן יצא מהקוליידר/רדיוס הגיאומטרי של המרדף?
         if (data.canFly)
         {
-            // ����� ���� ������ ������ �������
             lostPlayer = distanceToPlayer > data.stopChaseRange;
         }
         else
@@ -148,19 +142,28 @@ public class EnemyAI : MonoBehaviour
             lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
         }
 
-        // If yes, give up and return
+        // --- בדיקת קו ראייה בזמן מרדף (ספציפית לרחפן) ---
+        if (!lostPlayer && data.canFly)
+        {
+            // אם הוא כבר לא רואה את השחקן (הסתתרת מאחורי קיר/סלע) - הוא מאבד אותך
+            if (!CanSeePlayer())
+            {
+                lostPlayer = true;
+            }
+        }
+
+        // אם הוא איבד אותך - חוזר חזרה
         if (lostPlayer)
         {
             ChangeState(EnemyState.Return);
             return;
         }
 
-        // --- 2. The Smart Leash Mechanism! ---
+        // --- 2. מנגנון הרצועה החכמה (Smart Leash) ---
         bool isOutsideBoundary = false;
 
         if (data.canFly)
         {
-            // Circle logic for flying enemies
             float distanceFromStart = Vector2.Distance(startPosition, transform.position);
             float playerDistanceFromStart = Vector2.Distance(startPosition, player.position);
 
@@ -168,7 +171,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // Box logic for ground enemies
             float diffX = Mathf.Abs(transform.position.x - startPosition.x);
             float diffY = Mathf.Abs(transform.position.y - startPosition.y);
 
@@ -182,17 +184,13 @@ public class EnemyAI : MonoBehaviour
                                 (playerDiffX > halfWidth || playerDiffY > halfHeight);
         }
 
-        // If the enemy reached the boundary edge AND the player is outside this boundary
         if (isOutsideBoundary)
         {
-            // Full stop! This prevents the jittering
             rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
 
-            // Ensure the enemy still faces the player instead of freezing
             float directionX = player.position.x - transform.position.x;
             FlipSprite(directionX);
 
-            // Bonus: If it's a shooting enemy, it stays at the boundary and shoots if in range!
             if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
             {
                 fireTimer -= Time.deltaTime;
@@ -203,19 +201,17 @@ public class EnemyAI : MonoBehaviour
                 }
             }
 
-            return; // Stop the function here so the enemy doesn't try to move further
+            return;
         }
 
-        // --- 3. Normal chase logic (if we are within the boundary) ---
+        // --- 3. לוגיקת מרדף וירי רגילה ---
         if (data.canFly && data.projectilePrefab != null)
         {
             if (distanceToPlayer <= data.shootingRange)
             {
-                // Within shooting range: stop moving to aim and shoot
                 SetVelocityX(0f);
                 rb.linearVelocity = Vector2.zero;
 
-                // Ensure the enemy faces the player
                 float directionX = player.position.x - transform.position.x;
                 FlipSprite(directionX);
 
@@ -223,18 +219,16 @@ public class EnemyAI : MonoBehaviour
                 if (fireTimer <= 0f)
                 {
                     Shoot();
-                    fireTimer = data.fireRate; // Reset timer for the next shot
+                    fireTimer = data.fireRate;
                 }
             }
             else
             {
-                // Too far to shoot: move closer to the player
                 MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
             }
         }
         else
         {
-            // Standard melee enemy logic: move towards the player
             MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
         }
     }
@@ -255,11 +249,8 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
-
     private void UpdateReturn()
     {
-        // Keep eyes open while returning
         if (CanSeePlayer())
         {
             ChangeState(EnemyState.Alert);
@@ -269,7 +260,6 @@ public class EnemyAI : MonoBehaviour
         Vector2 targetPos = startPosition;
         int closestIndex = 0;
 
-        // Logic to find the closest waypoint
         if (waypoints != null && waypoints.Length > 0)
         {
             float minDistance = float.MaxValue;
@@ -281,15 +271,14 @@ public class EnemyAI : MonoBehaviour
                 {
                     minDistance = dist;
                     targetPos = waypoints[i].position;
-                    closestIndex = i; // Save the index to continue patrol from here
+                    closestIndex = i;
                 }
             }
         }
 
-        // Move to the closest point found
         MoveToPoint(targetPos, data.patrolSpeed, 0.3f, () =>
         {
-            currentWaypointIndex = closestIndex; // Set the next patrol point
+            currentWaypointIndex = closestIndex;
 
             if (waypoints != null && waypoints.Length > 0)
                 ChangeState(EnemyState.Patrol);
@@ -315,7 +304,7 @@ public class EnemyAI : MonoBehaviour
 
         if (data.canFly)
         {
-            // --- Circle Logic (Flying) ---
+            // --- חישוב מעגלי (רחפנים) ---
             float currentRange = data.sightRange;
             if (playerStealth != null)
             {
@@ -326,7 +315,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // --- Box Logic (Ground) ---
+            // --- חישוב מלבני (אויבי קרקע) ---
             Vector2 currentBox = data.sightBoxSize;
             if (playerStealth != null)
             {
@@ -337,20 +326,40 @@ public class EnemyAI : MonoBehaviour
             float diffX = Mathf.Abs(player.position.x - transform.position.x);
             float diffY = Mathf.Abs(player.position.y - transform.position.y);
 
-            // Check if inside width and height
             isInsideZone = (diffX <= currentBox.x / 2f && diffY <= currentBox.y / 2f);
         }
 
-        // If Angie is mathematically inside the zone, shoot a raycast to make sure there are no walls
+        // --- בדיקת חסימת קירות פיזית ---
         if (isInsideZone)
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            float dist = Vector2.Distance(transform.position, player.position);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, dist, detectionLayers);
-
-            if (hit.collider != null && hit.collider.CompareTag("Player"))
+            if (data.canFly)
             {
-                return true;
+                // רחפן: משתמשים ב-Linecast ישיר לבדוק קו ראייה נקי לחלוטין
+                RaycastHit2D hit = Physics2D.Linecast(transform.position, player.position, detectionLayers);
+
+                if (hit.collider != null)
+                {
+                    // אם האובייקט הראשון שפגשנו בקו הוא השחקן - הכל פתוח!
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        return true;
+                    }
+
+                    // פגענו בקיר/סלע בדרך - הראייה חסומה
+                    return false;
+                }
+            }
+            else
+            {
+                // אויב קרקע: משאיר את ה-Raycast הרגיל שלך כדי לא לשבור את ההתנהגות שלהם
+                Vector2 direction = (player.position - transform.position).normalized;
+                float dist = Vector2.Distance(transform.position, player.position);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, dist, detectionLayers);
+
+                if (hit.collider != null && hit.collider.CompareTag("Player"))
+                {
+                    return true;
+                }
             }
         }
 
@@ -391,30 +400,24 @@ public class EnemyAI : MonoBehaviour
     {
         float distance = Vector2.Distance(transform.position, targetPos);
 
-        // Check if we reached the target
         if (distance < threshold)
         {
-            // Stop moving: Flying enemies stop completely, ground enemies stop X movement but keep Y (gravity)
             rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
             onArrived?.Invoke();
         }
         else
         {
-            // Calculate the direction towards the target
             Vector2 direction = (targetPos - (Vector2)transform.position).normalized;
 
             if (data.canFly)
             {
-                // Free movement towards the target (Air)
                 rb.linearVelocity = direction * speed;
             }
             else
             {
-                // Movement only on the X axis (Ground)
                 SetVelocityX(direction.x * speed);
             }
 
-            // Face the correct direction
             FlipSprite(direction.x);
         }
     }
@@ -455,7 +458,6 @@ public class EnemyAI : MonoBehaviour
 
         if (data.canFly)
         {
-            // --- Flying Enemies (Circles) ---
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, data.sightRange);
 
@@ -464,7 +466,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // --- Ground Enemies (Boxes) ---
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position, new Vector3(data.sightBoxSize.x, data.sightBoxSize.y, 0f));
 
@@ -472,7 +473,6 @@ public class EnemyAI : MonoBehaviour
             Gizmos.DrawWireCube(transform.position, new Vector3(data.stopChaseBoxSize.x, data.stopChaseBoxSize.y, 0f));
         }
 
-        // Leash Boundary - Blue
         Gizmos.color = Color.cyan;
         Vector2 centerPoint = Application.isPlaying ? startPosition : (Vector2)transform.position;
 
@@ -481,5 +481,4 @@ public class EnemyAI : MonoBehaviour
         else
             Gizmos.DrawWireCube(centerPoint, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, 0f));
     }
-
 }

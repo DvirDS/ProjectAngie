@@ -22,7 +22,7 @@ MonoBehaviour:
   sightBoxSize: {x: 10, y: 4}
   stopChaseBoxSize: {x: 14, y: 6}
   maxChaseDistance: 10
-  maxChaseBoxSize: {x: 30, y: 5}
+  maxChaseBoxSize: {x: 34, y: 5}
   projectilePrefab: {fileID: 0}
   projectileSpeed: 15
   shootingRange: 6
