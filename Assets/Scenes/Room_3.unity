@@ -309,7 +309,7 @@ SpriteRenderer:
   m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4281373712563935041, guid: 1d95d53f364c02e45aa6b147ac1ff81b, type: 3}
-  m_Color: {r: 0.43137252, g: 0.5053701, b: 1, a: 0.9411765}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.98039216}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1560,7 +1560,7 @@ GameObject:
   - component: {fileID: 1154948618}
   - component: {fileID: 1154948617}
   m_Layer: 8
-  m_Name: GroundGrid
+  m_Name: PlatformGrid
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

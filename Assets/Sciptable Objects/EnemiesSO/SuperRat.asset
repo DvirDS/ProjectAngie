@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SuperRat
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   patrolSpeed: 2
-  chaseSpeed: 3
+  chaseSpeed: 4
   patrolOnly: 0
   canFly: 0
   sightRange: 5

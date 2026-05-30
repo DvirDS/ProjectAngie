@@ -76,4 +76,8 @@ public class UIManager : MonoBehaviour
         if (GameManager.I != null) GameManager.I.ResumeGame();
     }
 
+    public void OnRestartButton()
+    {
+        GameManager.I?.GameOver();
+    }
 }
