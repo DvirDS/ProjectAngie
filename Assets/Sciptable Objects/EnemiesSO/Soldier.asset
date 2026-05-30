@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Soldier
   m_EditorClassIdentifier: Assembly-CSharp::EnemySO
   patrolSpeed: 2
-  chaseSpeed: 4
+  chaseSpeed: 8
   patrolOnly: 0
   canFly: 0
   sightRange: 5
-  stopChaseRange: 8
+  stopChaseRange: 10
   stealthDetectionMultiplier: 0.3
   sightBoxSize: {x: 10, y: 4}
   stopChaseBoxSize: {x: 14, y: 6}
   maxChaseDistance: 10
-  maxChaseBoxSize: {x: 34, y: 5}
+  maxChaseBoxSize: {x: 35, y: 5}
   projectilePrefab: {fileID: 0}
   projectileSpeed: 15
   shootingRange: 6
