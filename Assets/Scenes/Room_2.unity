@@ -780,6 +780,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1056979611}
     m_Modifications:
     - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
+      propertyPath: coinID
+      value: AuraCoin_02_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
       propertyPath: floatingTextPrefab
       value: 
       objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
@@ -1765,7 +1769,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: coinID
-      value: Gold_02_04
+      value: Coin_02_04
       objectReference: {fileID: 0}
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: floatingTextPrefab
@@ -4038,7 +4042,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: coinID
-      value: Gold_02_05
+      value: Coin_02_05
       objectReference: {fileID: 0}
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: floatingTextPrefab
@@ -4108,7 +4112,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: coinID
-      value: Gold_02_02
+      value: Coin_02_02
       objectReference: {fileID: 0}
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: floatingTextPrefab
@@ -4348,7 +4352,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: coinID
-      value: Gold_02_01
+      value: Coin_02_01
       objectReference: {fileID: 0}
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: floatingTextPrefab
@@ -5061,7 +5065,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: coinID
-      value: Gold_02_03
+      value: Coin_02_03
       objectReference: {fileID: 0}
     - target: {fileID: 1900323405271272251, guid: 5f8d925c1ed3ea043af7bc73cebb04dd, type: 3}
       propertyPath: floatingTextPrefab
