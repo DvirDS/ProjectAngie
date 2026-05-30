@@ -4267,6 +4267,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
+      propertyPath: coinID
+      value: AuraCoin_04_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
       propertyPath: floatingTextPrefab
       value: 
       objectReference: {fileID: 3020111691548475171, guid: e8809a0232bc69d479c74f661bd9612d, type: 3}
@@ -6544,6 +6548,10 @@ PrefabInstance:
     - target: {fileID: 1800561323791602725, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
+      propertyPath: coinID
+      value: AuraCoin_04_02
       objectReference: {fileID: 0}
     - target: {fileID: 3647005027575572093, guid: 7f11ecf128b33e04fa7e0fcbd3644621, type: 3}
       propertyPath: floatingTextPrefab
