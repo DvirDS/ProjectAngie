@@ -16,9 +16,15 @@ public class MainMenuUI : MonoBehaviour
     {
         if (!SceneManager.GetSceneByName(persistentSceneName).isLoaded)
             yield return SceneManager.LoadSceneAsync(persistentSceneName, LoadSceneMode.Additive);
-        
+
         yield return SceneManager.LoadSceneAsync(firstRoomSceneName, LoadSceneMode.Additive);
-        
+
         SceneManager.UnloadSceneAsync(gameObject.scene.name);
+    }
+
+    public void OnQuitPressed()
+    {
+        Debug.Log("Quitting game from Main Menu...");
+        Application.Quit(); 
     }
 }
