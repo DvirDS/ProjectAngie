@@ -346,9 +346,9 @@ RectTransform:
   - {fileID: 2650980344358396713}
   m_Father: {fileID: 4270728793839645245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 196, y: -120}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1156, y: -660}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &88734862
@@ -13316,7 +13316,7 @@ MonoBehaviour:
   currentHealth: 0
   passiveDecay: 0.1
   walkDecay: 0.2
-  stealthDecay: 0.8
+  stealthDecay: 2
   runDecay: 1.67
   sniffDecay: 1.2
   hpUpgradeBonus: 50
