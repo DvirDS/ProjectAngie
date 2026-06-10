@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 public class HealthDrainSystem : MonoBehaviour
 {
     public event Action<float, float> OnHealthChanged;
+    public event Action OnDamageTaken;
 
     [Header("Settings")]
     [SerializeField] private float maxHealth = 100f;
@@ -38,13 +39,11 @@ public class HealthDrainSystem : MonoBehaviour
         if (GameManager.I != null && GameManager.I.State != GameManager.GameState.Play) return;
         if (isDead) return;
 
-        float decayAmount = passiveDecay;
-
-        decayAmount = isStealthing ? stealthDecay                    
-                    : isSniffing ? sniffDecay                        
-                    : isSprinting && isMoving ? runDecay             
-                    : isMoving ? walkDecay                           
-                    : passiveDecay;                                 
+        float decayAmount = isStealthing ? stealthDecay
+                          : isSniffing ? sniffDecay
+                          : (isSprinting && isMoving) ? runDecay
+                          : isMoving ? walkDecay
+                          : passiveDecay;
 
         float previousHealth = currentHealth;
         currentHealth -= decayAmount * Time.deltaTime;
@@ -90,6 +89,11 @@ public class HealthDrainSystem : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        if (currentHealth > 0)
+        {
+            OnDamageTaken?.Invoke();
+        }
     }
 
     public void ResetAfterRespawn()
