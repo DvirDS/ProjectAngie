@@ -81,6 +81,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void Freeze() => ChangeState(EnemyState.Idle);
+    public void Unfreeze() => ChangeState(EnemyState.Patrol);
+
     private void UpdateIdle()
     {
         SetVelocityX(0f);
