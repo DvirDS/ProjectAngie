@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: CollectSkillTutorial
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSO
   tutorialTitle: Collect coins
-  tutorialDescription: 'Collect Coins to unlock new skills from the Skill Tree '
+  tutorialDescription: Your skills have been reset!\nNow, collect Coins to unlock
+    new skills from the Skill Tree
   keyInput: {fileID: 0}

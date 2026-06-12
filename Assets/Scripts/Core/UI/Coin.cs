@@ -7,7 +7,6 @@ public class Coin : MonoBehaviour
     [SerializeField] private int pointsValue = 10;
 
     [Header("UI Effects")]
-    [Tooltip("גרור לכאן את ה-Prefab של ה-Floating Text Canvas")]
     [SerializeField] private GameObject floatingTextPrefab;
 
     [Header("Persistence")]
