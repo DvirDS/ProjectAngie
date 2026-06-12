@@ -130,7 +130,6 @@ public class EnemyAI : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         bool lostPlayer = false;
 
-        // 1. האם השחקן יצא מהקוליידר/רדיוס הגיאומטרי של המרדף?
         if (data.canFly)
         {
             lostPlayer = distanceToPlayer > data.stopChaseRange;
@@ -142,24 +141,20 @@ public class EnemyAI : MonoBehaviour
             lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
         }
 
-        // --- בדיקת קו ראייה בזמן מרדף (ספציפית לרחפן) ---
         if (!lostPlayer && data.canFly)
         {
-            // אם הוא כבר לא רואה את השחקן (הסתתרת מאחורי קיר/סלע) - הוא מאבד אותך
             if (!CanSeePlayer())
             {
                 lostPlayer = true;
             }
         }
 
-        // אם הוא איבד אותך - חוזר חזרה
         if (lostPlayer)
         {
             ChangeState(EnemyState.Return);
             return;
         }
 
-        // --- 2. מנגנון הרצועה החכמה (Smart Leash) ---
         bool isOutsideBoundary = false;
 
         if (data.canFly)
@@ -334,24 +329,20 @@ public class EnemyAI : MonoBehaviour
         {
             if (data.canFly)
             {
-                // רחפן: משתמשים ב-Linecast ישיר לבדוק קו ראייה נקי לחלוטין
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, player.position, detectionLayers);
 
                 if (hit.collider != null)
                 {
-                    // אם האובייקט הראשון שפגשנו בקו הוא השחקן - הכל פתוח!
                     if (hit.collider.CompareTag("Player"))
                     {
                         return true;
                     }
 
-                    // פגענו בקיר/סלע בדרך - הראייה חסומה
                     return false;
                 }
             }
             else
             {
-                // אויב קרקע: משאיר את ה-Raycast הרגיל שלך כדי לא לשבור את ההתנהגות שלהם
                 Vector2 direction = (player.position - transform.position).normalized;
                 float dist = Vector2.Distance(transform.position, player.position);
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, dist, detectionLayers);

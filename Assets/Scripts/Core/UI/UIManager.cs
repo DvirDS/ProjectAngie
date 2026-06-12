@@ -1,4 +1,4 @@
-using System.Collections; // נדרש עבור ה-Coroutine
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +16,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider healthBar;
 
     [Header("Damage Flash Settings")]
-    [SerializeField] private Image damageFlashImage; // כאן גוררים את ה-Background הלבן שלך
-    [SerializeField] private float flashDuration = 0.25f; // משך זמן ה-Fade Out בשניות
-    [SerializeField] private Color flashColor = new Color(1f, 0f, 0f, 1f); // צבע ההבהוב (למשל אדום מלא)
+    [SerializeField] private Image damageFlashImage;
+    [SerializeField] private float flashDuration = 0.25f; 
+    [SerializeField] private Color flashColor = new Color(1f, 0f, 0f, 1f); 
 
-    private Color originalColor; // משתנה שישמור את הצבע הלבן המקורי של המסגרת
+    private Color originalColor; 
     private Coroutine flashCoroutine;
 
     [Header("Screens")]
@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
         if (I == null) I = this;
         else if (I != this) Destroy(gameObject);
 
-        // שמירת הצבע המקורי של המסגרת (כדי שלא תיעלם!)
+        
         if (damageFlashImage != null)
         {
             originalColor = damageFlashImage.color;
@@ -108,12 +108,10 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
-        // קפיצה מיידית לצבע הפגיעה (למשל אדום)
         damageFlashImage.color = flashColor;
 
         float elapsedTime = 0f;
 
-        // דעיכה חלקה מצבע הפגיעה בחזרה לצבע המקורי של המסגרת
         while (elapsedTime < flashDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -121,7 +119,6 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
-        // וידוא שהיא חוזרת בדיוק לצבע המקורי שלה
         damageFlashImage.color = originalColor;
     }
 

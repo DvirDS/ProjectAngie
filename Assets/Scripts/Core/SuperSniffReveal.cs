@@ -3,7 +3,6 @@ using UnityEngine;
 public class SuperSniffReveal : MonoBehaviour
 {
     [Header("References (Auto-filled)")]
-    [Tooltip("הסקריפט ימצא אוטומטית את כל הילדים אם תשאיר את השדות ריקים")]
     [SerializeField] private Renderer[] objectRenderers;
     [SerializeField] private Collider2D[] objectColliders;
     [SerializeField] private ParticleSystem highlightParticles;
