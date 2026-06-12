@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class CheeseDrop : MonoBehaviour
@@ -6,6 +5,14 @@ public class CheeseDrop : MonoBehaviour
     [SerializeField] private GameObject cheese;
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject rat;
+
+    private const string defaultLayer = "Default";
+    private SpriteRenderer cheeseSprite;
+
+    private void Start()
+    {
+        rat.GetComponent<EnemyAI>().Freeze();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,6 +23,8 @@ public class CheeseDrop : MonoBehaviour
             DropCheese();
             DropStick();
             gameObject.SetActive(false);
+            
+            rat.GetComponent<EnemyAI>().Unfreeze();
         }
     }
 
@@ -24,18 +33,14 @@ public class CheeseDrop : MonoBehaviour
         cheese.GetComponentInChildren<CheesePickUp>().IsCheesePickUp = false;
         MakeRigidBodyDynamic(cheese);
         cheese.GetComponentInChildren<CheesePickUp>().CanPickUp = false;
+        
+        SpriteRenderer cheeseSprite = cheese.GetComponent<SpriteRenderer>();
+        cheeseSprite.sortingLayerName = defaultLayer;
     }
 
     private void DropStick()
     {
         MakeRigidBodyDynamic(stick);
-        StartCoroutine(ObjectDisappear(stick));
-    }
-
-    private IEnumerator ObjectDisappear(GameObject obj)
-    {
-        yield return new WaitForSeconds(10f);
-        obj.SetActive(false);
     }
 
     private void MakeRigidBodyDynamic(GameObject obj)

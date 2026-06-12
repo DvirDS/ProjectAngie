@@ -24,7 +24,6 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnQuitPressed()
     {
-        Debug.Log("Quitting game from Main Menu...");
         Application.Quit(); 
     }
 }
