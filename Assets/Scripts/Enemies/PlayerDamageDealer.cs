@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerDamageDealer : MonoBehaviour
 {
     [SerializeField] private float damage = 10f;
-    [SerializeField] private float interval = 1f; 
+    [SerializeField] private float interval = 1f;
     [SerializeField] private bool destroyOnHit = false;
+    [SerializeField] private float destroyDelay = 0f;
 
     private float lastHitTime = -Mathf.Infinity;
 
@@ -31,7 +32,8 @@ public class PlayerDamageDealer : MonoBehaviour
 
         if (destroyOnHit)
         {
-            Destroy(gameObject);
+            enabled = false;
+            Destroy(gameObject, destroyDelay);
         }
     }
 }
