@@ -31,6 +31,7 @@ public class SkillTreeManager : MonoBehaviour
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed += ToggleWindow;
+            inputReader.OnEscPressed += CloseWindow;
         }
     }
 
@@ -39,6 +40,7 @@ public class SkillTreeManager : MonoBehaviour
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed -= ToggleWindow;
+            inputReader.OnEscPressed -= CloseWindow;
         }
     }
 

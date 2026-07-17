@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleGameStateChanged;
-        if (inputReader != null) inputReader.OnPausePressed += TogglePause;
+        if (inputReader != null) inputReader.OnEscPressed += TogglePause;
 
         if (playerHealthSystem != null)
         {
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleGameStateChanged;
-        if (inputReader != null) inputReader.OnPausePressed -= TogglePause;
+        if (inputReader != null) inputReader.OnEscPressed -= TogglePause;
 
         if (playerHealthSystem != null)
         {
