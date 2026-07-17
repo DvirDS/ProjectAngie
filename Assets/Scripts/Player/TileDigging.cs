@@ -12,6 +12,8 @@ public class TileDigging : MonoBehaviour
     [SerializeField] private float digDistance = 0.8f;
 
     private InputSystem inputActions;
+    private Vector3 pendingDigWorldPos;
+    private bool hasPendingDig;
 
     private void Awake()
     {
@@ -46,11 +48,19 @@ public class TileDigging : MonoBehaviour
 
         if (digDirection == Vector2.zero) return;
 
-        Vector3 targetWorldPos = transform.position + (Vector3)(digDirection * digDistance);
-        PerformDig(targetWorldPos, digDirection);
+        pendingDigWorldPos = transform.position + (Vector3)(digDirection * digDistance);
+        hasPendingDig = true;
     }
 
-    private void PerformDig(Vector3 worldPos, Vector2 direction)
+    // Called via Animation Event on Angie_Dig at the impact frame.
+    public void OnDigImpact()
+    {
+        if (!hasPendingDig) return;
+        hasPendingDig = false;
+        PerformDig(pendingDigWorldPos);
+    }
+
+    private void PerformDig(Vector3 worldPos)
     {
         Vector3Int centerCell = grid.WorldToCell(worldPos);
 
