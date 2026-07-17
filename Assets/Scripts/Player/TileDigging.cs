@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class TileDigging : MonoBehaviour
@@ -11,48 +10,39 @@ public class TileDigging : MonoBehaviour
     [Header("Dig Settings")]
     [SerializeField] private float digDistance = 0.8f;
 
-    private InputSystem inputActions;
+    [Header("References")]
+    [SerializeField] private PlayerInputReader input;
+
     private Vector3 pendingDigWorldPos;
     private bool hasPendingDig;
-
-    private void Awake()
-    {
-        inputActions = new InputSystem();
-    }
 
     public void AssignTiles(Grid newGrid, List<Tilemap> newTilemaps)
     {
         grid = newGrid;
         tilemaps = newTilemaps;
-        Debug.Log($"TileDigger switched to grid {grid.name}, tilemaps count: {tilemaps.Count}");
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Dig.performed += OnDig;
-        inputActions.Player.Enable();
+        if (input != null) input.OnDigPressed += OnDig;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Dig.performed -= OnDig;
-        inputActions.Player.Disable();
+        if (input != null) input.OnDigPressed -= OnDig;
     }
 
-    private void OnDig(InputAction.CallbackContext ctx)
+    private void OnDig()
     {
         if (grid == null || tilemaps == null) return;
 
-        Vector2 move = inputActions.Player.DigDirection.ReadValue<Vector2>();
-        Vector2 digDirection = SnapToCardinal(move);
-
+        Vector2 digDirection = SnapToCardinal(input.DigDirection);
         if (digDirection == Vector2.zero) return;
 
         pendingDigWorldPos = transform.position + (Vector3)(digDirection * digDistance);
         hasPendingDig = true;
     }
 
-    // Called via Animation Event on Angie_Dig at the impact frame.
     public void OnDigImpact()
     {
         if (!hasPendingDig) return;
@@ -73,7 +63,6 @@ public class TileDigging : MonoBehaviour
     {
         foreach (var tilemap in tilemaps)
         {
-            Debug.Log($"Checking {tilemap.name} at {cell}, hasTile: {tilemap.HasTile(cell)}");
             if (tilemap != null && tilemap.HasTile(cell))
             {
                 tilemap.SetTile(cell, null);
