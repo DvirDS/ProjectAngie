@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerDash : MonoBehaviour
 {
     [Header("Skill Connection")]
-    [Tooltip("вшеш млап аъ чебх дсчйм щм дгащ оъйчййъ д-Assets")]
+    [Tooltip("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ-Assets")]
     [SerializeField] private Skill _dashSkillData;
 
     [Header("References")]
@@ -52,10 +52,6 @@ public class PlayerDash : MonoBehaviour
                 currentDashCoroutine = StartCoroutine(PerformDashRoutine());
             }
         }
-        else
-        {
-            Debug.Log("Cannot Dash: Skill is not purchased yet!");
-        }
     }
 
     private IEnumerator PerformDashRoutine()
@@ -83,15 +79,15 @@ public class PlayerDash : MonoBehaviour
         if (playerMovement != null) playerMovement.enabled = true;
     }
 
-    // щйрйре аъ дферчцйд лк щъчбм аъ лм ръерй ддървщеъ
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private void HandleDashCollision(Collision2D collision)
     {
-        // 1. щемфйн аъ ечиеш длйееп (решом) щм ощиз дфвйтд дшащеп
+        // 1. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ) пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         Vector2 contactNormal = collision.GetContact(0).normal;
 
-        // 2. бегчйн ан дфвйтд дйа арлйъ (омотмд ае омоид)
-        // ан дтшк доезми щм Y вгем, жд аеош щарзре теогйн тм дчефсд ае февтйн бд омоид.
-        // бочшд лжд, рца одферчцйд ема ргзеу.
+        // 2. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
+        // пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Y пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
         if (Mathf.Abs(contactNormal.y) > 0.5f)
         {
             return;
@@ -114,7 +110,7 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-            // отбйшйн аъ д-collision бомеае
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ-collision пїЅпїЅпїЅпїЅпїЅпїЅ
             HandleDashCollision(collision);
         }
     }
@@ -123,7 +119,7 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-            // отбйшйн аъ д-collision бомеае
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ-collision пїЅпїЅпїЅпїЅпїЅпїЅ
             HandleDashCollision(collision);
         }
     }

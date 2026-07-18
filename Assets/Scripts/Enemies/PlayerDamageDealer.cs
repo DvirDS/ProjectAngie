@@ -8,6 +8,7 @@ public class PlayerDamageDealer : MonoBehaviour
     [SerializeField] private float destroyDelay = 0f;
 
     private float lastHitTime = -Mathf.Infinity;
+    private bool hasDealtLethalHit = false;
 
     public void Initialize(float damage, float interval)
     {
@@ -20,6 +21,7 @@ public class PlayerDamageDealer : MonoBehaviour
 
     private void TryDamage(Collider2D other)
     {
+        if (hasDealtLethalHit) return;
         if (!other.CompareTag("Player")) return;
 
         if (Time.time < lastHitTime + interval) return;
@@ -32,7 +34,11 @@ public class PlayerDamageDealer : MonoBehaviour
 
         if (destroyOnHit)
         {
-            enabled = false;
+            hasDealtLethalHit = true;
+
+            Collider2D hitCollider = GetComponent<Collider2D>();
+            if (hitCollider != null) hitCollider.enabled = false;
+
             Destroy(gameObject, destroyDelay);
         }
     }

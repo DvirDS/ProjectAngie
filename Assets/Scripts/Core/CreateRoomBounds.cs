@@ -43,7 +43,6 @@ public class CreateRoomBounds : MonoBehaviour
 
     private void turnRoomColliderOn(string sceneName)
     {
-        Debug.Log($"Received event to turn on room bounds for scene {sceneName}");
         if (sceneName != gameObject.scene.name) return;
         confiner.BoundingShape2D = roomBoundCollider;
         SetDamping();

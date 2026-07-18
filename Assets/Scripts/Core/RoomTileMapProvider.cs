@@ -21,14 +21,11 @@ public class RoomTilemapProvider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"Trigger entered by {other.name}");
-
         if (!other.CompareTag("Player")) return;
 
         TileDigging digger = other.GetComponent<TileDigging>();
         if (digger == null) return;
 
         digger.AssignTiles(grid, tilemaps);
-        Debug.Log($"Player entered room with grid {grid.name}");
     }
 }

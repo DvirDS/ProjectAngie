@@ -13,6 +13,19 @@ public class ParallaxLayer : MonoBehaviour
     private void OnEnable()
     {
         TryFindCamera();
+        Events.onUnloadCreateBounds += OnRoomActivated;
+    }
+
+    private void OnDisable()
+    {
+        Events.onUnloadCreateBounds -= OnRoomActivated;
+    }
+
+    private void OnRoomActivated(string sceneName)
+    {
+        if (sceneName != gameObject.scene.name) return;
+        if (cameraTransform == null) return;
+        Anchor();
     }
 
     private void LateUpdate()
@@ -40,7 +53,11 @@ public class ParallaxLayer : MonoBehaviour
             return;
 
         cameraTransform = cam.transform;
+        Anchor();
+    }
 
+    private void Anchor()
+    {
         startPosition = transform.position;
         cameraStartPosition = cameraTransform.position;
     }

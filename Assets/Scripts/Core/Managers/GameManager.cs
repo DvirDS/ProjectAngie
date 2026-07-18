@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private SceneFade fadeScreen;
     [SerializeField] private float holdBlackScreenDuration = 2f;
@@ -10,11 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SceneField[] managers;
 
     [Header("Game Over")]
-    [SerializeField] private float slowDownDuration = 5f;  
+    [SerializeField] private float slowDownDuration = 5f;
     [SerializeField] private float gameOverFadeDuration = 2f;
     [SerializeField] private SceneField mainMenuScene;
-
-    public static GameManager I { get; private set; }
 
     public enum GameState { Play, Pause, Tutorial, SkillTree, GameOver }
 
@@ -22,12 +20,6 @@ public class GameManager : MonoBehaviour
     public GameState State => state;
 
     public event System.Action<GameState> OnStateChanged;
-
-    private void Awake()
-    {
-        if (I != null && I != this) { Destroy(gameObject); return; }
-        I = this;
-    }
 
     private void Start()
     {
@@ -82,12 +74,12 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(fadeScreen.FadeOutCoroutine(gameOverFadeDuration));
 
-        if (RespawnManager.Instance != null)
-            Destroy(RespawnManager.Instance.gameObject);
-        if (CoinsManager.Instance != null)
-            Destroy(CoinsManager.Instance.gameObject);
-        if (SkillTreeManager.Instance != null)
-            Destroy(SkillTreeManager.Instance.gameObject); 
+        if (RespawnManager.I != null)
+            Destroy(RespawnManager.I.gameObject);
+        if (CoinsManager.I != null)
+            Destroy(CoinsManager.I.gameObject);
+        if (SkillTreeManager.I != null)
+            Destroy(SkillTreeManager.I.gameObject);
 
         Time.timeScale = 1f;
 

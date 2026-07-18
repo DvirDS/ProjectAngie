@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerInputReader : MonoBehaviour
+public class PlayerInputReader : Singleton<PlayerInputReader>
 {
-    public static PlayerInputReader instance;
-
     private InputSystem actions;
 
     public event Action OnJumpPressed;
@@ -23,14 +21,10 @@ public class PlayerInputReader : MonoBehaviour
     public bool DigHeld { get; private set; }
     public Vector2 DigDirection { get; private set; }
 
-    void Awake()
+    protected override void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
+        base.Awake();
+        if (I != this) return;
 
         actions = new InputSystem();
     }

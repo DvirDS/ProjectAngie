@@ -2,10 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialManager : Singleton<TutorialManager>
 {
-    public static TutorialManager instance;
-
     [Header("Bubbles")]
     [SerializeField] private GameObject introBubblePanel;
     [SerializeField] private GameObject outroBubblePanel;
@@ -16,20 +14,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject tutorialPanel;
 
-    [Header("All Tutorial Actions — disabled at start")]
+    [Header("All Tutorial Actions ï¿½ disabled at start")]
     [SerializeField] private InputActionReference[] allTutorialActions;
 
     public bool isIntroFinished = false;
-
-    private void Awake()
-    {
-        if (instance != null && instance != this) 
-        { 
-            Destroy(gameObject); 
-            return; 
-        }
-        instance = this;
-    }
 
     private void OnEnable()
     {
@@ -39,7 +27,7 @@ public class TutorialManager : MonoBehaviour
         moveTrigger.enabled = false;
 
         foreach (InputActionReference action in allTutorialActions)
-            PlayerInputReader.instance.DisableAction(action);
+            PlayerInputReader.I.DisableAction(action);
 
         moveTrigger.enabled = false;
     }
@@ -62,7 +50,7 @@ public class TutorialManager : MonoBehaviour
     public void Show(string message, InputActionReference actRef)
     {
         if (actRef != null)
-            PlayerInputReader.instance.EnableAction(actRef);
+            PlayerInputReader.I.EnableAction(actRef);
 
         tutorialText.text = message;
         tutorialPanel.SetActive(true);
@@ -78,14 +66,14 @@ public class TutorialManager : MonoBehaviour
         outroBubblePanel?.SetActive(true);
         Time.timeScale = 0f;
         foreach (InputActionReference action in allTutorialActions)
-            PlayerInputReader.instance.DisableAction(action);
+            PlayerInputReader.I.DisableAction(action);
     }
 
     public void CloseOutroAndStartGame()
     {
         outroBubblePanel?.SetActive(false);
         foreach (InputActionReference action in allTutorialActions)
-            PlayerInputReader.instance.EnableAction(action);
+            PlayerInputReader.I.EnableAction(action);
         
         GameManager.I.SetState(GameManager.GameState.Play);
     }

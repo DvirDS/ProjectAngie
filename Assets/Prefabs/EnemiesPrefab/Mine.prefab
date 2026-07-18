@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MineController
   redAuraObject: {fileID: 8414701787009252863}
-  hitRevealDuration: 0.5
+  hitRevealDuration: 2
   mineSet: {fileID: 11400000, guid: 22daf71ac8367fc45ae8afb1957210b8, type: 2}
 --- !u!114 &-6045465446915670635
 MonoBehaviour:

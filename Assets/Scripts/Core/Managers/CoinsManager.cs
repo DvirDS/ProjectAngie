@@ -1,20 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinsManager : MonoBehaviour
+public class CoinsManager : Singleton<CoinsManager>
 {
-    public static CoinsManager Instance { get; private set; }
-
     private readonly HashSet<string> collectedCoinIDs = new();
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        base.Awake();
+        if (I != this) return;
         DontDestroyOnLoad(gameObject);
     }
 

@@ -36,15 +36,9 @@ public class PlayerStealth : MonoBehaviour
             if (spriteRenderer != null)
             {
                 Color c = spriteRenderer.color;
-                c.a = IsStealthing ? 0.5f : 1f; 
+                c.a = IsStealthing ? 0.5f : 1f;
                 spriteRenderer.color = c;
             }
-
-            Debug.Log("Stealth mode active: " + IsStealthing);
-        }
-        else
-        {
-            Debug.Log("Cannot Stealth: Skill is not purchased yet!");
         }
     }
 }
