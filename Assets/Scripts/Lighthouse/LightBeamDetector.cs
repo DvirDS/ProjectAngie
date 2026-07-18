@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LightBeamDetector : MonoBehaviour
 {
-    [SerializeField] private EnemyAI[] allSoldiers;
+    [SerializeField] private EnemyAI soldier;
 
     private const string UnlitLayer = "Unlit";
     private bool alerted;
@@ -19,39 +19,16 @@ public class LightBeamDetector : MonoBehaviour
         SpriteRenderer playerSprite = other.GetComponent<SpriteRenderer>();
         if (playerSprite != null && playerSprite.sortingLayerName == UnlitLayer) return;
 
+        PlayerStealth stealth = other.GetComponent<PlayerStealth>();
+        if (stealth != null && stealth.IsInDarkZone) return;
+
         alerted = true;
-        EnemyAI closest = FindClosestEnemyToLeft(other.transform);
-        closest?.Alert();
+        soldier?.Alert();
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
             alerted = false;
-    }
-
-    private EnemyAI FindClosestEnemyToLeft(Transform playerTransform)
-    {
-        EnemyAI closest = null;
-        float closestDist = Mathf.Infinity;
-
-        foreach (EnemyAI soldier in allSoldiers)
-        {
-            if (soldier == null) continue;
-
-            float soldierX = soldier.transform.position.x;
-            float playerX = playerTransform.position.x;
-
-            if (soldierX >= playerX) continue;
-
-            float dist = playerX - soldierX;
-            if (dist < closestDist)
-            {
-                closestDist = dist;
-                closest = soldier;
-            }
-        }
-
-        return closest;
     }
 }

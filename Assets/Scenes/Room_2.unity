@@ -1511,7 +1511,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cheese: {fileID: 1379321964}
   stick: {fileID: 994027060}
-  rats: []
+  rats:
+  - {fileID: 768236196}
+  - {fileID: 8266300919629078059}
 --- !u!61 &532420889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5614,7 +5616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2090960123
 MonoBehaviour:
   m_ObjectHideFlags: 0
