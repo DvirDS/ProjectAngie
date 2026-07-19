@@ -467,7 +467,7 @@ Transform:
   m_GameObject: {fileID: 663375977}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -505.1174, y: -104.8, z: 0}
+  m_LocalPosition: {x: -484.6154, y: -104.8, z: 0}
   m_LocalScale: {x: 1.6666665, y: 1.6666665, z: 1.6666665}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -540,7 +540,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 75.07883, y: 5.57}
+  m_Size: {x: 99.681274, y: 5.57}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -676,7 +676,7 @@ Transform:
   m_GameObject: {fileID: 772342941}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 221.1, y: 2.4, z: 0}
+  m_LocalPosition: {x: 221.1, y: 2.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1437,6 +1437,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85318c57c31b7d4f8549cdbe1918316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &900000050 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7095681138537701443, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
+  m_PrefabInstance: {fileID: 936966715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15e32f2a19e68a44d9f26ba5a2b6d7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
 --- !u!1001 &936966715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1447,7 +1458,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1039704944748258769, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 242.18
+      value: 262
       objectReference: {fileID: 0}
     - target: {fileID: 1039704944748258769, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1495,8 +1506,16 @@ PrefabInstance:
       objectReference: {fileID: 944911028}
     - target: {fileID: 7095681138537701443, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
       propertyPath: 'waypoints.Array.data[1]'
-      value: 
+      value:
       objectReference: {fileID: 772342942}
+    - target: {fileID: 1593937442038382428, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1457696547
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593937442038382428, guid: b0f8117ac4b147242a0ce99a69fc80ed, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1527,7 +1546,7 @@ Transform:
   m_GameObject: {fileID: 944911027}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.6, y: 2.5, z: 0}
+  m_LocalPosition: {x: 111.48, y: 2.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2157,7 +2176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1402158951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2308,7 +2327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6799100546d2a0c4197d4db517010749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightBeamDetector
-  soldier: {fileID: 0}
+  soldier: {fileID: 900000050}
 --- !u!1 &1407210615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2493,7 +2512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3928952248384149724, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_Size.x

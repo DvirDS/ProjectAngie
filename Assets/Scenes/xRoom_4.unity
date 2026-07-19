@@ -413,7 +413,7 @@ TilemapRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 29.440739, y: 1.3900002, z: 0}
+  m_ChunkCullingBounds: {x: 20.375517, y: 1.3850001, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -4278,6 +4278,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 234, y: 54, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 246, y: 54, z: 0}
     second:
       serializedVersion: 2
@@ -6270,7 +6280,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: c9147a17fbdee6c4fb7b0db629a9717f, type: 2}
   - m_RefCount: 434
     m_Data: {fileID: 11400000, guid: b26b552403c34c545b18ffb5a13d0193, type: 2}
@@ -6279,7 +6289,7 @@ Tilemap:
   - m_RefCount: 116
     m_Data: {fileID: 11400000, guid: 522ee352d0cc6e842b47984ecd680903, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 3443619219430762983, guid: fc88223cc92919f4fa9aeb1901fa0fc8, type: 3}
   - m_RefCount: 434
     m_Data: {fileID: -1165465585, guid: 7ff2b9508f0ccae46af6e5a15b87c353, type: 3}
@@ -6288,7 +6298,7 @@ Tilemap:
   - m_RefCount: 116
     m_Data: {fileID: 1524845960, guid: 7ff2b9508f0ccae46af6e5a15b87c353, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 276
+  - m_RefCount: 277
     m_Data:
       e00: 1
       e01: 0
@@ -6325,7 +6335,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 584
+  - m_RefCount: 585
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -6844,7 +6854,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 24.212387, y: -5.4391785}
+  m_Offset: {x: 61.478897, y: -5.4391785}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6854,7 +6864,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 74.3035, y: 11.0729065}
+  m_Size: {x: 148.83652, y: 11.0729065}
   m_EdgeRadius: 0
 --- !u!4 &1605906008
 Transform:
