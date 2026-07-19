@@ -28,9 +28,9 @@ public class SkillButton : MonoBehaviour
 
     private void OnSkillButtonClicked()
     {
-        if (SkillTreeManager.Instance != null)
+        if (SkillTreeManager.I != null)
         {
-            SkillTreeManager.Instance.TryUnlockSkill(skillData, this);
+            SkillTreeManager.I.TryUnlockSkill(skillData, this);
         }
     }
 

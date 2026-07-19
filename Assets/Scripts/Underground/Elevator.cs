@@ -49,7 +49,7 @@ public class Elevator : MonoBehaviour
         state = ElevatorState.GoingToLastFloor;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         switch (state)
         {
@@ -66,16 +66,16 @@ public class Elevator : MonoBehaviour
     private void MoveTo(float floor, ElevatorState nextState)
     {
         float newY = Mathf.MoveTowards(
-                transform.position.y,
+                rb.position.y,
                 floor,
-                speed * Time.deltaTime
+                speed * Time.fixedDeltaTime
             );
 
-        rb.MovePosition(new Vector2(transform.position.x, newY));
+        rb.MovePosition(new Vector2(rb.position.x, newY));
 
-        if (Mathf.Abs(transform.position.y - floor) < 0.05f)
+        if (Mathf.Abs(rb.position.y - floor) < 0.05f)
         {
-            rb.MovePosition(new Vector2(transform.position.x, floor));
+            rb.MovePosition(new Vector2(rb.position.x, floor));
             rb.linearVelocity = Vector2.zero;
             state = nextState;
         }

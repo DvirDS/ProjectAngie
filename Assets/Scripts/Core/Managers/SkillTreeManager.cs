@@ -2,11 +2,10 @@ using TMPro;
 using UnityEngine;
 using static GameManager;
 
-public class SkillTreeManager : MonoBehaviour
+public class SkillTreeManager : Singleton<SkillTreeManager>
 {
     private const string HPUpgrade = "HP Upgrade";
     private GameState stateBeforeSkillTree;
-    public static SkillTreeManager Instance;
 
     [Header("UI References")]
     public GameObject skillTreeWindow;
@@ -20,9 +19,10 @@ public class SkillTreeManager : MonoBehaviour
     [Header("Data")]
     public int playerSkillPoints = 10;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null) Instance = this;
+        base.Awake();
+        if (I != this) return;
         ResetSkills();
     }
 
@@ -31,6 +31,7 @@ public class SkillTreeManager : MonoBehaviour
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed += ToggleWindow;
+            inputReader.OnEscPressed += CloseWindow;
         }
     }
 
@@ -39,6 +40,7 @@ public class SkillTreeManager : MonoBehaviour
         if (inputReader != null)
         {
             inputReader.OnSkillMenuPressed -= ToggleWindow;
+            inputReader.OnEscPressed -= CloseWindow;
         }
     }
 

@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: da89c6d88b63bf8468190dbf5e3690a9
+guid: 56ddeb769ecaa2a4d8d1af22e501155a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4009355068965086491
-    second: Untitled_Artwork-2_0
-  - first:
-      213: 9164470949493444347
-    second: Untitled_Artwork-2_1
-  - first:
-      213: 6038123453281767082
-    second: Untitled_Artwork-2_2
+      213: 6541205334209323041
+    second: Demo_Sky-1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  spriteMeshType: 0
+  alignment: 2
+  spritePivot: {x: 0.5, y: 1}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -106,67 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled_Artwork-2_0
+      name: Demo_Sky-1_0
       rect:
         serializedVersion: 2
-        x: 152
-        y: 792
-        width: 231
-        height: 128
+        x: 0
+        y: 868
+        width: 5760
+        height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b156318513714a730800000000000000
-      internalID: 4009355068965086491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Untitled_Artwork-2_1
-      rect:
-        serializedVersion: 2
-        x: 1101
-        y: 161
-        width: 167
-        height: 115
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bfe81fae5cdbe2f70800000000000000
-      internalID: 9164470949493444347
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Untitled_Artwork-2_2
-      rect:
-        serializedVersion: 2
-        x: 1312
-        y: 115
-        width: 140
-        height: 132
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aae80d61a49bbc350800000000000000
-      internalID: 6038123453281767082
+      spriteID: 120ef6c389707ca50800000000000000
+      internalID: 6541205334209323041
       vertices: []
       indices: 
       edges: []
@@ -185,9 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Untitled_Artwork-2_0: 4009355068965086491
-      Untitled_Artwork-2_1: 9164470949493444347
-      Untitled_Artwork-2_2: 6038123453281767082
+      Demo_Sky-1_0: 6541205334209323041
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

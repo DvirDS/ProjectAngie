@@ -15,8 +15,8 @@ public class Coin : MonoBehaviour
 
     private void Start()
     {
-        if (CoinsManager.Instance != null &&
-            CoinsManager.Instance.IsCollected(coinID))
+        if (CoinsManager.I != null &&
+            CoinsManager.I.IsCollected(coinID))
         {
             Destroy(gameObject);
         }
@@ -48,12 +48,12 @@ public class Coin : MonoBehaviour
             }
         }
 
-        if (CoinsManager.Instance != null)
-            CoinsManager.Instance.MarkCollected(coinID);
+        if (CoinsManager.I != null)
+            CoinsManager.I.MarkCollected(coinID);
 
-        if (SkillTreeManager.Instance != null)
+        if (SkillTreeManager.I != null)
         {
-            SkillTreeManager.Instance.AddSkillPoints(pointsValue);
+            SkillTreeManager.I.AddSkillPoints(pointsValue);
         }
 
         Destroy(gameObject);

@@ -392,7 +392,9 @@ public class EnemyAI : MonoBehaviour
 
     private void MoveToPoint(Vector2 targetPos, float speed, float threshold, System.Action onArrived)
     {
-        float distance = Vector2.Distance(transform.position, targetPos);
+        float distance = data.canFly
+            ? Vector2.Distance(transform.position, targetPos)
+            : Mathf.Abs(transform.position.x - targetPos.x);
 
         if (distance < threshold)
         {

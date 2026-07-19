@@ -2,10 +2,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RespawnManager : MonoBehaviour
+public class RespawnManager : Singleton<RespawnManager>
 {
-    public static RespawnManager Instance;
-
     [SerializeField] private SceneFade fadeScreen;
     [SerializeField] private float holdDuration = 0.3f;
     [SerializeField] private float fadeDuration = 0.5f;
@@ -17,14 +15,10 @@ public class RespawnManager : MonoBehaviour
     private Vector3 respawnPosition;
     private bool hasRespawnPoint = false;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        base.Awake();
+        if (I != this) return;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

@@ -2,10 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager I { get; private set; }
-
     [Header("Player References")]
     [SerializeField] private HealthDrainSystem playerHealthSystem;
     [SerializeField] private PlayerInputReader inputReader;
@@ -28,12 +26,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject skillTreePanel;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (I == null) I = this;
-        else if (I != this) Destroy(gameObject);
+        base.Awake();
 
-        
         if (damageFlashImage != null)
         {
             originalColor = damageFlashImage.color;
@@ -43,7 +39,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged += HandleGameStateChanged;
-        if (inputReader != null) inputReader.OnPausePressed += TogglePause;
+        if (inputReader != null) inputReader.OnEscPressed += TogglePause;
 
         if (playerHealthSystem != null)
         {
@@ -55,7 +51,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         if (GameManager.I != null) GameManager.I.OnStateChanged -= HandleGameStateChanged;
-        if (inputReader != null) inputReader.OnPausePressed -= TogglePause;
+        if (inputReader != null) inputReader.OnEscPressed -= TogglePause;
 
         if (playerHealthSystem != null)
         {

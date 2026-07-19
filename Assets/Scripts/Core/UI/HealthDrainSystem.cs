@@ -57,8 +57,8 @@ public class HealthDrainSystem : MonoBehaviour
             isDead = true;
             currentHealth = maxHealth;
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
-            if (RespawnManager.Instance != null)
-                RespawnManager.Instance.Respawn();
+            if (RespawnManager.I != null)
+                RespawnManager.I.Respawn();
         }
     }
 

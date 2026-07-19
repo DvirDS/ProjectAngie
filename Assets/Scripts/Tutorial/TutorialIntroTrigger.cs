@@ -6,7 +6,7 @@ public class TutorialIntroTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            TutorialManager.instance.ShowIntro();
+            TutorialManager.I.ShowIntro();
 
             Destroy(gameObject);
         }

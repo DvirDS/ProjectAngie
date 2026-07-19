@@ -19,8 +19,6 @@ public class GameStarter : MonoBehaviour
         yield return new WaitForSeconds(delayBeforeEvent);
 
         Events.onUnloadCreateBounds?.Invoke(firstRoomName);
-
-        Debug.Log("Game Started: " + firstRoomName + " loaded and bounds set.");
     }
 
     private bool IsSceneLoaded(string name)

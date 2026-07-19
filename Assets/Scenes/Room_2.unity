@@ -1225,7 +1225,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
@@ -1511,7 +1511,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cheese: {fileID: 1379321964}
   stick: {fileID: 994027060}
-  rat: {fileID: 768236196}
+  rats:
+  - {fileID: 768236196}
+  - {fileID: 8266300919629078059}
 --- !u!61 &532420889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1592,7 +1594,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 5.678398, y: -23.212965}
+  m_Offset: {x: 5.2484894, y: -22.108913}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1602,7 +1604,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.3693542, y: 2.6580162}
+  m_Size: {x: 4.053894, y: 2.9820232}
   m_EdgeRadius: 0
 --- !u!1 &567896539
 GameObject:
@@ -10629,7 +10631,7 @@ Transform:
   m_GameObject: {fileID: 8266300919629078059}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.83, y: -5.27, z: 0}
+  m_LocalPosition: {x: 9.952, y: -5.497, z: 0}
   m_LocalScale: {x: 0.29955226, y: 0.29955226, z: 1.1960373}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43534,6 +43536,7 @@ GameObject:
   - component: {fileID: 2352336119267069598}
   - component: {fileID: 8266300919629078060}
   - component: {fileID: 8266300919629078061}
+  - component: {fileID: 900000060}
   m_Layer: 11
   m_Name: SuperRat
   m_TagString: Untagged
@@ -43541,6 +43544,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &900000060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8266300919629078059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb74bfed65c3bf4d87c786f1a8e7e4c, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  cheese: {fileID: 1379321964}
 --- !u!114 &8266300919629078060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43556,6 +43572,7 @@ MonoBehaviour:
   damage: 40
   interval: 3
   destroyOnHit: 0
+  destroyDelay: 0
 --- !u!61 &8266300919629078061
 BoxCollider2D:
   m_ObjectHideFlags: 0

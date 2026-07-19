@@ -4,14 +4,17 @@ public class CheeseDrop : MonoBehaviour
 {
     [SerializeField] private GameObject cheese;
     [SerializeField] private GameObject stick;
-    [SerializeField] private GameObject rat;
+    [SerializeField] private GameObject[] rats;
 
     private const string defaultLayer = "Default";
     private SpriteRenderer cheeseSprite;
 
     private void Start()
     {
-        rat.GetComponent<EnemyAI>().Freeze();
+        foreach (GameObject rat in rats)
+        {
+            rat.GetComponent<EnemyAI>().Freeze();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,7 +27,10 @@ public class CheeseDrop : MonoBehaviour
             DropStick();
             gameObject.SetActive(false);
             
-            rat.GetComponent<EnemyAI>().Unfreeze();
+            foreach (GameObject rat in rats)
+            {
+                rat.GetComponent<EnemyAI>().Unfreeze();
+            }
         }
     }
 
