@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class LightBeamDetector : MonoBehaviour
 {
-    [SerializeField] private EnemyAI soldier;
+    /// <summary>
+    /// Raised whenever the player is caught standing in this beam while exposed.
+    /// Any number of EnemyAI instances can subscribe to react - no direct wiring needed.
+    /// </summary>
+    public static event System.Action OnPlayerCaughtInBeam;
 
     private const string UnlitLayer = "Unlit";
     private bool alerted;
@@ -23,7 +27,7 @@ public class LightBeamDetector : MonoBehaviour
         if (stealth != null && stealth.IsInDarkZone) return;
 
         alerted = true;
-        soldier?.Alert();
+        OnPlayerCaughtInBeam?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D other)

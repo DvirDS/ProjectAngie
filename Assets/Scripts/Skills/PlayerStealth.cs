@@ -9,7 +9,21 @@ public class PlayerStealth : MonoBehaviour
     [SerializeField] private PlayerInputReader input;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public bool IsInDarkZone = false;
+    private bool isInDarkZone = false;
+    public bool IsInDarkZone
+    {
+        get => isInDarkZone;
+        set
+        {
+            if (isInDarkZone == value) return;
+            isInDarkZone = value;
+            OnDarkZoneChanged?.Invoke(isInDarkZone);
+        }
+    }
+
+    /// <summary>Raised whenever IsInDarkZone flips, so other systems can react instantly instead of polling.</summary>
+    public event System.Action<bool> OnDarkZoneChanged;
+
     public bool IsStealthing { get; private set; } = false;
 
     private void Awake()

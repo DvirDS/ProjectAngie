@@ -33,6 +33,16 @@ public class EnemyAI : MonoBehaviour
     private bool isWaypointPausing = false;
     private float lastDamageTime;
 
+    private void OnEnable()
+    {
+        LightBeamDetector.OnPlayerCaughtInBeam += Alert;
+    }
+
+    private void OnDisable()
+    {
+        LightBeamDetector.OnPlayerCaughtInBeam -= Alert;
+    }
+
     private void Awake()
     {
         if (data == null)
@@ -123,7 +133,18 @@ public class EnemyAI : MonoBehaviour
     {
         SetVelocityX(0f);
         alertTimer -= Time.deltaTime;
-        if (alertTimer <= 0f) ChangeState(EnemyState.Chase);
+        if (alertTimer <= 0f)
+        {
+            // The alert window is the player's chance to break contact - but re-checking
+            // with this soldier's own small CanSeePlayer() box doesn't work here, since a
+            // beam-triggered alert (which can come from well outside that box) would then
+            // almost always fail the recheck and never lead anywhere. The consistent rule
+            // instead: reaching real cover (a DarkZone) within the window cancels the chase;
+            // merely stepping out of the beam or drifting out of one soldier's own sightbox
+            // does not. Patrol-only enemies never give chase either way.
+            bool staysHidden = data.patrolOnly || (playerStealth != null && playerStealth.IsInDarkZone);
+            ChangeState(staysHidden ? EnemyState.Patrol : EnemyState.Chase);
+        }
     }
 
     private void UpdateChase()
@@ -202,7 +223,6 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // --- 3. לוגיקת מרדף וירי רגילה ---
         if (data.canFly && data.projectilePrefab != null)
         {
             if (distanceToPlayer <= data.shootingRange)
@@ -297,29 +317,20 @@ public class EnemyAI : MonoBehaviour
     {
         if (data.patrolOnly) return false;
         if (player == null) return false;
+        if (playerStealth != null && playerStealth.IsInDarkZone) return false;
 
         bool isInsideZone = false;
 
         if (data.canFly)
         {
-            // --- חישוב מעגלי (רחפנים) ---
             float currentRange = data.sightRange;
-            if (playerStealth != null)
-            {
-                if (playerStealth.IsStealthing) currentRange *= data.stealthDetectionMultiplier;
-                if (playerStealth.IsInDarkZone) currentRange *= data.darkZoneDetectionMultiplier;
-            }
+            if (playerStealth != null && playerStealth.IsStealthing) currentRange *= data.stealthDetectionMultiplier;
             isInsideZone = Vector2.Distance(transform.position, player.position) <= currentRange;
         }
         else
         {
-            // --- חישוב מלבני (אויבי קרקע) ---
             Vector2 currentBox = data.sightBoxSize;
-            if (playerStealth != null)
-            {
-                if (playerStealth.IsStealthing) currentBox *= data.stealthDetectionMultiplier;
-                if (playerStealth.IsInDarkZone) currentBox *= data.darkZoneDetectionMultiplier;
-            }
+            if (playerStealth != null && playerStealth.IsStealthing) currentBox *= data.stealthDetectionMultiplier;
 
             float diffX = Mathf.Abs(player.position.x - transform.position.x);
             float diffY = Mathf.Abs(player.position.y - transform.position.y);
@@ -327,7 +338,6 @@ public class EnemyAI : MonoBehaviour
             isInsideZone = (diffX <= currentBox.x / 2f && diffY <= currentBox.y / 2f);
         }
 
-        // --- בדיקת חסימת קירות פיזית ---
         if (isInsideZone)
         {
             if (data.canFly)
