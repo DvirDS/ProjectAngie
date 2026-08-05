@@ -21,7 +21,6 @@ public class PlayerStealth : MonoBehaviour
         }
     }
 
-    /// <summary>Raised whenever IsInDarkZone flips, so other systems can react instantly instead of polling.</summary>
     public event System.Action<bool> OnDarkZoneChanged;
 
     public bool IsStealthing { get; private set; } = false;

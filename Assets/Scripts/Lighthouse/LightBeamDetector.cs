@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class LightBeamDetector : MonoBehaviour
 {
-    /// <summary>
-    /// Raised whenever the player is caught standing in this beam while exposed.
-    /// Any number of EnemyAI instances can subscribe to react - no direct wiring needed.
-    /// </summary>
+
     public static event System.Action OnPlayerCaughtInBeam;
 
     private const string UnlitLayer = "Unlit";

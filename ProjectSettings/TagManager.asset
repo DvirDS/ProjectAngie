@@ -50,7 +50,7 @@ TagManager:
   - name: Unlit
     uniqueID: 1457696547
     locked: 0
-  - name: Characters
+  - name: NoBeamLight
     uniqueID: 280251431
     locked: 0
   m_RenderingLayers:

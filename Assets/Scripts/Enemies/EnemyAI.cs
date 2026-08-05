@@ -135,13 +135,7 @@ public class EnemyAI : MonoBehaviour
         alertTimer -= Time.deltaTime;
         if (alertTimer <= 0f)
         {
-            // The alert window is the player's chance to break contact - but re-checking
-            // with this soldier's own small CanSeePlayer() box doesn't work here, since a
-            // beam-triggered alert (which can come from well outside that box) would then
-            // almost always fail the recheck and never lead anywhere. The consistent rule
-            // instead: reaching real cover (a DarkZone) within the window cancels the chase;
-            // merely stepping out of the beam or drifting out of one soldier's own sightbox
-            // does not. Patrol-only enemies never give chase either way.
+
             bool staysHidden = data.patrolOnly || (playerStealth != null && playerStealth.IsInDarkZone);
             ChangeState(staysHidden ? EnemyState.Patrol : EnemyState.Chase);
         }

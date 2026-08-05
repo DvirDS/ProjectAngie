@@ -5,7 +5,6 @@ using System.Collections;
 public class PlayerDash : MonoBehaviour
 {
     [Header("Skill Connection")]
-    [Tooltip("���� ���� �� ���� ����� �� ���� ������� �-Assets")]
     [SerializeField] private Skill _dashSkillData;
 
     [Header("References")]
@@ -79,15 +78,11 @@ public class PlayerDash : MonoBehaviour
         if (playerMovement != null) playerMovement.enabled = true;
     }
 
-    // ������ �� �������� �� ����� �� �� ����� ��������
     private void HandleDashCollision(Collision2D collision)
     {
-        // 1. ������ �� ����� ������ (�����) �� ���� ������ ������
+
         Vector2 contactNormal = collision.GetContact(0).normal;
 
-        // 2. ������ �� ������ ��� ����� (������ �� �����)
-        // �� ���� ������ �� Y ����, �� ���� ������ ������ �� ������ �� ������ �� �����.
-        // ����� ���, ��� ��������� ��� �����.
         if (Mathf.Abs(contactNormal.y) > 0.5f)
         {
             return;
@@ -110,7 +105,7 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-            // ������� �� �-collision ������
+
             HandleDashCollision(collision);
         }
     }
@@ -119,7 +114,7 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-            // ������� �� �-collision ������
+
             HandleDashCollision(collision);
         }
     }
