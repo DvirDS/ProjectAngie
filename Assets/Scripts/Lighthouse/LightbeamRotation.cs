@@ -8,13 +8,6 @@ public class LightbeamRotation : MonoBehaviour
     [SerializeField] float maxLightbeamAngle = 65.0f;
     [SerializeField] float speed = 1.0f;
     [SerializeField] float switchAngle = 64f;
-
-    // Ground/cave-wall/etc. sprites that should get an extra highlight while the beam is "in
-    // front" of them, without ever going dark otherwise - toggled directly between "Unlit" and
-    // "Default" rather than via the beam's own target-layer list, since "Unlit" is also where
-    // things that must NEVER react to the beam (e.g. the cave background) permanently live.
-    // Toggling "Unlit" itself on the light would sweep those over too - this list keeps the two
-    // concerns separate.
     [SerializeField] private List<SpriteRenderer> highlightSprites;
 
     private const string NoBeamLightLayer = "NoBeamLight";
