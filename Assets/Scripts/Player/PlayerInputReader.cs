@@ -12,7 +12,7 @@ public class PlayerInputReader : Singleton<PlayerInputReader>
     public event Action OnSkillMenuPressed;
     public event Action OnDashPressed;
     public event Action OnStealthPressed;
-    public event Action OnEscPressed;
+    public event Action<GameManager.GameState> OnEscPressed;
     public event Action OnDigPressed;
 
     public Vector2 Move { get; private set; }
@@ -94,5 +94,8 @@ public class PlayerInputReader : Singleton<PlayerInputReader>
     private void OnSniff(InputAction.CallbackContext ctx) => SniffHeld = ctx.performed;
     private void OnStealth(InputAction.CallbackContext ctx) => OnStealthPressed?.Invoke();
     private void OnSkillMenu(InputAction.CallbackContext ctx) => OnSkillMenuPressed?.Invoke();
-    private void OnPause(InputAction.CallbackContext ctx) => OnEscPressed?.Invoke();
+    private void OnPause(InputAction.CallbackContext ctx)
+    {
+        if (GameManager.I != null) OnEscPressed?.Invoke(GameManager.I.State);
+    }
 }

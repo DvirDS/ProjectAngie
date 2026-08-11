@@ -10,6 +10,7 @@ public class PersistentEventSystem : MonoBehaviour
         if (instance == null)
         {
             instance = GetComponent<EventSystem>();
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != GetComponent<EventSystem>())

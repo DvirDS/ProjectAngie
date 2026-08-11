@@ -68,9 +68,9 @@ public class SkillTreeManager : Singleton<SkillTreeManager>
         }
     }
 
-    public void CloseWindow()
+    public void CloseWindow(GameManager.GameState stateAtPress)
     {
-        if (GameManager.I != null && GameManager.I.State == GameManager.GameState.SkillTree)
+        if (GameManager.I != null && stateAtPress == GameManager.GameState.SkillTree)
             GameManager.I.SetState(stateBeforeSkillTree);
     }
 
