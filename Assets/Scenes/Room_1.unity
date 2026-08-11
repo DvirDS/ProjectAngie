@@ -6638,76 +6638,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneLoadTrigger
       objectReference: {fileID: 0}
-    - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: m_Size.x
-      value: 14.172561
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: m_Size.y
-      value: 7.1078014
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: m_Offset.x
-      value: -7.420897
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.17300129
-      objectReference: {fileID: 0}
-    - target: {fileID: 5181337359424110840, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToLoad
-      value: Room_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToUnload
+    - target: {fileID: 5144805874969385687, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
+      propertyPath: respawnPoint
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToLoad.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToUnload.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToLoad.Array.data[0].m_SceneName
-      value: Room_2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134510298600942247, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      propertyPath: sceneToLoad.Array.data[0].m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: 8662a3c03290e244494bd2bb7c389b12, type: 3}
+      objectReference: {fileID: 170812272}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3928952248384149724, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7648478664416353485}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
---- !u!1 &7648478664416353484 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3928952248384149724, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
-  m_PrefabInstance: {fileID: 7648478664416353483}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7648478664416353485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7648478664416353484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e73199353d74b044b95b9f8d30b42c27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RespawnPointProvider
-  respawnPoint: {fileID: 170812271}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

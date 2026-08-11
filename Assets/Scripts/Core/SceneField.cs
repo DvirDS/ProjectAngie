@@ -1,6 +1,4 @@
-﻿// https://discussions.unity.com/t/inspector-field-for-scene-asset/40763/5 
-// This code is based on the above discussion and is used to create a custom inspector field for selecting a scene asset in Unity. The SceneField class allows you to select a scene asset and automatically stores the scene name, which can be used with Unity's scene loading methods. The SceneFieldPropertyDrawer class is responsible for drawing the custom inspector field in the Unity Editor.
-
+﻿
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -20,7 +18,6 @@ public class SceneField
         get { return m_SceneName; }
     }
 
-    // makes it work with the existing Unity methods (LoadLevel/LoadScene)
     public static implicit operator string(SceneField sceneField)
     {
         return sceneField.SceneName;

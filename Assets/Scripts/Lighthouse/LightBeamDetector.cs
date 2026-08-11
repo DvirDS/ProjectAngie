@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class LightBeamDetector : MonoBehaviour
 {
-    [SerializeField] private EnemyAI soldier;
+
+    public static event System.Action OnPlayerCaughtInBeam;
 
     private const string UnlitLayer = "Unlit";
     private bool alerted;
@@ -23,7 +24,7 @@ public class LightBeamDetector : MonoBehaviour
         if (stealth != null && stealth.IsInDarkZone) return;
 
         alerted = true;
-        soldier?.Alert();
+        OnPlayerCaughtInBeam?.Invoke();
     }
 
     private void OnTriggerExit2D(Collider2D other)

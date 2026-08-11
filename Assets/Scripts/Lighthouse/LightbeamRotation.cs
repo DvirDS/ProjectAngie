@@ -1,26 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LightbeamRotation : MonoBehaviour
 {
     [Header("Motion")]
     [SerializeField] float maxLightbeamAngle = 65.0f;
     [SerializeField] float speed = 1.0f;
-
-    [Header("Sprites to Unlit")]
-    [SerializeField] List<SpriteRenderer> spritesToUnlit;
     [SerializeField] float switchAngle = 64f;
-    private SpriteRenderer player;
+    [SerializeField] private List<SpriteRenderer> highlightSprites;
 
+    private const string NoBeamLightLayer = "NoBeamLight";
+    private const string UnlitLayer = "Unlit";
+    private const string DefaultLayer = "Default";
+
+    private Light2D beamLight;
     private bool lightBackwards = true;
-    private string unlitLayer = "Unlit";
-    private string defaultLayer = "Default";
 
     private void Awake()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        player = playerObj.GetComponent<SpriteRenderer>();
-        spritesToUnlit.Add(player);
+        beamLight = GetComponent<Light2D>();
     }
 
     void FixedUpdate()
@@ -28,18 +27,28 @@ public class LightbeamRotation : MonoBehaviour
         float angle = maxLightbeamAngle * Mathf.Sin(Time.time * speed);
         transform.rotation = Quaternion.Euler(0, 0, -180 + angle);
 
-        if(angle > switchAngle && lightBackwards)
+        if (angle > switchAngle && lightBackwards)
         {
-            foreach (SpriteRenderer sprite in spritesToUnlit)
-                sprite.sortingLayerName = unlitLayer;
+            beamLight.RemoveTargetSortingLayer(NoBeamLightLayer);
+            SetHighlighted(false);
             lightBackwards = false;
         }
-        else if(angle < -switchAngle && !lightBackwards)
+        else if (angle < -switchAngle && !lightBackwards)
         {
-            foreach (SpriteRenderer sprite in spritesToUnlit)
-                sprite.sortingLayerName = defaultLayer;
-            player.sortingLayerName = defaultLayer;
+            beamLight.AddTargetSortingLayer(NoBeamLightLayer);
+            SetHighlighted(true);
             lightBackwards = true;
+        }
+    }
+
+    private void SetHighlighted(bool highlighted)
+    {
+        if (highlightSprites == null) return;
+
+        string layerName = highlighted ? DefaultLayer : UnlitLayer;
+        foreach (SpriteRenderer sprite in highlightSprites)
+        {
+            if (sprite != null) sprite.sortingLayerName = layerName;
         }
     }
 }

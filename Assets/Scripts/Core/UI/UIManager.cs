@@ -65,12 +65,12 @@ public class UIManager : Singleton<UIManager>
         if (GameManager.I != null) HandleGameStateChanged(GameManager.I.State);
     }
 
-    private void TogglePause()
+    private void TogglePause(GameManager.GameState stateAtPress)
     {
         if (GameManager.I == null) return;
-        if (GameManager.I.State == GameManager.GameState.Play)
+        if (stateAtPress == GameManager.GameState.Play)
             GameManager.I.PauseGame();
-        else if (GameManager.I.State == GameManager.GameState.Pause)
+        else if (stateAtPress == GameManager.GameState.Pause)
             GameManager.I.ResumeGame();
     }
 

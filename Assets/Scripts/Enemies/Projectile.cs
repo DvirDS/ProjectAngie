@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifeTime); 
+        Destroy(gameObject, lifeTime);
     }
 
     public void SetDirection(Vector2 dir, float customSpeed)
@@ -20,11 +20,9 @@ public class Projectile : MonoBehaviour
         direction = dir;
         speed = customSpeed;
 
-        // Rotation
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // Give immediate push
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -41,11 +39,11 @@ public class Projectile : MonoBehaviour
             {
                 playerHealth.TakeDamage(damage);
             }
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 }

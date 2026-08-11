@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3230906436773919644}
   - component: {fileID: 5181337359424110840}
   - component: {fileID: 9134510298600942247}
+  - component: {fileID: 5144805874969385687}
   m_Layer: 0
   m_Name: SceneLoadTrigger
   m_TagString: Untagged
@@ -67,7 +68,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -9.859602, y: -2.958185}
+  m_Offset: {x: -7.420897, y: 0.17300129}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -77,7 +78,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.941044, y: 0.84542704}
+  m_Size: {x: 14.172561, y: 7.1078014}
   m_EdgeRadius: 0
 --- !u!114 &9134510298600942247
 MonoBehaviour:
@@ -93,5 +94,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   sceneToLoad:
   - m_SceneAsset: {fileID: 102900000, guid: 8662a3c03290e244494bd2bb7c389b12, type: 3}
-    m_SceneName: Room_3.1
+    m_SceneName: Room_2
   sceneToUnload: []
+--- !u!114 &5144805874969385687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928952248384149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73199353d74b044b95b9f8d30b42c27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnPointProvider
+  respawnPoint: {fileID: 0}

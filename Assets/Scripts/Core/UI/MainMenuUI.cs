@@ -14,6 +14,9 @@ public class MainMenuUI : MonoBehaviour
 
     private IEnumerator LoadGame()
     {
+
+        ParallaxLayer.ResetAnchors();
+
         if (!SceneManager.GetSceneByName(persistentSceneName).isLoaded)
             yield return SceneManager.LoadSceneAsync(persistentSceneName, LoadSceneMode.Additive);
 
@@ -24,6 +27,6 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnQuitPressed()
     {
-        Application.Quit(); 
+        Application.Quit();
     }
 }

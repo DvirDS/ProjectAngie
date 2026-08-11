@@ -9,6 +9,7 @@ public class CoinsManager : Singleton<CoinsManager>
     {
         base.Awake();
         if (I != this) return;
+        transform.SetParent(null);
         DontDestroyOnLoad(gameObject);
     }
 

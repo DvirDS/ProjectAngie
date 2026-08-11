@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [DefaultExecutionOrder(500)]
@@ -9,6 +10,12 @@ public class ParallaxLayer : MonoBehaviour
     private Transform cameraTransform;
     private Vector3 startPosition;
     private Vector3 cameraStartPosition;
+
+    private static readonly Dictionary<string, Vector3> sceneCameraAnchors = new();
+
+    private bool hasAnchored;
+
+    public static void ResetAnchors() => sceneCameraAnchors.Clear();
 
     private void OnEnable()
     {
@@ -58,7 +65,20 @@ public class ParallaxLayer : MonoBehaviour
 
     private void Anchor()
     {
+        if (hasAnchored) return;
+        hasAnchored = true;
+
         startPosition = transform.position;
-        cameraStartPosition = cameraTransform.position;
+
+        string sceneName = gameObject.scene.name;
+        if (sceneCameraAnchors.TryGetValue(sceneName, out Vector3 cachedCameraPosition))
+        {
+            cameraStartPosition = cachedCameraPosition;
+        }
+        else
+        {
+            cameraStartPosition = cameraTransform.position;
+            sceneCameraAnchors[sceneName] = cameraStartPosition;
+        }
     }
 }

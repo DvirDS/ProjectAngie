@@ -7,6 +7,7 @@ public class AngiesLightZone : MonoBehaviour
     [SerializeField] private float transitionSpeed = 2f;
 
     private static float defaultIntensity = -1f;
+    private bool playerInside;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,6 +16,7 @@ public class AngiesLightZone : MonoBehaviour
         if (defaultIntensity < 0f)
             defaultIntensity = LightFollowAngie.DefaultIntensity;
 
+        playerInside = true;
         StopAllCoroutines();
         StartCoroutine(LerpLight(targetIntensity));
     }
@@ -23,8 +25,28 @@ public class AngiesLightZone : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        playerInside = false;
+        ResetLight();
+    }
+
+    private void OnDisable()
+    {
+
+        if (playerInside) ResetLight();
+    }
+
+    private void ResetLight()
+    {
         StopAllCoroutines();
-        StartCoroutine(LerpLight(defaultIntensity));
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(LerpLight(defaultIntensity));
+        }
+        else if (LightFollowAngie.Instance != null)
+        {
+            LightFollowAngie.Instance.intensity = defaultIntensity;
+        }
     }
 
     private System.Collections.IEnumerator LerpLight(float target)
