@@ -4,20 +4,30 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class DashMovable : MonoBehaviour
 {
+    private const float DefaultPushDistance = 2f;
+    private const float DefaultMoveSpeed = 10f;
+    private const float BodyMass = 50f;
+    private const float DynamicGravityScale = 3f;
+    private const float ArrivalThreshold = 0.05f;
+    private const float FallingVelocityThreshold = -0.5f;
+    private const float BlockedVelocityThreshold = 0.1f;
+    private const float MinMoveThreshold = 0.1f;
+    private const float ZeroVelocity = 0f;
+
     private Rigidbody2D rb;
     private Coroutine currentMoveCoroutine;
 
     [Header("Movement Settings")]
-    [SerializeField] private float pushDistance = 2f;
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float pushDistance = DefaultPushDistance;
+    [SerializeField] private float moveSpeed = DefaultMoveSpeed;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
         rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.mass = 50f;
-        rb.gravityScale = 3f;
+        rb.mass = BodyMass;
+        rb.gravityScale = DynamicGravityScale;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
@@ -45,14 +55,14 @@ public class DashMovable : MonoBehaviour
         {
             float distanceRemaining = Mathf.Abs(targetX - rb.position.x);
 
-            if (distanceRemaining <= 0.05f) break;
+            if (distanceRemaining <= ArrivalThreshold) break;
 
-            if (rb.linearVelocity.y < -0.5f) break;
+            if (rb.linearVelocity.y < FallingVelocityThreshold) break;
 
-            if (Mathf.Abs(rb.linearVelocity.x) < 0.1f && Mathf.Abs(rb.position.x - startX) > 0.1f)
+            if (Mathf.Abs(rb.linearVelocity.x) < BlockedVelocityThreshold && Mathf.Abs(rb.position.x - startX) > MinMoveThreshold)
             {
                 yield return new WaitForFixedUpdate();
-                if (Mathf.Abs(rb.linearVelocity.x) < 0.1f) break;
+                if (Mathf.Abs(rb.linearVelocity.x) < BlockedVelocityThreshold) break;
             }
 
             rb.linearVelocity = new Vector2(pushDirection * moveSpeed, rb.linearVelocity.y);
@@ -60,7 +70,7 @@ public class DashMovable : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(ZeroVelocity, rb.linearVelocity.y);
         rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
         currentMoveCoroutine = null;
     }

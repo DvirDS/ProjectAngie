@@ -3,17 +3,23 @@ using UnityEngine.Rendering.Universal;
 
 public class AngiesLightZone : MonoBehaviour
 {
-    [SerializeField] private float targetIntensity = 2f;
-    [SerializeField] private float transitionSpeed = 2f;
+    private const float DefaultTargetIntensity = 2f;
+    private const float DefaultTransitionSpeed = 2f;
+    private const float UnassignedIntensity = -1f;
+    private const float IntensityThreshold = 0f;
+    private const float LerpTolerance = 0.01f;
 
-    private static float defaultIntensity = -1f;
+    [SerializeField] private float targetIntensity = DefaultTargetIntensity;
+    [SerializeField] private float transitionSpeed = DefaultTransitionSpeed;
+
+    private static float defaultIntensity = UnassignedIntensity;
     private bool playerInside;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
 
-        if (defaultIntensity < 0f)
+        if (defaultIntensity < IntensityThreshold)
             defaultIntensity = LightFollowAngie.DefaultIntensity;
 
         playerInside = true;
@@ -31,7 +37,6 @@ public class AngiesLightZone : MonoBehaviour
 
     private void OnDisable()
     {
-
         if (playerInside) ResetLight();
     }
 
@@ -52,7 +57,7 @@ public class AngiesLightZone : MonoBehaviour
     private System.Collections.IEnumerator LerpLight(float target)
     {
         Light2D light = LightFollowAngie.Instance;
-        while (Mathf.Abs(light.intensity - target) > 0.01f)
+        while (Mathf.Abs(light.intensity - target) > LerpTolerance)
         {
             light.intensity = Mathf.Lerp(light.intensity, target, Time.deltaTime * transitionSpeed);
             yield return null;

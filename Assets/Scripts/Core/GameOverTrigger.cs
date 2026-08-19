@@ -3,7 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class GameOverTrigger : MonoBehaviour
 {
-    [SerializeField] private float duration = 6f;
+    private const float DefaultDuration = 6f;
+
+    [SerializeField] private float duration = DefaultDuration;
 
     private void Awake()
     {

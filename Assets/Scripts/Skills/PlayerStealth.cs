@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerStealth : MonoBehaviour
 {
+    private const float StealthAlpha = 0.5f;
+    private const float VisibleAlpha = 1f;
+
     [Header("Skill Connection")]
     [SerializeField] private Skill _stealthSkillData;
 
@@ -49,7 +52,7 @@ public class PlayerStealth : MonoBehaviour
             if (spriteRenderer != null)
             {
                 Color c = spriteRenderer.color;
-                c.a = IsStealthing ? 0.5f : 1f;
+                c.a = IsStealthing ? StealthAlpha : VisibleAlpha;
                 spriteRenderer.color = c;
             }
         }

@@ -4,6 +4,21 @@ public enum EnemyState { Idle, Patrol, Alert, Chase, Return }
 
 public class EnemyAI : MonoBehaviour
 {
+    private const float ZeroVelocity = 0f;
+    private const float ZeroGravity = 0f;
+    private const float InitialTimer = 0f;
+    private const int EmptyWaypointsLength = 0;
+    private const int FirstWaypointIndex = 0;
+    private const int NextWaypointIncrement = 1;
+    private const float HalfDimensionDivider = 2f;
+    private const float PatrolArrivalThreshold = 0.2f;
+    private const float ChaseArrivalThreshold = 0.5f;
+    private const float ReturnArrivalThreshold = 0.3f;
+    private const float FlipThreshold = 0.1f;
+    private const float FallbackAlertDuration = 0.8f;
+    private const float FallbackWaypointPauseTime = 0.5f;
+    private const float GizmoZeroZ = 0f;
+
     [Header("Data")]
     [SerializeField] private EnemySO data;
 
@@ -15,7 +30,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Combat Settings")]
     [SerializeField] private Transform firePoint;
-    private float fireTimer = 0f;
+    private float fireTimer = InitialTimer;
 
     [Header("References")]
     [SerializeField] private SpriteRenderer alertBubble;
@@ -26,10 +41,10 @@ public class EnemyAI : MonoBehaviour
     private PlayerStealth playerStealth;
     private bool isFacingRight = true;
     private Vector2 startPosition;
-    private int currentWaypointIndex = 0;
+    private int currentWaypointIndex = FirstWaypointIndex;
 
-    private float alertTimer = 0f;
-    private float waypointPauseTimer = 0f;
+    private float alertTimer = InitialTimer;
+    private float waypointPauseTimer = InitialTimer;
     private bool isWaypointPausing = false;
     private float lastDamageTime;
 
@@ -57,7 +72,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (data.canFly)
         {
-            rb.gravityScale = 0f;
+            rb.gravityScale = ZeroGravity;
         }
     }
 
@@ -96,7 +111,7 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateIdle()
     {
-        SetVelocityX(0f);
+        SetVelocityX(ZeroVelocity);
         if (CanSeePlayer()) ChangeState(EnemyState.Alert);
     }
 
@@ -108,34 +123,33 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (waypoints == null || waypoints.Length == 0)
+        if (waypoints == null || waypoints.Length == EmptyWaypointsLength)
         {
-            SetVelocityX(0f);
+            SetVelocityX(ZeroVelocity);
             return;
         }
 
         if (isWaypointPausing)
         {
-            SetVelocityX(0f);
+            SetVelocityX(ZeroVelocity);
             waypointPauseTimer -= Time.deltaTime;
-            if (waypointPauseTimer <= 0f)
+            if (waypointPauseTimer <= ZeroVelocity)
             {
                 isWaypointPausing = false;
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                currentWaypointIndex = (currentWaypointIndex + NextWaypointIncrement) % waypoints.Length;
             }
             return;
         }
 
-        MoveToPoint(waypoints[currentWaypointIndex].position, data.patrolSpeed, 0.2f, () => StartWaypointPause());
+        MoveToPoint(waypoints[currentWaypointIndex].position, data.patrolSpeed, PatrolArrivalThreshold, () => StartWaypointPause());
     }
 
     private void UpdateAlert()
     {
-        SetVelocityX(0f);
+        SetVelocityX(ZeroVelocity);
         alertTimer -= Time.deltaTime;
-        if (alertTimer <= 0f)
+        if (alertTimer <= ZeroVelocity)
         {
-
             bool staysHidden = data.patrolOnly || (playerStealth != null && playerStealth.IsInDarkZone);
             ChangeState(staysHidden ? EnemyState.Patrol : EnemyState.Chase);
         }
@@ -156,7 +170,7 @@ public class EnemyAI : MonoBehaviour
         {
             float chaseDiffX = Mathf.Abs(player.position.x - transform.position.x);
             float chaseDiffY = Mathf.Abs(player.position.y - transform.position.y);
-            lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / 2f || chaseDiffY > data.stopChaseBoxSize.y / 2f);
+            lostPlayer = (chaseDiffX > data.stopChaseBoxSize.x / HalfDimensionDivider || chaseDiffY > data.stopChaseBoxSize.y / HalfDimensionDivider);
         }
 
         if (!lostPlayer && data.canFly)
@@ -190,8 +204,8 @@ public class EnemyAI : MonoBehaviour
             float playerDiffX = Mathf.Abs(player.position.x - startPosition.x);
             float playerDiffY = Mathf.Abs(player.position.y - startPosition.y);
 
-            float halfWidth = data.maxChaseBoxSize.x / 2f;
-            float halfHeight = data.maxChaseBoxSize.y / 2f;
+            float halfWidth = data.maxChaseBoxSize.x / HalfDimensionDivider;
+            float halfHeight = data.maxChaseBoxSize.y / HalfDimensionDivider;
 
             isOutsideBoundary = (diffX >= halfWidth || diffY >= halfHeight) &&
                                 (playerDiffX > halfWidth || playerDiffY > halfHeight);
@@ -199,7 +213,7 @@ public class EnemyAI : MonoBehaviour
 
         if (isOutsideBoundary)
         {
-            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(ZeroVelocity, rb.linearVelocity.y);
 
             float directionX = player.position.x - transform.position.x;
             FlipSprite(directionX);
@@ -207,7 +221,7 @@ public class EnemyAI : MonoBehaviour
             if (data.canFly && data.projectilePrefab != null && distanceToPlayer <= data.shootingRange)
             {
                 fireTimer -= Time.deltaTime;
-                if (fireTimer <= 0f)
+                if (fireTimer <= ZeroVelocity)
                 {
                     Shoot();
                     fireTimer = data.fireRate;
@@ -221,14 +235,14 @@ public class EnemyAI : MonoBehaviour
         {
             if (distanceToPlayer <= data.shootingRange)
             {
-                SetVelocityX(0f);
+                SetVelocityX(ZeroVelocity);
                 rb.linearVelocity = Vector2.zero;
 
                 float directionX = player.position.x - transform.position.x;
                 FlipSprite(directionX);
 
                 fireTimer -= Time.deltaTime;
-                if (fireTimer <= 0f)
+                if (fireTimer <= ZeroVelocity)
                 {
                     Shoot();
                     fireTimer = data.fireRate;
@@ -236,12 +250,12 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
+                MoveToPoint(player.position, data.chaseSpeed, ChaseArrivalThreshold, null);
             }
         }
         else
         {
-            MoveToPoint(player.position, data.chaseSpeed, 0.5f, null);
+            MoveToPoint(player.position, data.chaseSpeed, ChaseArrivalThreshold, null);
         }
     }
 
@@ -270,13 +284,13 @@ public class EnemyAI : MonoBehaviour
         }
 
         Vector2 targetPos = startPosition;
-        int closestIndex = 0;
+        int closestIndex = FirstWaypointIndex;
 
-        if (waypoints != null && waypoints.Length > 0)
+        if (waypoints != null && waypoints.Length > EmptyWaypointsLength)
         {
             float minDistance = float.MaxValue;
 
-            for (int i = 0; i < waypoints.Length; i++)
+            for (int i = FirstWaypointIndex; i < waypoints.Length; i++)
             {
                 float dist = Vector2.Distance(transform.position, waypoints[i].position);
                 if (dist < minDistance)
@@ -288,11 +302,11 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        MoveToPoint(targetPos, data.patrolSpeed, 0.3f, () =>
+        MoveToPoint(targetPos, data.patrolSpeed, ReturnArrivalThreshold, () =>
         {
             currentWaypointIndex = closestIndex;
 
-            if (waypoints != null && waypoints.Length > 0)
+            if (waypoints != null && waypoints.Length > EmptyWaypointsLength)
                 ChangeState(EnemyState.Patrol);
             else
                 ChangeState(EnemyState.Idle);
@@ -329,7 +343,7 @@ public class EnemyAI : MonoBehaviour
             float diffX = Mathf.Abs(player.position.x - transform.position.x);
             float diffY = Mathf.Abs(player.position.y - transform.position.y);
 
-            isInsideZone = (diffX <= currentBox.x / 2f && diffY <= currentBox.y / 2f);
+            isInsideZone = (diffX <= currentBox.x / HalfDimensionDivider && diffY <= currentBox.y / HalfDimensionDivider);
         }
 
         if (isInsideZone)
@@ -369,7 +383,7 @@ public class EnemyAI : MonoBehaviour
         currentState = newState;
 
         if (newState == EnemyState.Alert)
-            alertTimer = data != null ? data.alertDuration : 0.8f;
+            alertTimer = data != null ? data.alertDuration : FallbackAlertDuration;
 
         UpdateAlertBubble();
     }
@@ -378,14 +392,14 @@ public class EnemyAI : MonoBehaviour
 
     private void FlipSprite(float directionX)
     {
-        if (directionX > 0.1f && !isFacingRight)
+        if (directionX > FlipThreshold && !isFacingRight)
         {
             isFacingRight = true;
             Vector3 scale = transform.localScale;
             scale.x = Mathf.Abs(scale.x);
             transform.localScale = scale;
         }
-        else if (directionX < -0.1f && isFacingRight)
+        else if (directionX < -FlipThreshold && isFacingRight)
         {
             isFacingRight = false;
             Vector3 scale = transform.localScale;
@@ -402,7 +416,7 @@ public class EnemyAI : MonoBehaviour
 
         if (distance < threshold)
         {
-            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(0f, rb.linearVelocity.y);
+            rb.linearVelocity = data.canFly ? Vector2.zero : new Vector2(ZeroVelocity, rb.linearVelocity.y);
             onArrived?.Invoke();
         }
         else
@@ -430,7 +444,7 @@ public class EnemyAI : MonoBehaviour
     private void StartWaypointPause()
     {
         isWaypointPausing = true;
-        waypointPauseTimer = data != null ? data.waypointPauseTime : 0.5f;
+        waypointPauseTimer = data != null ? data.waypointPauseTime : FallbackWaypointPauseTime;
     }
 
     private void UpdateAlertBubble()
@@ -467,10 +481,10 @@ public class EnemyAI : MonoBehaviour
         else
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(transform.position, new Vector3(data.sightBoxSize.x, data.sightBoxSize.y, 0f));
+            Gizmos.DrawWireCube(transform.position, new Vector3(data.sightBoxSize.x, data.sightBoxSize.y, GizmoZeroZ));
 
             Gizmos.color = Color.gray;
-            Gizmos.DrawWireCube(transform.position, new Vector3(data.stopChaseBoxSize.x, data.stopChaseBoxSize.y, 0f));
+            Gizmos.DrawWireCube(transform.position, new Vector3(data.stopChaseBoxSize.x, data.stopChaseBoxSize.y, GizmoZeroZ));
         }
 
         Gizmos.color = Color.cyan;
@@ -479,6 +493,6 @@ public class EnemyAI : MonoBehaviour
         if (data.canFly)
             Gizmos.DrawWireSphere(centerPoint, data.maxChaseDistance);
         else
-            Gizmos.DrawWireCube(centerPoint, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, 0f));
+            Gizmos.DrawWireCube(centerPoint, new Vector3(data.maxChaseBoxSize.x, data.maxChaseBoxSize.y, GizmoZeroZ));
     }
 }

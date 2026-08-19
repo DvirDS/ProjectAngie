@@ -5,6 +5,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SceneFade : MonoBehaviour
 {
+    private const float AlphaOpaque = 1f;
+    private const float AlphaTransparent = 0f;
+    private const float InitialElapsed = 0f;
+    private const float CompletePercentage = 1f;
+
     private Image fadeScreen;
 
     private void Awake()
@@ -17,13 +22,12 @@ public class SceneFade : MonoBehaviour
     {
         fadeScreen.color = color;
         yield return new WaitForSecondsRealtime(holdDuration);
-
     }
 
     public IEnumerator FadeInCoroutine(float duration)
     {
-        Color startColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 1);
-        Color targetColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0);
+        Color startColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, AlphaOpaque);
+        Color targetColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, AlphaTransparent);
 
         yield return fadeCoroutine(startColor, targetColor, duration);
         gameObject.SetActive(false);
@@ -31,8 +35,8 @@ public class SceneFade : MonoBehaviour
 
     public IEnumerator FadeOutCoroutine(float duration)
     {
-        Color startColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0);
-        Color targetColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 1);
+        Color startColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, AlphaTransparent);
+        Color targetColor = new(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, AlphaOpaque);
 
         gameObject.SetActive(true);
         yield return fadeCoroutine(startColor, targetColor, duration);
@@ -40,13 +44,13 @@ public class SceneFade : MonoBehaviour
 
     private IEnumerator fadeCoroutine(Color startColor, Color targetColor, float duration)
     {
-        float elapsedTime = 0;
-        float elapsedPercentag = 0;
+        float elapsedTime = InitialElapsed;
+        float elapsedPercentage = InitialElapsed;
 
-        while (elapsedPercentag < 1)
+        while (elapsedPercentage < CompletePercentage)
         {
-            elapsedPercentag = elapsedTime / duration;
-            fadeScreen.color = Color.Lerp(startColor, targetColor, elapsedPercentag);
+            elapsedPercentage = elapsedTime / duration;
+            fadeScreen.color = Color.Lerp(startColor, targetColor, elapsedPercentage);
 
             yield return null;
             elapsedTime += Time.unscaledDeltaTime;

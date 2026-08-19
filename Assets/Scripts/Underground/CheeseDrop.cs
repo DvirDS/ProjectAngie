@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class CheeseDrop : MonoBehaviour
 {
+    private const float DefaultDynamicGravityScale = 1.0f;
+    private const float DefaultDynamicMass = 1.0f;
+    private const string defaultLayer = "Default";
+
     [SerializeField] private GameObject cheese;
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject[] rats;
 
-    private const string defaultLayer = "Default";
     private SpriteRenderer cheeseSprite;
 
     private void Start()
@@ -26,7 +29,7 @@ public class CheeseDrop : MonoBehaviour
             DropCheese();
             DropStick();
             gameObject.SetActive(false);
-            
+
             foreach (GameObject rat in rats)
             {
                 rat.GetComponent<EnemyAI>().Unfreeze();
@@ -39,7 +42,7 @@ public class CheeseDrop : MonoBehaviour
         cheese.GetComponentInChildren<CheesePickUp>().IsCheesePickUp = false;
         MakeRigidBodyDynamic(cheese);
         cheese.GetComponentInChildren<CheesePickUp>().CanPickUp = false;
-        
+
         SpriteRenderer cheeseSprite = cheese.GetComponent<SpriteRenderer>();
         cheeseSprite.sortingLayerName = defaultLayer;
     }
@@ -55,8 +58,8 @@ public class CheeseDrop : MonoBehaviour
         if (rb != null)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 1.0f;
-            rb.mass = 1.0f;
+            rb.gravityScale = DefaultDynamicGravityScale;
+            rb.mass = DefaultDynamicMass;
         }
     }
 }

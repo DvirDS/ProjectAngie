@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
+    private const float DefaultRestoreAmount = 20f;
+
     [Header("Settings")]
-    public float restoreAmount = 20f; 
+    public float restoreAmount = DefaultRestoreAmount;
 
     private void OnTriggerEnter2D(Collider2D other)
     {

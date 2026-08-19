@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 public class TooltipManager : MonoBehaviour
 {
+    private const float DefaultOffsetX = 15f;
+    private const float DefaultOffsetY = -15f;
+
     public static TooltipManager instance;
 
     [Header("UI References")]
@@ -11,7 +14,7 @@ public class TooltipManager : MonoBehaviour
     public TextMeshProUGUI tooltipText;
 
     [Header("Settings")]
-    public Vector2 offset = new Vector2(15f, -15f);
+    public Vector2 offset = new Vector2(DefaultOffsetX, DefaultOffsetY);
 
     private void Awake()
     {

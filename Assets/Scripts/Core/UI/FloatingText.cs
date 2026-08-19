@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class FloatingText : MonoBehaviour
 {
+    private const float DefaultMoveSpeed = 100f;
+    private const float DefaultFadeDuration = 0.8f;
+    private const float InitialElapsed = 0f;
+    private const float FullyOpaque = 1f;
+    private const float FullyTransparent = 0f;
+
     [SerializeField] private TextMeshProUGUI textElement;
-    [SerializeField] private float moveSpeed = 100f; 
-    [SerializeField] private float fadeDuration = 0.8f;
+    [SerializeField] private float moveSpeed = DefaultMoveSpeed;
+    [SerializeField] private float fadeDuration = DefaultFadeDuration;
 
     private RectTransform rectTransform;
     private Camera mainCamera;
@@ -32,7 +38,7 @@ public class FloatingText : MonoBehaviour
 
     private IEnumerator FadeAndMoveRoutine()
     {
-        float elapsed = 0f;
+        float elapsed = InitialElapsed;
         Color startColor = textElement.color;
 
         while (elapsed < fadeDuration)
@@ -41,7 +47,7 @@ public class FloatingText : MonoBehaviour
 
             rectTransform.anchoredPosition += Vector2.up * moveSpeed * Time.deltaTime;
 
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+            float alpha = Mathf.Lerp(FullyOpaque, FullyTransparent, elapsed / fadeDuration);
             textElement.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
 
             yield return null;

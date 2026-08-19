@@ -4,10 +4,16 @@ using UnityEngine.Rendering.Universal;
 
 public class LightbeamRotation : MonoBehaviour
 {
+    private const float DefaultMaxAngle = 65.0f;
+    private const float DefaultSpeed = 1.0f;
+    private const float DefaultSwitchAngle = 64f;
+    private const float BaseRotationAngle = -180f;
+    private const float ZeroEulerAxis = 0f;
+
     [Header("Motion")]
-    [SerializeField] float maxLightbeamAngle = 65.0f;
-    [SerializeField] float speed = 1.0f;
-    [SerializeField] float switchAngle = 64f;
+    [SerializeField] float maxLightbeamAngle = DefaultMaxAngle;
+    [SerializeField] float speed = DefaultSpeed;
+    [SerializeField] float switchAngle = DefaultSwitchAngle;
     [SerializeField] private List<SpriteRenderer> highlightSprites;
 
     private const string NoBeamLightLayer = "NoBeamLight";
@@ -25,7 +31,7 @@ public class LightbeamRotation : MonoBehaviour
     void FixedUpdate()
     {
         float angle = maxLightbeamAngle * Mathf.Sin(Time.time * speed);
-        transform.rotation = Quaternion.Euler(0, 0, -180 + angle);
+        transform.rotation = Quaternion.Euler(ZeroEulerAxis, ZeroEulerAxis, BaseRotationAngle + angle);
 
         if (angle > switchAngle && lightBackwards)
         {

@@ -4,11 +4,15 @@ using UnityEngine.Tilemaps;
 
 public class TileDigging : MonoBehaviour
 {
+    private const float DefaultDigDistance = 0.8f;
+    private const float MinMagnitudeSquared = 0.25f;
+    private const float AxisZeroThreshold = 0f;
+
     private Grid grid;
     private List<Tilemap> tilemaps;
 
     [Header("Dig Settings")]
-    [SerializeField] private float digDistance = 0.8f;
+    [SerializeField] private float digDistance = DefaultDigDistance;
 
     [Header("References")]
     [SerializeField] private PlayerInputReader input;
@@ -72,9 +76,9 @@ public class TileDigging : MonoBehaviour
 
     private Vector2 SnapToCardinal(Vector2 raw)
     {
-        if (raw.sqrMagnitude < 0.25f) return Vector2.zero;
+        if (raw.sqrMagnitude < MinMagnitudeSquared) return Vector2.zero;
         if (Mathf.Abs(raw.x) > Mathf.Abs(raw.y))
-            return raw.x > 0 ? Vector2.right : Vector2.left;
-        return raw.y > 0 ? Vector2.up : Vector2.down;
+            return raw.x > AxisZeroThreshold ? Vector2.right : Vector2.left;
+        return raw.y > AxisZeroThreshold ? Vector2.up : Vector2.down;
     }
 }

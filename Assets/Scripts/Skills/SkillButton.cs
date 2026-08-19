@@ -4,13 +4,18 @@ using TMPro;
 
 public class SkillButton : MonoBehaviour
 {
+    private static readonly Color DefaultPurchasedColor = new Color(0.396f, 0.012f, 0.604f);
+    private static readonly Color DefaultNotPurchasedColor = new Color(0.031f, 0.243f, 0.765f);
+    private static readonly Color PurchasedIconColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+    private static readonly Color LockedIconColor = new Color(0.3f, 0.3f, 0.3f, 1f);
+    private const int NoPrerequisitesLength = 0;
+
     public Skill skillData;
     public Image skillIcon;
-    public Button myButton; 
+    public Button myButton;
     public TextMeshProUGUI nameText;
-    public Color isPurchasedColor = new Color(0.396f, 0.012f, 0.604f);
-    public Color isNotPurchasedColor = new Color(0.031f, 0.243f, 0.765f);
-
+    public Color isPurchasedColor = DefaultPurchasedColor;
+    public Color isNotPurchasedColor = DefaultNotPurchasedColor;
 
     void Start()
     {
@@ -47,7 +52,7 @@ public class SkillButton : MonoBehaviour
         if (skillData.isPurchased)
         {
             if (myButton != null) myButton.interactable = false;
-            if (skillIcon != null) skillIcon.color = new Color(0.6f, 0.6f, 0.6f, 1f);
+            if (skillIcon != null) skillIcon.color = PurchasedIconColor;
             if (myButton != null && myButton.image != null) myButton.image.color = Color.gray;
         }
         else if (CanBePurchased())
@@ -59,14 +64,14 @@ public class SkillButton : MonoBehaviour
         else
         {
             if (myButton != null) myButton.interactable = false;
-            if (skillIcon != null) skillIcon.color = new Color(0.3f, 0.3f, 0.3f, 1f);
+            if (skillIcon != null) skillIcon.color = LockedIconColor;
             if (myButton != null && myButton.image != null) myButton.image.color = isNotPurchasedColor;
         }
     }
 
     bool CanBePurchased()
     {
-        if (skillData.previousSkills == null || skillData.previousSkills.Length == 0) return true;
+        if (skillData.previousSkills == null || skillData.previousSkills.Length == NoPrerequisitesLength) return true;
 
         foreach (Skill parent in skillData.previousSkills)
         {

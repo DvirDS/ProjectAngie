@@ -4,6 +4,24 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    private const float DefaultWalkSpeed = 5f;
+    private const float DefaultSprintSpeed = 8f;
+    private const float DefaultJumpForce = 8f;
+    private const float DefaultDoubleJumpMultiplier = 1f;
+    private const float DefaultSpeedMultiplier = 1f;
+    private const float DefaultGroundRadius = 0.2f;
+    private const float ZeroVelocity = 0f;
+    private const float BaseJumpMultiplier = 1f;
+    private const float InputThreshold = 0.01f;
+    private const float FlipInvertMultiplier = -1f;
+    private const float DefaultGroundDistance = 10f;
+    private const float RaycastGroundDistance = 20f;
+    private const float FallProgMinDist = 10f;
+    private const float FallProgMaxDist = 0.487f;
+    private const float FallProgSmoothingSpeed = 15f;
+    private const float MinLerpMultiplier = 0f;
+    private const float MaxLerpMultiplier = 1f;
+
     [Header("Visual Effects")]
     [SerializeField] private ParticleSystem sniffAuraEffect;
 
@@ -18,15 +36,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Skill doubleJumpSkillData;
 
     [Header("Speeds & Physics")]
-    [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 8f;
-    [SerializeField] private float jumpForce = 8f;
-    [SerializeField] private float doubleJumpMultiplier = 1f;
-    [SerializeField] private float speedMultiplier = 1f;
+    [SerializeField] private float walkSpeed = DefaultWalkSpeed;
+    [SerializeField] private float sprintSpeed = DefaultSprintSpeed;
+    [SerializeField] private float jumpForce = DefaultJumpForce;
+    [SerializeField] private float doubleJumpMultiplier = DefaultDoubleJumpMultiplier;
+    [SerializeField] private float speedMultiplier = DefaultSpeedMultiplier;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundRadius = 0.2f;
+    [SerializeField] private float groundRadius = DefaultGroundRadius;
     [SerializeField] private LayerMask groundMask;
 
     private Rigidbody2D rb;
@@ -34,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canDoubleJump;
     private bool isFacingRight = false;
     private float horizontalInput;
-    private float currentJumpForceMultiplier = 1f;
+    private float currentJumpForceMultiplier = BaseJumpMultiplier;
     private bool isPreparingToJump = false;
     private bool isDigging;
     private bool isSuperSniffing;
@@ -78,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!CanProcessMovement()) return;
 
-        horizontalInput = isDigging ? 0f : input.Move.x; 
+        horizontalInput = isDigging ? ZeroVelocity : input.Move.x;
         isDigging = input.DigHeld;
 
         CheckGround();
@@ -96,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isPreparingToJump && isGrounded)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(ZeroVelocity, rb.linearVelocity.y);
             return;
         }
 
@@ -113,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            ExecuteJump(1f);
+            ExecuteJump(BaseJumpMultiplier);
             canDoubleJump = true;
         }
         else if (CanDoubleJump())
@@ -155,15 +173,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleFlip()
     {
-        if (horizontalInput > 0.01f && !isFacingRight) Flip();
-        else if (horizontalInput < -0.01f && isFacingRight) Flip();
+        if (horizontalInput > InputThreshold && !isFacingRight) Flip();
+        else if (horizontalInput < -InputThreshold && isFacingRight) Flip();
     }
 
     private void Flip()
     {
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
-        localScale.x *= -1f;
+        localScale.x *= FlipInvertMultiplier;
         transform.localScale = localScale;
     }
 
@@ -179,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateVisualsAndHealth()
     {
-        bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+        bool isMoving = Mathf.Abs(horizontalInput) > InputThreshold;
         bool isStealthing = (playerStealth != null && playerStealth.IsStealthing);
         bool isRunning = isMoving && input.SprintHeld && !isStealthing;
         bool isSniffing = input.SniffHeld;
@@ -194,20 +212,20 @@ public class PlayerMovement : MonoBehaviour
 
             animator.SetFloat("yVelocity", rb.linearVelocity.y);
 
-            float jumpProg = Mathf.InverseLerp(jumpForce, 0f, rb.linearVelocity.y);
+            float jumpProg = Mathf.InverseLerp(jumpForce, ZeroVelocity, rb.linearVelocity.y);
             animator.SetFloat("JumpProgress", jumpProg);
 
-            float distanceToGround = 10f;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 20f, groundMask);
+            float distanceToGround = DefaultGroundDistance;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, RaycastGroundDistance, groundMask);
 
             if (hit.collider != null)
             {
                 distanceToGround = hit.distance;
             }
 
-            float targetFallProg = Mathf.InverseLerp(10f, 0.487f, distanceToGround);
+            float targetFallProg = Mathf.InverseLerp(FallProgMinDist, FallProgMaxDist, distanceToGround);
             float currentFallProg = animator.GetFloat("FallProgress");
-            float smoothedFallProg = Mathf.Lerp(currentFallProg, targetFallProg, Time.deltaTime * 15f);
+            float smoothedFallProg = Mathf.Lerp(currentFallProg, targetFallProg, Time.deltaTime * FallProgSmoothingSpeed);
 
             animator.SetFloat("FallProgress", smoothedFallProg);
         }
@@ -240,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopMovement()
     {
-        horizontalInput = 0f;
+        horizontalInput = ZeroVelocity;
         rb.linearVelocity = Vector2.zero;
         isDigging = false;
         UpdateIdleState();
@@ -248,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopVerticalMovement()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, ZeroVelocity);
     }
 
     private void UpdateIdleState()
@@ -276,6 +294,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isSuperSniffing = active;
     }
+
     public void SlowToStop(float duration)
     {
         StartCoroutine(SlowToStopRoutine(duration));
@@ -283,15 +302,15 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator SlowToStopRoutine(float duration)
     {
-        float elapsed = 0f;
+        float elapsed = ZeroVelocity;
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            speedMultiplier = Mathf.Lerp(1f, 0f, elapsed / duration);
+            speedMultiplier = Mathf.Lerp(MaxLerpMultiplier, MinLerpMultiplier, elapsed / duration);
             yield return null;
         }
 
-        speedMultiplier = 0f;
+        speedMultiplier = MinLerpMultiplier;
         rb.linearVelocity = Vector2.zero;
 
         if (GameManager.I != null)

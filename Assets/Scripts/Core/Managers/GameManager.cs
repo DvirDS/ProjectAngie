@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    private const float NormalTimeScale = 1f;
+    private const float PausedTimeScale = 0f;
+    private const float InitialElapsed = 0f;
+
     [SerializeField] private SceneFade fadeScreen;
     [SerializeField] private float holdBlackScreenDuration = 2f;
     [SerializeField] private float fadeDuration = 5f;
@@ -48,29 +52,28 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(GameOverSequence());
     }
 
-
     public void SetState(GameState next)
     {
         if (state == next) return;
         state = next;
 
-        if (state != GameState.GameOver) 
-            Time.timeScale = (state == GameState.Play || state == GameState.Tutorial) ? 1f : 0f;
+        if (state != GameState.GameOver)
+            Time.timeScale = (state == GameState.Play || state == GameState.Tutorial) ? NormalTimeScale : PausedTimeScale;
 
         OnStateChanged?.Invoke(state);
     }
 
     private IEnumerator GameOverSequence()
     {
-        float elapsed = 0f;
+        float elapsed = InitialElapsed;
         float startScale = Time.timeScale;
         while (elapsed < slowDownDuration)
         {
             elapsed += Time.unscaledDeltaTime;
-            Time.timeScale = Mathf.Lerp(startScale, 0f, elapsed / slowDownDuration);
+            Time.timeScale = Mathf.Lerp(startScale, PausedTimeScale, elapsed / slowDownDuration);
             yield return null;
         }
-        Time.timeScale = 0f;
+        Time.timeScale = PausedTimeScale;
 
         yield return StartCoroutine(fadeScreen.FadeOutCoroutine(gameOverFadeDuration));
 
@@ -81,7 +84,7 @@ public class GameManager : Singleton<GameManager>
         if (SkillTreeManager.I != null)
             Destroy(SkillTreeManager.I.gameObject);
 
-        Time.timeScale = 1f;
+        Time.timeScale = NormalTimeScale;
 
         SceneManager.LoadScene(mainMenuScene);
     }

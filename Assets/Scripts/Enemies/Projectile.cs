@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float damage = 10f;
-    [SerializeField] private float lifeTime = 3f;
+    private const float DefaultSpeed = 10f;
+    private const float DefaultDamage = 10f;
+    private const float DefaultLifeTime = 3f;
+    private const float ZeroRotation = 0f;
+
+    [SerializeField] private float speed = DefaultSpeed;
+    [SerializeField] private float damage = DefaultDamage;
+    [SerializeField] private float lifeTime = DefaultLifeTime;
 
     private Vector2 direction;
     private Rigidbody2D rb;
@@ -21,7 +26,7 @@ public class Projectile : MonoBehaviour
         speed = customSpeed;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(ZeroRotation, ZeroRotation, angle);
 
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (rb != null)

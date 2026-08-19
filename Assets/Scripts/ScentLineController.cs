@@ -2,24 +2,42 @@ using UnityEngine;
 
 public class ScentLineController : MonoBehaviour
 {
+    private const int DefaultPointsCount = 50;
+    private const float DefaultWaveHeight = 0.2f;
+    private const float DefaultWaveSpeed = 1.5f;
+    private const float DefaultFrequency = 2.0f;
+    private const float DefaultScrollSpeed = 0.4f;
+    private const float DefaultPulseSpeed = 2.0f;
+    private const float DefaultPulseIntensity = 0.3f;
+    private const float DefaultFadeSpeed = 5f;
+    private const float InitialAlpha = 0f;
+    private const float ActiveAlpha = 1f;
+    private const float InactiveAlpha = 0f;
+    private const float AlphaVisibilityThreshold = 0.01f;
+    private const int FirstPointIndex = 0;
+    private const int PointsCountOffset = 1;
+    private const float PulseFrequencyMultiplier = 0.15f;
+    private const float HorizontalMovementFactor = 0.5f;
+    private const float ZeroTextureOffsetY = 0f;
+
     [Header("Targets")]
     public Transform ownerTransform;
 
     [Header("Scent Vibe Settings")]
-    [SerializeField] private int pointsCount = 50;
-    [SerializeField] private float waveHeight = 0.2f;
-    [SerializeField] private float waveSpeed = 1.5f;
-    [SerializeField] private float frequency = 2.0f;
+    [SerializeField] private int pointsCount = DefaultPointsCount;
+    [SerializeField] private float waveHeight = DefaultWaveHeight;
+    [SerializeField] private float waveSpeed = DefaultWaveSpeed;
+    [SerializeField] private float frequency = DefaultFrequency;
 
     [Header("Movement & Pulse")]
-    [SerializeField] private float scrollSpeed = 0.4f;
-    [SerializeField] private float pulseSpeed = 2.0f;
-    [SerializeField] private float pulseIntensity = 0.3f;
+    [SerializeField] private float scrollSpeed = DefaultScrollSpeed;
+    [SerializeField] private float pulseSpeed = DefaultPulseSpeed;
+    [SerializeField] private float pulseIntensity = DefaultPulseIntensity;
 
     [Header("Fade Settings")]
-    [SerializeField] private float fadeSpeed = 5f;
-    [SerializeField] private float currentAlpha = 0f;
-    [SerializeField] private float targetAlpha = 0f;
+    [SerializeField] private float fadeSpeed = DefaultFadeSpeed;
+    [SerializeField] private float currentAlpha = InitialAlpha;
+    [SerializeField] private float targetAlpha = InitialAlpha;
 
     private LineRenderer lineRenderer;
     private Material scentMaterial;
@@ -35,7 +53,7 @@ public class ScentLineController : MonoBehaviour
         if (lineRenderer.material != null)
         {
             scentMaterial = lineRenderer.material;
-            SetMaterialAlpha(0f);
+            SetMaterialAlpha(InactiveAlpha);
         }
     }
 
@@ -54,12 +72,12 @@ public class ScentLineController : MonoBehaviour
 
     public void UpdateLine(bool active)
     {
-        targetAlpha = active ? 1f : 0f;
+        targetAlpha = active ? ActiveAlpha : InactiveAlpha;
 
         currentAlpha = Mathf.MoveTowards(currentAlpha, targetAlpha, Time.deltaTime * fadeSpeed);
         SetMaterialAlpha(currentAlpha);
 
-        if (currentAlpha <= 0.01f)
+        if (currentAlpha <= AlphaVisibilityThreshold)
         {
             lineRenderer.enabled = false;
             return;
@@ -104,18 +122,18 @@ public class ScentLineController : MonoBehaviour
         Vector3 endPos = ownerTransform.position;
         float totalDistance = Vector3.Distance(startPos, endPos);
 
-        for (int i = 0; i < pointsCount; i++)
+        for (int i = FirstPointIndex; i < pointsCount; i++)
         {
-            float t = (float)i / (pointsCount - 1);
+            float t = (float)i / (pointsCount - PointsCountOffset);
             Vector3 pointPos = Vector3.Lerp(startPos, endPos, t);
 
-            float pulseFrequency = Mathf.Sin(Time.time * pulseSpeed) * 0.15f;
+            float pulseFrequency = Mathf.Sin(Time.time * pulseSpeed) * PulseFrequencyMultiplier;
             float wavePhase = (t * totalDistance) * (frequency + pulseFrequency);
 
             float movement = Mathf.Sin(Time.time * waveSpeed + wavePhase) * waveHeight;
 
             pointPos.y += movement;
-            pointPos.x += movement * 0.5f;
+            pointPos.x += movement * HorizontalMovementFactor;
 
             lineRenderer.SetPosition(i, pointPos);
         }
@@ -125,6 +143,6 @@ public class ScentLineController : MonoBehaviour
     {
         float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseIntensity;
         float offset = (Time.time * scrollSpeed) + pulse;
-        scentMaterial.mainTextureOffset = new Vector2(-offset, 0);
+        scentMaterial.mainTextureOffset = new Vector2(-offset, ZeroTextureOffsetY);
     }
 }

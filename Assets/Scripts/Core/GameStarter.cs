@@ -4,8 +4,11 @@ using System.Collections;
 
 public class GameStarter : MonoBehaviour
 {
-    [SerializeField] private string firstRoomName = "Room_1";
-    [SerializeField] private float delayBeforeEvent = 0.1f;
+    private const string DefaultFirstRoomName = "Room_1";
+    private const float DefaultDelayBeforeEvent = 0.1f;
+
+    [SerializeField] private string firstRoomName = DefaultFirstRoomName;
+    [SerializeField] private float delayBeforeEvent = DefaultDelayBeforeEvent;
 
     IEnumerator Start()
     {

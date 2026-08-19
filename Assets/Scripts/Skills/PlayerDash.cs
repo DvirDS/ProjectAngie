@@ -4,6 +4,20 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerDash : MonoBehaviour
 {
+    private const float DefaultDashForce = 15f;
+    private const float DefaultDashDuration = 0.2f;
+    private const float DefaultDashCooldown = 1f;
+    private const float InitialLastDashTime = -100f;
+    private const float ZeroGravity = 0f;
+    private const float ZeroVelocity = 0f;
+    private const float ScaleThreshold = 0f;
+    private const float LeftDirection = -1f;
+    private const float RightDirection = 1f;
+    private const int FirstContactIndex = 0;
+    private const float VerticalCollisionThreshold = 0.5f;
+    private const float BounceForceX = 3f;
+    private const float BounceForceY = 0.5f;
+
     [Header("Skill Connection")]
     [SerializeField] private Skill _dashSkillData;
 
@@ -12,13 +26,13 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashForce = 15f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float dashForce = DefaultDashForce;
+    [SerializeField] private float dashDuration = DefaultDashDuration;
+    [SerializeField] private float dashCooldown = DefaultDashCooldown;
 
     private Rigidbody2D rb;
     private bool isDashing = false;
-    private float lastDashTime = -100f;
+    private float lastDashTime = InitialLastDashTime;
     private float originalGravity;
 
     private Coroutine currentDashCoroutine;
@@ -60,10 +74,10 @@ public class PlayerDash : MonoBehaviour
 
         if (playerMovement != null) playerMovement.enabled = false;
 
-        rb.gravityScale = 0f;
-        float dashDirection = transform.localScale.x > 0 ? -1f : 1f;
+        rb.gravityScale = ZeroGravity;
+        float dashDirection = transform.localScale.x > ScaleThreshold ? LeftDirection : RightDirection;
 
-        rb.linearVelocity = new Vector2(dashDirection * dashForce, 0f);
+        rb.linearVelocity = new Vector2(dashDirection * dashForce, ZeroVelocity);
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -80,10 +94,9 @@ public class PlayerDash : MonoBehaviour
 
     private void HandleDashCollision(Collision2D collision)
     {
+        Vector2 contactNormal = collision.GetContact(FirstContactIndex).normal;
 
-        Vector2 contactNormal = collision.GetContact(0).normal;
-
-        if (Mathf.Abs(contactNormal.y) > 0.5f)
+        if (Mathf.Abs(contactNormal.y) > VerticalCollisionThreshold)
         {
             return;
         }
@@ -91,13 +104,13 @@ public class PlayerDash : MonoBehaviour
         DashMovable obj = collision.gameObject.GetComponent<DashMovable>();
         if (obj != null)
         {
-            float dashDir = transform.localScale.x > 0 ? -1f : 1f;
-            obj.ApplyPush(new Vector2(dashDir, 0));
+            float dashDir = transform.localScale.x > ScaleThreshold ? LeftDirection : RightDirection;
+            obj.ApplyPush(new Vector2(dashDir, ZeroVelocity));
 
             if (currentDashCoroutine != null) StopCoroutine(currentDashCoroutine);
             EndDash();
 
-            rb.AddForce(new Vector2(-dashDir * 3f, 0.5f), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-dashDir * BounceForceX, BounceForceY), ForceMode2D.Impulse);
         }
     }
 
@@ -105,7 +118,6 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-
             HandleDashCollision(collision);
         }
     }
@@ -114,7 +126,6 @@ public class PlayerDash : MonoBehaviour
     {
         if (isDashing)
         {
-
             HandleDashCollision(collision);
         }
     }

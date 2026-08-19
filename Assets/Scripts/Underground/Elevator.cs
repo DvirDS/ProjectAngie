@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
+    private const float DefaultSpeed = 2f;
+    private const float ArrivalThreshold = 0.05f;
+    private const string PlayerTag = "Player";
+
     [Header("Floor Targets")]
     [SerializeField] private Transform lastFloorTransform;
 
     [Header("Settings")]
-    [SerializeField] private float speed = 2f;
+    [SerializeField] private float speed = DefaultSpeed;
 
     [Header("Call Zone")]
     [SerializeField] private CallElevator callZone;
@@ -15,7 +19,6 @@ public class Elevator : MonoBehaviour
     private ElevatorState state = ElevatorState.Idle;
 
     private float callY;
-    private const string PlayerTag = "Player";
     private Rigidbody2D rb;
 
     private void Awake()
@@ -73,7 +76,7 @@ public class Elevator : MonoBehaviour
 
         rb.MovePosition(new Vector2(rb.position.x, newY));
 
-        if (Mathf.Abs(rb.position.y - floor) < 0.05f)
+        if (Mathf.Abs(rb.position.y - floor) < ArrivalThreshold)
         {
             rb.MovePosition(new Vector2(rb.position.x, floor));
             rb.linearVelocity = Vector2.zero;

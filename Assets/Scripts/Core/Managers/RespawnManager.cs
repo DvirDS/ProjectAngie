@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class RespawnManager : Singleton<RespawnManager>
 {
+    private const float ZeroAngularVelocity = 0f;
+
     [SerializeField] private SceneFade fadeScreen;
     [SerializeField] private float holdDuration = 0.3f;
     [SerializeField] private float fadeDuration = 0.5f;
@@ -85,7 +87,7 @@ public class RespawnManager : Singleton<RespawnManager>
             if (rb != null)
             {
                 rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
+                rb.angularVelocity = ZeroAngularVelocity;
             }
             player.transform.position = respawnPosition;
             if (rb != null)

@@ -5,6 +5,9 @@ using static GameManager;
 public class SkillTreeManager : Singleton<SkillTreeManager>
 {
     private const string HPUpgrade = "HP Upgrade";
+    private const int DefaultSkillPoints = 10;
+    private const int NoPrerequisitesCount = 0;
+
     private GameState stateBeforeSkillTree;
 
     [Header("UI References")]
@@ -17,7 +20,7 @@ public class SkillTreeManager : Singleton<SkillTreeManager>
     [SerializeField] private PlayerInputReader inputReader;
 
     [Header("Data")]
-    public int playerSkillPoints = 10;
+    public int playerSkillPoints = DefaultSkillPoints;
 
     protected override void Awake()
     {
@@ -83,7 +86,7 @@ public class SkillTreeManager : Singleton<SkillTreeManager>
             if (btn != null && btn.skillData != null)
             {
                 btn.skillData.isPurchased = false;
-                btn.skillData.isUnlocked = (btn.skillData.previousSkills.Length == 0);
+                btn.skillData.isUnlocked = (btn.skillData.previousSkills.Length == NoPrerequisitesCount);
             }
         }
         UpdateUI();

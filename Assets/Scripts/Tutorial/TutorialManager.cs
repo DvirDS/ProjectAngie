@@ -4,17 +4,18 @@ using UnityEngine.InputSystem;
 
 public class TutorialManager : Singleton<TutorialManager>
 {
+    private const float PausedTimeScale = 0f;
+
     [Header("Bubbles")]
     [SerializeField] private GameObject introBubblePanel;
     [SerializeField] private GameObject outroBubblePanel;
 
-    
     [Header("In-Game Tutorial")]
     [SerializeField] private Collider2D moveTrigger;
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject tutorialPanel;
 
-    [Header("All Tutorial Actions � disabled at start")]
+    [Header("All Tutorial Actions – disabled at start")]
     [SerializeField] private InputActionReference[] allTutorialActions;
 
     public bool isIntroFinished = false;
@@ -64,7 +65,7 @@ public class TutorialManager : Singleton<TutorialManager>
     public void ShowOutro()
     {
         outroBubblePanel?.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = PausedTimeScale;
         foreach (InputActionReference action in allTutorialActions)
             PlayerInputReader.I.DisableAction(action);
     }
@@ -74,7 +75,7 @@ public class TutorialManager : Singleton<TutorialManager>
         outroBubblePanel?.SetActive(false);
         foreach (InputActionReference action in allTutorialActions)
             PlayerInputReader.I.EnableAction(action);
-        
+
         GameManager.I.SetState(GameManager.GameState.Play);
     }
 }

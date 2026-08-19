@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoadTrigger : MonoBehaviour
 {
+    private const int FirstIndex = 0;
+
     [SerializeField] private SceneField[] sceneToLoad;
     [SerializeField] private SceneField[] sceneToUnload;
 
@@ -27,11 +29,11 @@ public class SceneLoadTrigger : MonoBehaviour
 
     private void LoadScenes()
     {
-        for (int i = 0; i < sceneToLoad.Length; i++)
+        for (int i = FirstIndex; i < sceneToLoad.Length; i++)
         {
             bool isSceneLoaded = false;
 
-            for (int j = 0; j < SceneManager.sceneCount; j++)
+            for (int j = FirstIndex; j < SceneManager.sceneCount; j++)
             {
                 Scene loadedScene = SceneManager.GetSceneAt(j);
                 if (loadedScene.name == sceneToLoad[i].SceneName)
@@ -50,9 +52,9 @@ public class SceneLoadTrigger : MonoBehaviour
 
     private void UnloadScenes()
     {
-        for (int i = 0; i < sceneToUnload.Length; i++)
+        for (int i = FirstIndex; i < sceneToUnload.Length; i++)
         {
-            for (int j = 0; j < SceneManager.sceneCount; j++)
+            for (int j = FirstIndex; j < SceneManager.sceneCount; j++)
             {
                 Scene loadedScene = SceneManager.GetSceneAt(j);
                 if (loadedScene.name == sceneToUnload[i].SceneName)

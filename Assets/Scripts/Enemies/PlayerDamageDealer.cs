@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class PlayerDamageDealer : MonoBehaviour
 {
-    [SerializeField] private float damage = 10f;
-    [SerializeField] private float interval = 1f;
+    private const float DefaultDamage = 10f;
+    private const float DefaultInterval = 1f;
+    private const float DefaultDestroyDelay = 0f;
+
+    [SerializeField] private float damage = DefaultDamage;
+    [SerializeField] private float interval = DefaultInterval;
     [SerializeField] private bool destroyOnHit = false;
-    [SerializeField] private float destroyDelay = 0f;
+    [SerializeField] private float destroyDelay = DefaultDestroyDelay;
 
     private float lastHitTime = -Mathf.Infinity;
     private bool hasDealtLethalHit = false;

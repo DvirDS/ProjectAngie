@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[DefaultExecutionOrder(500)]
+[DefaultExecutionOrder(ExecutionOrder)]
 public class ParallaxLayer : MonoBehaviour
 {
-    [SerializeField, Range(0f, 1f)]
-    private float parallaxEffectMultiplier = 0.3f;
+    private const int ExecutionOrder = 500;
+    private const float MinMultiplier = 0f;
+    private const float MaxMultiplier = 1f;
+    private const float DefaultMultiplier = 0.3f;
+    private const float ZeroOffset = 0f;
+
+    [SerializeField, Range(MinMultiplier, MaxMultiplier)]
+    private float parallaxEffectMultiplier = DefaultMultiplier;
 
     private Transform cameraTransform;
     private Vector3 startPosition;
@@ -47,8 +53,8 @@ public class ParallaxLayer : MonoBehaviour
 
         transform.position = startPosition + new Vector3(
             cameraDelta.x * parallaxEffectMultiplier,
-            0f,
-            0f
+            ZeroOffset,
+            ZeroOffset
         );
     }
 

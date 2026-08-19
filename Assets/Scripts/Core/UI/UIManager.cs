@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    private const float DefaultFlashDuration = 0.25f;
+    private const float InitialElapsedTime = 0f;
+    private static readonly Color DefaultFlashColor = new Color(1f, 0f, 0f, 1f);
+
     [Header("Player References")]
     [SerializeField] private HealthDrainSystem playerHealthSystem;
     [SerializeField] private PlayerInputReader inputReader;
@@ -15,10 +19,10 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Damage Flash Settings")]
     [SerializeField] private Image damageFlashImage;
-    [SerializeField] private float flashDuration = 0.25f; 
-    [SerializeField] private Color flashColor = new Color(1f, 0f, 0f, 1f); 
+    [SerializeField] private float flashDuration = DefaultFlashDuration;
+    [SerializeField] private Color flashColor = DefaultFlashColor;
 
-    private Color originalColor; 
+    private Color originalColor;
     private Coroutine flashCoroutine;
 
     [Header("Screens")]
@@ -106,7 +110,7 @@ public class UIManager : Singleton<UIManager>
     {
         damageFlashImage.color = flashColor;
 
-        float elapsedTime = 0f;
+        float elapsedTime = InitialElapsedTime;
 
         while (elapsedTime < flashDuration)
         {

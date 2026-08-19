@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class MineController : MonoBehaviour
 {
+    private const float DefaultHitRevealDuration = 2f;
+
     [Header("Settings")]
     [SerializeField] private GameObject redAuraObject;
-    [SerializeField] private float hitRevealDuration = 2f;
+    [SerializeField] private float hitRevealDuration = DefaultHitRevealDuration;
 
     [Header("Runtime Set")]
     [SerializeField] private MineRuntimeSet mineSet;

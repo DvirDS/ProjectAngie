@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class SuperSniffReveal : MonoBehaviour
 {
+    private const int EmptyArrayLength = 0;
+
     [Header("References (Auto-filled)")]
     [SerializeField] private Renderer[] objectRenderers;
     [SerializeField] private Collider2D[] objectColliders;
@@ -15,10 +17,10 @@ public class SuperSniffReveal : MonoBehaviour
 
     private void Awake()
     {
-        if (objectRenderers == null || objectRenderers.Length == 0)
+        if (objectRenderers == null || objectRenderers.Length == EmptyArrayLength)
             objectRenderers = GetComponentsInChildren<Renderer>(true);
 
-        if (objectColliders == null || objectColliders.Length == 0)
+        if (objectColliders == null || objectColliders.Length == EmptyArrayLength)
             objectColliders = GetComponentsInChildren<Collider2D>(true);
 
         if (highlightParticles == null)

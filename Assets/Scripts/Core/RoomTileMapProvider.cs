@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 public class RoomTilemapProvider : MonoBehaviour
 {
+    private const int EmptyListCount = 0;
+
     [SerializeField] private Grid grid;
     [SerializeField] private List<Tilemap> tilemaps;
 
@@ -13,7 +15,7 @@ public class RoomTilemapProvider : MonoBehaviour
         {
             Debug.LogError("Grid reference is missing on RoomTilemapProvider.");
         }
-        if (tilemaps == null || tilemaps.Count == 0)
+        if (tilemaps == null || tilemaps.Count == EmptyListCount)
         {
             Debug.LogError("Tilemaps list is empty on RoomTilemapProvider.");
         }

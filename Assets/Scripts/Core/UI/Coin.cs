@@ -3,8 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Coin : MonoBehaviour
 {
+    private const int DefaultPointsValue = 10;
+
     [Header("Coin Settings")]
-    [SerializeField] private int pointsValue = 10;
+    [SerializeField] private int pointsValue = DefaultPointsValue;
 
     [Header("UI Effects")]
     [SerializeField] private GameObject floatingTextPrefab;
