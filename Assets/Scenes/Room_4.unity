@@ -1927,7 +1927,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 187.6
+      value: 182.3
       objectReference: {fileID: 0}
     - target: {fileID: 3230906436773919644, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2009,7 +2009,8 @@ PrefabInstance:
       propertyPath: sceneToUnload.Array.data[0].m_SceneAsset
       value: 
       objectReference: {fileID: 102900000, guid: 46a0bb83bf77e584cae238cff5e54292, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5144805874969385687, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -10215,8 +10216,8 @@ PolygonCollider2D:
       - {x: 75, y: -10.8}
       - {x: 41, y: -10.8}
       - {x: 41, y: -57}
-      - {x: -60.4, y: -57}
-      - {x: -60.4, y: 0.3}
+      - {x: -22, y: -57}
+      - {x: -22, y: 0.3}
   m_UseDelaunayMesh: 1
 --- !u!1 &933166143
 GameObject:
@@ -19656,7 +19657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780560731315072206, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.679508
+      value: -3.97
       objectReference: {fileID: 0}
     - target: {fileID: 5780560731315072206, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19699,11 +19700,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
---- !u!1 &1871334980 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5187295217765942053, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}
-  m_PrefabInstance: {fileID: 1871334979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!61 &1871334982 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 6956827225385285151, guid: 83ebe459b0b16234cb3254a2a810ec9f, type: 3}

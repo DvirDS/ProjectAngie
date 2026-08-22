@@ -1004,7 +1004,8 @@ PrefabInstance:
       propertyPath: sceneToUnload.Array.data[1].m_SceneAsset
       value: 
       objectReference: {fileID: 102900000, guid: 271e4c85f86a6454b8348b98dafb66fb, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5144805874969385687, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4811,7 +4812,8 @@ PrefabInstance:
       propertyPath: sceneToUnload.Array.data[1].m_SceneAsset
       value: 
       objectReference: {fileID: 102900000, guid: 271e4c85f86a6454b8348b98dafb66fb, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5144805874969385687, guid: 9a6e4474b8b1f7c47abd46688301769a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
